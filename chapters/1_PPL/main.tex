@@ -1,0 +1,422 @@
+\section{Programación Lineal}
+
+\subsection{Introducción}
+
+La programación lineal es una técnica matemática de optimización que se utiliza para encontrar la mejor solución posible a un problema cuando se tienen recursos limitados y múltiples opciones para usar esos recursos.
+
+¿Qué es exactamente? Es un método que permite maximizar o minimizar una \hl{función objetivo} (como ganancias, costos, tiempo, etc.) sujeta a un conjunto de \hl{restricciones lineales}. Tanto la función objetivo como las restricciones se expresan mediante ecuaciones o inecuaciones lineales, es decir, donde las variables aparecen elevadas solo a la primera potencia.
+
+\noindent\textbf{Componentes principales:}
+\begin{itemize}
+  \item \textbf{Función objetivo}: Lo que queremos optimizar (maximizar ganancias o minimizar costos, por ejemplo)
+  \item \textbf{Variables de decisión}: Las cantidades que podemos controlar y necesitamos determinar
+  \item \textbf{Restricciones}: Las limitaciones del problema (presupuesto disponible, tiempo, materiales, capacidad de producción, etc.)
+\end{itemize}
+
+\subsection{Problemas de Optimización}
+
+En un \textit{problema de optimización}, se busca maximizar o minimizar una cantidad específica llamada \hl{objetivo}, la cual depende de un número finito de variables de entrada. Estas variables pueden ser independientes entre sí o estar relacionadas a través de una o más restricciones.
+
+\ejemplo\label{ej:ppl_lineal}: El siguiente problema:
+\begin{align*}
+  \text{max:} \quad         &z = 3x_1 + 2x_2 \\[3pt]
+  \text{sujeto a:} \quad    &x_1 + x_2 \leq 10 \\
+                            &x_1,x_2 \geq 0
+\end{align*}
+es un problema de optimización para el objetivo \(z\). Las variables de entrada son \(x_1\) y \(x_2\) y se denominan \textit{variables de decisión}, que deben cumplir dos restricciones: \(x_1 + x_2 \leq 10\) y \(x_1,x_2 \geq 0\).
+
+El problema del ejemplo \ref{ej:ppl_lineal} pide maximizar \(z = 3x_1 + 2x_2\), es decir, encontrar los valores de \(x_1\) y \(x_2\) que maximicen \(z\) bajo las restricciones dadas.
+
+En general, se llama PPL a un problema de optimización que se puede resolver mediante técnicas de programación lineal. Un problema de programación matemático es lineal si tanto la función objetivo \(z\) como las restricciones son lineales. Esto es:
+\begin{align*}
+  \text{optimizar:} \quad         &z = f(x_1, x_2, \ldots, x_n) \\[3pt]
+  \text{sujeto a:} \quad    &g_i(x_1, x_2, \ldots, x_n) \thicksim  b_i \qquad \forall i \in \{1, 2, \ldots, m\} \\
+\end{align*}
+donde las restricciones son ecuaciones o desigualdades lineales, es decir emplean alguno de los símbolos \(\leq\), \(\geq\) o \(=\).
+
+\subsection{Planteamiento de problemas}
+
+Los problemas de optimización se plantean muy a menudo verbalmente, es decir, en palabras. Ya se verá un ejemplo a continuación (ejemplo \ref{ej:ppl_verbal}) de un problema de optimización planteado verbalmente. El procedimiento para la solución consiste en realizar un modelo del problema para poder resolverlo mediante técnicas de programación lineal.
+
+\begin{tcolorbox}[interesting_data, title=¿Existe solo una forma de plantear problemas?]
+  Existen múltiples formas de plantear un problema de optimización, por lo que los dos métodos que se proponen en este documento puedes tomarlos como sugerencias.
+\end{tcolorbox}
+
+\ejemplo\label{ej:ppl_verbal}: Una compañía de petróleos produce en sus refinerías gasóleo (\(G\)), gasolina sin plomo (\(P\)) y gasolina súper (\(S\)) a partir de dos tipos de crudos, \(C_1\) y \(C_2\). Las refinerías están dotadas de dos tipos de tecnologías. La tecnología nueva (\(T_n\)) utiliza en cada sesión de destilación \(7\) unidades de \(C_1\) y \(12\) de \(C_2\), para producir \(8\) unidades de \(G\), \(6\) de \(P\) y \(5\) de \(S\). Con la tecnología antigua (\(T_a\)), se obtienen en cada destilación \(10\) unidades de \(G\), \(7\) de \(P\) y \(4\) de \(S\), con un gasto de \(10\) unidades de \(C_1\) y \(8\) de \(C_2\).
+
+Estudios de la demanda permiten estimar que para el próximo mes se deben producir al menos \(900\) unidades de \(G\), \(300\) de \(P\) y entre \(800\) y \(1700\) de \(S\). La disponibilidad de \(C_1\) es de \(1400\) unidades y de \(C_2\) de \(2000\) unidades. Los beneficios por unidad producida son:
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+  \hline
+  Gasolina & \textit{G} & \textit{P} & \textit{S} \\ \hline
+  Beneficio/u & 4 & 6 & 7 \\ \hline
+  \end{tabular}
+\end{table}
+
+La compañía desea conocer cómo utilizar ambos procesos de destilación, que se pueden utilizar total o parcialmente, y los crudos disponibles para que el beneficio sea el máximo.
+
+\vspace{5mm}
+\hrule
+\vspace{5mm}
+
+Este problema es un ejemplo típico de un PPL verbal. Hay una cantidad que se desea optimizar y un conjunto de restricciones que se deben cumplir. En este caso, se desea maximizar el beneficio y las restricciones son las cantidades de crudos disponibles y las cantidades de gasolina que se deben producir. Más adelante vamos a plantear el PPL asociado a este problema y vamos a resolver otros problemas. De momento con darnos a la idea de cómo es un problema verbal es suficiente.
+
+\subsubsection{Métodos de planteamiento de PPLs}
+
+Como dijimos anteriormente, existen múltiples formas de plantear un problema de optimización, por lo que los dos métodos que se proponen son el método recomendado por el libro Bronson (sacado de la cátedra) y el método que se propone en el libro de Alfaomega (\cite{PPL_Alfaomega}). 
+
+Luego de describir los métodos de planteamiento de PPLs, el ejemplo \ref{ej:modelo_de_ppl_verbal} muestra el planteo del ejemplo \ref{ej:ppl_verbal} con el método de Alfaomega.
+
+\begin{tcolorbox}[title=Método del libro Bronson]
+  Luego de tener un enunciado verbal de un problema de optimización, se deben seguir los siguientes pasos:
+  \begin{enumerate}
+    \item Determínese la cantidad que se optimizará y exprésese como una función matemática. Hacer esto sirve para definir las variables de decisión.
+    \item Identifíquese todos los requerimientos, restricciones y limitaciones estipulados, y exprésense matemáticamente. Estos requerimientos constituyen las restricciones.
+    \item Exprésense todas aquellas condiciones ocultas. Tales condiciones no están estipuladas explícitamente, pero se hacen evidentes a partir de la situación física para la que se está planteando el modelo. Generalmente, involucran requerimientos de no negatividad o de ser enteras, para las variables de decisión.
+  \end{enumerate}  
+\end{tcolorbox}
+
+\noindent Por otro lado, el método que se proponen en el libro PPL de Alfaomega es el siguiente:
+\begin{tcolorbox}[title=Método del libro Alfaomega]
+  \begin{enumerate}
+    \item \textit{Reconocimiento de las variables de decisión}: las variables de decisión son las variables sobre las que el decisor tiene control y que se suponen continuas. Representan productos o bienes a producir, almacenar o vender, disponibilidad o adquisición de materias primas, etc.
+    \item \textit{Identificación de las restricciones}: las restricciones representan las limitaciones o requisitos y definen la \textit{región factible} del problema. Representan el deseo de no exceder un valor específico (\(\leq\)), no descender por debajo de un valor particular (\(\geq\)) o ser igual a un valor particular (\(=\)).
+    \item \textit{Obtención de la función objetivo}: la función objetivo es la que se quiere maximizar o minimizar. Representa el beneficio, renta, ganancias, costos, etc.
+    \item \textit{Formulación del PPL}: cuando se tienen los tres pasos anteriores se puede formular el PPL. La solución de este PPL se denomina \textit{solución óptima} y se estudiará en la proxima sección.
+  \end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[mydanger]
+  \textbf{Cuidado:} El paso 2 de la metodología de Alfaomega incluye \textit{todas} las restricciones, incluso aquellas que no están en el enunciado verbal (como no negatividad por ejemplo).
+\end{tcolorbox}
+
+\vspace{5mm}
+\hrule
+\vspace{5mm}
+
+\ejemplo\label{ej:modelo_de_ppl_verbal}: Tomemos el PPL verbal del ejemplo \ref{ej:ppl_verbal}. Propongo al lector que intente plantear el PPL asociado (no resolver) y luego comparar con la solución. En este caso vamos a modelar el PPL siguiendo el método recomendado por el libro de Alfaomega (segundo método).
+
+\noindent\textbf{Paso 1: Reconocimiento de las variables de decisión}
+
+Si bien la consigna puede resultar un poco enredada al principio, si prestamos atención, vemos que al final nos pregunta sobre \hl{cómo usar los procesos de destilación}. Esto nos da un indicio de que lo que se quiere es saber cuánto usar el proceso \(T_n\) y el proceso \(T_a\) para maximizar el beneficio.
+
+Entonces, las variables sobre las que el vendedor tiene control son:
+\begin{itemize}
+  \item \(x_1 ~\rightarrow\) cantidad de sesiones de destilación usando el proceso \(T_n\)
+  \item \(x_2 ~\rightarrow\) cantidad de sesiones de destilación usando el proceso \(T_a\)
+\end{itemize}
+
+\noindent\textbf{Paso 2: Identificación de las restricciones}
+
+Tenemos restricciones debidas a las limitaciones en la disponibilidad de ambos tipos de crudos:
+\begin{itemize}
+  \item Para \(C_1\): \(7x_1 + 10x_2 \leq 1400\)
+  \item Para \(C_2\): \(12x_1 + 8x_2 \leq 2000\)
+\end{itemize}
+
+\noindent También se tienen restricciones según las necesidades de refinado que se requieren:
+\begin{itemize}
+  \item Para Gasóleo (\(G\)): \(8x_1 + 10x_2 \geq 900\)
+  \item Para Sin Plomo (\(P\)): \(6x_1 + 7x_2 \geq 300\)
+  \item Para Super (\(S\)): \((5x_1 + 4x_2 \geq 800) \wedge (5x_1 + 4x_2 \leq 1700)\)
+\end{itemize}
+
+\noindent Además no debemos olvidar de tener en cuenta las restricciones implícitas, ya que es obvio que no se pueden realizar destilaciones negativas, se tiene:
+\begin{itemize}
+  \item \(x_1 \geq 0\)
+  \item \(x_2 \geq 0\)
+\end{itemize}
+
+\noindent\textbf{Paso 3: Identificación de la función objetivo}
+
+El beneficio será la suma de las cantidades de cada refinado que se vende, por lo que:
+\begin{itemize}
+  \item Cantidad de Gasóleo: \(8x_1 + 10x_2 ~ \rightarrow G \times \text{Precio: } 4(8x_1 + 10x_2) = 32x_1 + 40x_2\)
+  \item Cantidad de Sin Plomo: \(6x_1 + 7x_2 ~ \rightarrow P \times \text{Precio: } 6(6x_1 + 7x_2) = 36x_1 + 42x_2\)
+  \item Cantidad de Super: \(5x_1 + 4x_2 ~ \rightarrow S \times \text{Precio: } 7(5x_1 + 4x_2) = 35x_1 + 28x_2\) 
+\end{itemize}
+
+\noindent Por lo tanto, la función objetivo es:
+\begin{align*}
+  z &= 32x_1 + 40x_2 + 36x_1 + 42x_2 + 35x_1 + 28x_2 \\
+    &= 103x_1 + 110x_2
+\end{align*}
+
+\noindent\textbf{Paso 4: Formulación del PPL}
+\begin{align*}
+  \text{maximizar:} \quad   &z = 103x_1 + 110x_2 \\[3pt]
+  \text{sujeto a:} \quad    &7x_1 + 10x_2 \leq 1400 \\
+                            &12x_1 + 8x_2 \leq 2000 \\
+                            &8x_1 + 10x_2 \geq 900 \\
+                            &6x_1 + 7x_2 \geq 300 \\
+                            &5x_1 + 4x_2 \geq 800 \\
+                            & 5x_1 + 4x_2 \leq 1700 \\
+                            &x_1 \geq 0 \\
+                            &x_2 \geq 0
+\end{align*}
+
+Es muy importante entender la metodología del planteo, ya que si el modelo realizado no es adecuado, el resultado obtenido cuando se resuelva el problema será, muy probablemente, incorrecto.
+
+Al intentar plantear el problema del ejemplo \ref{ej:ppl_verbal} tal vez te hayan surgido algunas dudas, así que vamos a realizar un pequeño repaso sobre algunos detalles en el procedimiento del ejemplo \ref{ej:modelo_de_ppl_verbal}.
+
+\noindent\textbf{¿Por qué se tomaron \(T_n\) y \(T_a\) como variables de decisión y no \(C_1\) y \(C_2\)?}
+
+Tal vez podrías pensar que \(C_1\) y \(C_2\) pueden ser buenos candidatos a variables de decisión, ya que el vendedor puede controlar cuánta cantidad de cada tipo de curdo usa en cada tecnología. Entonces intentemos generar un modelo con \(C_1\) y \(C_2\) como variables de decisión.
+
+Como ya sabemos que las variables de decisión son \(C_1\) y \(C_2\) entonces el paso 1 resulta:
+\begin{itemize}
+  \item \(x_1 ~\rightarrow\) cantidad de crudo \(C_1\) utilizado
+  \item \(x_2 ~\rightarrow\) cantidad de crudo \(C_2\) utilizado
+\end{itemize}
+
+\noindent En el paso 2 tenemos las restricciones:
+\begin{enumerate}
+  \item Según la tecnología usada
+  \item Según la cantidad de crudo disponible
+  \item Según la cantidad de refinado que se debe producir dependiendo de la tecnología usada
+  \item Restricción de no negatividad (no se pueden refinar cantidades negativas)
+\end{enumerate}
+Si bien de alguna forma rebuscada puede llegarse a un PPL equivalente, vemos que es mucho más complicado, ya que la tercer restricción está relacionando los crudos con el destilado y la tecnología, por lo que serán restricciones largas y complejas de modelar correctamente.
+
+Es de mucha importancia tomarse el tiempo de analizar bien cuáles son las variables de decisión, ya que de ahí partirá todo el modelo. En caso de que usted elija utilizar el procedimiento de formulación de modelos del libro de Bronson, el paso 1 tiene este riesgo implícito, ya que si se genera una función objetivo cuyas variables de decisión no sean las adecuadas, el modelo puede terminar por ser incorrecto.
+
+En este documento se ha usado el enfoque de Alfaomega ya que la idea de tener un paso específico para analizar el enunciado y tomar las variables de decisión es muy importante y no debe pasarse por alto.
+
+\subsection{Resolución de Programas Lineales}
+
+En esta materia se ven dos métodos para resolver PPLs:
+\begin{itemize}
+  \item \textbf{Método Gráfico}: se basa en la representación gráfica de las restricciones y de la solución. Tiene la ventaja de ser muy intuitivo y sencillo de entender, pero tiene la desventaja de ser poco eficiente y muy limitado en cuanto al número de variables.
+  \item \textbf{Método Analítico}: Es más general que el método gráfico ya que no tiene la desventaja de límite de variables. Este método se conoce como el método Simplex y es muy eficiente y algorítmico. La desventaja es que requiere la transformación previa al \textit{formato estándar} añadiendo variables de holgura y/o variables artificiales.
+\end{itemize}
+Más adelante veremos en profundidad los dos métodos, así que no se preocupe por el vocabulario desconocido.
+
+\subsubsection{Típos de solución}
+
+Todo PPL puede tener alguna de las siguientes soluciones:
+\begin{itemize}
+  \item Solución optima única
+  \item Solución optima múltiple
+  \item Problema no acotado
+  \item Problema infactible
+  \item Rayo óptimo
+\end{itemize}
+
+A continuación vamos a profundizar un poco sobre qué significa cada tipo de solución, para que al momento de resolver PPLs sepa identificar qué tipo de solución tiene.
+
+\paragraph{Solución óptima única}
+
+\noindent Es el caso más común y deseable. Existe exactamente un punto en la región factible donde la función objetivo alcanza su valor óptimo (máximo o mínimo) y presenta las siguientes características:
+\begin{itemize}
+  \item La función objetivo tiene una pendiente única que no es paralela a ninguna cara de la región factible
+  \item Gráficamente, la línea de la función objetivo ``toca'' la región factible en un solo vértice
+  \item Matemáticamente, existe un único vector \(x^*\) que optimiza la función
+\end{itemize}
+
+\paragraph{Solución óptima múltiple (infinitas soluciones óptimas)}
+
+Existen infinitos puntos que proporcionan el mismo valor óptimo de la función objetivo. Esto ocurre cuando:
+\begin{itemize}
+  \item La función objetivo es paralela a una de las caras (aristas) de la región factible
+  \item Todos los puntos en esa arista proporcionan el mismo valor óptimo
+\end{itemize}
+Este tipo de soluciones tienen las siguientes características:
+\begin{itemize}
+  \item Cualquier combinación convexa de dos vértices óptimos adyacentes también es óptima
+  \item La solución es un segmento de línea completo en la frontera de la región factible
+\end{itemize}
+
+Si el problema tiene una solución óptima múltiple, entonces no existe una preferencia por una solución sobre otra, ya que todas son óptimas. La respuesta que usted elija darle al problema será cualquiera de las soluciones óptimas, y será considerada correcta.
+
+\paragraph{Problema no acotado}
+
+La función objetivo puede crecer (o decrecer) indefinidamente sin violar ninguna restricción. Estos problemas presentan las siguientes características:
+\begin{itemize}
+  \item La región factible se extiende infinitamente en la dirección que mejora la función objetivo
+  \item No existe un valor máximo (o mínimo) finito para la función objetivo
+  \item Indica generalmente un error en la formulación del problema
+\end{itemize}
+
+\ejemplo : Maximizar \(z = x_1 + x_2\) sujeto solo a \(x_1 \geq 0, x_2 \geq 0\) (sin restricciones superiores).
+
+\paragraph{Problema infactible}
+
+No existe ningún punto que satisfaga simultáneamente todas las restricciones del problema. Este tipo de problemas pueden ocurrir en dos casos:
+\begin{itemize}
+  \item Las restricciones son contradictorias entre sí
+  \item El conjunto de restricciones no tiene intersección común
+\end{itemize}
+Y presentan las siguientes características:
+\begin{itemize}
+  \item La región factible está vacía
+  \item No hay solución posible al problema
+  \item Matemáticamente: el conjunto \(\{x : Ax \leq b, x \geq 0\} = \emptyset\)
+\end{itemize}
+
+\ejemplo : Sea el siguiente PPL:
+\begin{align*}
+  \text{maximizar:} \quad   &z = x_1 + x_2 \\[3pt]
+  \text{sujeto a:} \quad    &x_1 + x_2 \leq 5 \\
+                            &x_1 + x_2 \geq 10 \\
+                            &x_1, x_2 \geq 0
+\end{align*}
+Estas restricciones son imposibles de satisfacer simultáneamente.
+
+\paragraph{Rayo óptimo}
+
+Este es un caso especial del problema no acotado donde existe una dirección específica (rayo) a lo largo de la cual la función objetivo mejora indefinidamente. Este tipo de problemas presentan las siguientes características:
+\begin{itemize}
+  \item Existe un punto factible \(x_0\) y una dirección \(d\) tal que \(x_0 + \lambda d\) es factible para todo \(\lambda \geq 0\)
+  \item La función objetivo mejora a lo largo de esta dirección: \(c^T d > 0\) (para maximización)
+  \item El rayo representa la dirección de crecimiento ilimitado
+\end{itemize}
+La diferencia con la solución de tipo ``no acotado'' es que el rayo óptimo especifica exactamente la dirección del crecimiento infinito, mientras que ``no acotado'' es la conclusión general.
+
+\paragraph{Identificación en el método simplex}
+
+En el método simplex, la identificación de los tipos de soluciones se realiza de la siguiente manera:
+\begin{itemize}
+  \item \textbf{Única/Múltiple:} Se identifica en la tabla final del simplex
+  \item \textbf{No acotado:} Aparece cuando una variable no básica tiene coeficientes no positivos en su columna
+  \item \textbf{Infactible:} Se detecta cuando aparecen variables artificiales con valor positivo en la solución final
+  \item \textbf{Rayo óptimo:} Se determina por la dirección correspondiente a la variable que causa el comportamiento no acotado
+\end{itemize}
+
+Cada tipo de solución tiene implicaciones importantes para la interpretación y aplicación práctica del modelo de optimización. De momento no se preocupe por entender el método simplex, ya que se verá en detalle en la siguiente sección.
+
+\subsubsection{Método Gráfico}
+
+Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por ende, ideal para aprender los conceptos de PPLs. Para entender el método gráfico lo más sencillo es analizarlo con un ejemplo.
+
+\ejemplo\label{ej:mtd_grfico}: Un expendio de carnes de la cuidad acostumbra a preparar carne para albondigón con una combinación de carne molida de res y carne molida de cerdo. La carne de res contiene \(80\%\) de carne y \(20\%\) de grasa, y le cuesta a la tienda \textcent \textit{80} por libra; la carne de cerdo contiene \(68\%\) de carne y \(32\%\) de grasa y cuesta \textcent \textit{60} por libra 
+
+¿Qué cantidad de cada tipo de carne debe emplear la tienda en cada libra de albondigón, si se desea minimizar el costo y mantener el contenido de grasa no mayor al \(25\%\)?
+
+\noindent\textbf{Resolución:}
+\begin{quote}
+  \textbf{1. Identificación de variables de decisión:}
+  Vemos que el resultado es un albondigón, y este se prepara con \(x_1\) libras de carne de res y \(x_2\) libras de carne de cerdo. Por lo que las variables de decisión son:
+  \begin{itemize}
+    \item \(x_1 ~\rightarrow\) cantidad de carne de res por libra de albondigón
+    \item \(x_2 ~\rightarrow\) cantidad de carne de cerdo por libra de albondigón
+  \end{itemize}
+
+  \textbf{2. Identificación de restricciones:}
+  Vemos que la cantidad total de grasa del albondigón debe ser menor o igual al 25\%, y que la cantidad de carne de res más la cantidad de carne de cerdo debe ser igual a 1 libra.
+
+  Sumado a esto, también se tiene que las cantidades de carne de res y carne de cerdo no pueden ser negativas. Entonces, resulta:
+
+  \begin{align*}
+    0.2x_1 + 0.32x_2 &\leq 0.25 \\
+    x_1 + x_2 &= 1 \\
+    x_1, x_2 &\geq 0
+  \end{align*}
+
+  \textbf{3. Identificación de la función objetivo:}
+
+  Vemos que la función objetivo es el costo total, que es la suma del costo de la carne de res y la carne de cerdo. Por lo que la función objetivo es:
+  \[
+    z = 80x_1 + 60x_2
+  \]
+
+  \textbf{4. Formulación del PPL:}
+
+  Juntando la función objetivo con las restricciones, resulta en el siguiente PPL:
+  \begin{align*}
+    \text{minimizar:} \quad   &z = 80x_1 + 60x_2 \\[3pt]
+    \text{sujeto a:} \quad    &0.2x_1 + 0.32x_2 \leq 0.25 \\
+                              &x_1 + x_2 = 1 \\
+                              &x_1, x_2 \geq 0
+  \end{align*}
+
+  \textbf{5. Resolución del PPL:}
+
+  Para resolver el PPL usando el método gráfico, debemos graficar las restricciones, la región factible y la función objetivo. 
+
+  \noindent ¿Cómo se realiza la gráfica de la función objetivo? 
+
+  Para realizar la gráfica de la función objetivo debemos establecer un valor para el costo, y verificar si se encuentra en la región factible. Por ejemplo, nosotros vamos a elegir un valor inicial de \(z = 50\), y resolver la ecuación \(50 = 80x_1 + 60x_2\) para obtener la ecuación de la recta que representa la función objetivo.
+  \begin{align*}
+    50 &= 80x_1 + 60x_2 \\
+    x_2 &= -\frac{4}{3}x_1 + \frac{5}{6}
+  \end{align*}
+  Y listo, ahora solo debemos graficar las restricciones e identificar la región factible, que la marcaremos de color \textcolor{cyan}{cyan}. 
+    
+  \begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+  \begin{axis}[
+      xlabel={$x_1$},
+      ylabel={$x_2$},
+      xmin=0, xmax=1.5,
+      ymin=0, ymax=1.2,
+      grid=major,
+      axis lines=center,
+      legend pos=north east,
+      width=10cm,
+      height=8cm
+  ]
+
+  % Restricción 1: 0.2x1 + 0.32x2 <= 0.25
+  \addplot[orange, thick, domain=0:1.25, name path=A] {-(4/7)*x + (5/7)};
+  \addlegendentry{\(0.2x_1 + 0.32x_2 \leq 0.25\)}
+
+  % Restricción 2: x1 + x2 <= 1
+  \addplot[blue, thick, domain=0:1, name path=B] {1-x};
+  \addlegendentry{\(x_1 + x_2 = 1\)}
+
+  % Función objetivo (para un valor de z=50): 50 = 80x1 + 60x2
+  \addplot[teal, thick, domain=0:1, name path=C] {-(4/3)*x + (5/6)};
+  \addlegendentry{\(50 = 80x_1 + 60x_2\)}
+
+  % Restricciones de no negatividad
+  \addplot[black, thick, domain=0:10, name path=D] {0};
+  \addplot[black, thick] coordinates {(0,0) (0,10)};
+
+  % % Región factible para la restricción 1 sombreada
+  % \addplot[orange!30, opacity=0.3] fill between[
+  %     of=A and D,
+  %     soft clip={domain=0:1.25}
+  % ];
+
+  % Región factible
+  \addplot[cyan, ultra thick , domain=2/3:1, name path=E] {1-x};
+
+  % Puntos vértices de la región factible
+  \addplot[only marks, mark=*, mark size=3pt, color=black] 
+  coordinates {(1,0) (2/3,1/3)};
+
+  % Etiquetas de los vértices
+  \node at (axis cs:1,0) [above right] {B (1,0)};
+  \node at (axis cs:2/3,1/3) [above right] {A \(\left(\frac{2}{3},\frac{1}{3}\right)\)};
+
+  \end{axis}
+  \end{tikzpicture}
+  \caption{Gráfico del PPL}
+  \label{fig:ppl}
+  \end{figure}
+
+  \noindent En el gráfico se puede observar que la región factible es el segmento color cyan. En este caso, el valor de costo \(z=50\) no se encuentra dentro de la región factible. Buscar este valor a prueba y error no es lo más conveniente, entonces vamos a usar un teorema que nos asegura que la solución óptima se encuentra en un vértice del \textbf{polígono} de la región factible. Más adelante se verá la demostración de este teorema.
+
+  Entonces, basado en el teorema, la solución óptima se encuentra en el vértice \textit{A} o en el vértice \textit{B}. A simple vista en el gráfico podemos ver que el punto \textit{A} está más cerca del origen de coordenadas, y por lo tanto el costo será menor, sin embargo veremos el costo en ambos puntos para mostrar que el costo aumenta a medida que el punto se aleja del origen de coordenadas.
+  \begin{align*}
+    z_A &= 80\left(\frac{2}{3}\right) + 60\left(\frac{1}{3}\right) \\
+    z_A &= \frac{220}{3} \approx \boxed{73.33} \\[5pt]
+    z_B &= 80(1) + 60(0) = 80
+  \end{align*}
+
+  \textbf{6. Respuesta:} 
+
+  En base a la resolución del PPL, se debe emplear \({2}/{3}\) de carne de res y \({1}/{3}\) de carne de cerdo por libra de albondigón para mantener el contenido de grasa no mayor al 25\%, y que el costo sea el menor posible, que es \$\(73.33\).
+
+\end{quote}
+
+\subsection{Forma matricial de un PPL}
+
+Un PPL puede ser representado en forma matricial de la siguiente manera:
+\begin{align*}
+  \text{optimizar:} \quad   &z = \mathbf{c}^T\mathbf{x} \\[3pt]
+  \text{sujeto a:} \quad    &A\mathbf{x} \thicksim  b \\
+\end{align*}
+

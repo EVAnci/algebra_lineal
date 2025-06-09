@@ -1,0 +1,67 @@
+\documentclass[a4paper,12pt]{article}  % Clase de documento
+
+\usepackage[
+  a4paper,
+  left=3cm,
+  right=3cm,
+  top=2.5cm,
+  bottom=2.5cm
+]{geometry}
+
+% Paquetes esenciales
+\usepackage[utf8]{inputenc}         % Codificación UTF-8
+\usepackage[T1]{fontenc}            % Soporte para caracteres en PDF
+\usepackage[main=spanish]{babel}    % Traducir a español títulos y otros elementos
+\usepackage{amsmath, amssymb}       % Matemáticas avanzadas
+\usepackage{graphicx}               % Para incluir imágenes
+\usepackage{wrapfig}                % Figuras que se envuelven en el texto
+\usepackage{subcaption}             % Leyendas en figuras anidadas
+\usepackage[most]{tcolorbox}        % Paquete para crear cajas de texto
+\usepackage[table]{xcolor}          % Paquete para crear colores
+\usepackage{hyperref}               % Enlaces internos y externos
+\usepackage{array, colortbl}        % Tablas
+\usepackage{soul}                   % Resaltado de texto
+\usepackage{enumitem}               % Listas personalizadas (itemize, enumerate)
+\usepackage{cancel}                 % Cancelar términos en ecuaciones
+\usepackage{textcomp}               % Símbolos como el centavo (¢)
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{fillbetween}
+
+% Referencias
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{references.bib}
+
+\input{styles/general_styles.tex}
+\graphicspath{ {./images/} }
+
+\begin{document}
+
+  \input{title_page}
+  \newpage
+
+  \tableofcontents
+  \newpage
+
+  \input{chapters/1_PPL/main.tex}
+  \newpage
+  
+  \input{chapters/2_espacios_vectoriales/main.tex}
+  \newpage
+  
+  \input{chapters/3_matrices/main.tex}
+  \newpage
+  
+  \input{chapters/4_espacios_metricos/main.tex}
+  \newpage
+  
+  \input{chapters/5_funciones_lineales/main.tex}
+  \newpage
+  
+  \input{chapters/6_diagonalizacion/main.tex}
+  \newpage
+  
+  \printbibliography
+\end{document}
