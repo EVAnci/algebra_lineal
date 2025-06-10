@@ -293,7 +293,7 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
 
 ¿Qué cantidad de cada tipo de carne debe emplear la tienda en cada libra de albondigón, si se desea minimizar el costo y mantener el contenido de grasa no mayor al \(25\%\)?
 
-\noindent\textbf{Resolución:}
+\noindent\textbf{Resolución del ejemplo \ref{ej:mtd_grfico}:}
 \begin{quote}
   \textbf{1. Identificación de variables de decisión:}
   Vemos que el resultado es un albondigón, y este se prepara con \(x_1\) libras de carne de res y \(x_2\) libras de carne de cerdo. Por lo que las variables de decisión son:
@@ -412,11 +412,355 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
 
 \end{quote}
 
-\subsection{Forma matricial de un PPL}
+\hrule
+\vspace{5mm}
+
+\paragraph{Resolución Bónus}
+
+\ejemplo\label{ej:resolucion_ppl_petroleos_grafico}: Resolución del PPL del problema de la compañía de petróleos. 
+\begin{quote}
+  \textbf{1. Formulación del PPL:}
+
+  A continuación se mostrará la resolución del ejercicio visto en el ejemplo \ref{ej:modelo_de_ppl_verbal}. Recordando el PPL ya modelado, se tiene:
+  \begin{align*}
+    \text{maximizar:} \quad   &z = 103x_1 + 110x_2 \\[3pt]
+    \text{sujeto a:} \quad    &7x_1 + 10x_2 \leq 1400 \\
+                              &12x_1 + 8x_2 \leq 2000 \\
+                              &8x_1 + 10x_2 \geq 900 \\
+                              &6x_1 + 7x_2 \geq 300 \\
+                              &5x_1 + 4x_2 \geq 800 \\
+                              & 5x_1 + 4x_2 \leq 1700 \\
+                              &x_1 \geq 0 \\
+                              &x_2 \geq 0
+  \end{align*}
+
+  \textbf{2. Resolución gráfica:}
+
+  En este caso se tienen muchas más restricciones que en el ejemplo \ref{ej:mtd_grfico}, sin embargo siempre se terminará formando un polígono, donde los vertices indicarán las posibles soluciones óptimas. Para facilitar la resolución gráfica, escribiremos las restricciones en la forma de ecuaciones y reordenaremos los términos de cada ecuación para que queden en la forma de \(y = mx + b\).
+  \begin{align*}
+    7x_1 + 10x_2 = 1400 \quad &\rightarrow \quad x_2 = -\frac{7}{10}x_1 + 140 \\
+    12x_1 + 8x_2 = 2000 \quad &\rightarrow \quad x_2 = -\frac{3}{2}x_1 + 250 \\
+    8x_1 + 10x_2 = 900  \quad &\rightarrow \quad x_2 = -\frac{4}{5}x_1 + 90
+  \end{align*}
+
+  \begin{align*}
+    6x_1 + 7x_2 = 300  \quad &\rightarrow \quad x_2 = -\frac{6}{7}x_1 + \frac{300}{7} \\
+    5x_1 + 4x_2 = 800  \quad &\rightarrow \quad x_2 = -\frac{5}{4}x_1 + 200 \\
+    5x_1 + 4x_2 = 1700 \quad &\rightarrow \quad x_2 = -\frac{5}{4}x_1 + 425 \\
+  \end{align*}
+  Y para las restricciones de no negatividad, sabemos que la región factible se tiene que encontrar el el primer cuadrante.
+
+  Por último, antes de graficar, vamos a suponer algún valor de ganancia de la función objetivo, por ejemplo \(z = 17000\), y resolver la ecuación \(17000 = 103x_1 + 110x_2\) para obtener la ecuación de la recta que representa la función objetivo.
+  \[
+    17000 = 103x_1 + 110x_2 \quad \rightarrow \quad x_2 = -\frac{103}{110}x_1 + \frac{1700}{11}
+  \]
+
+  Entonces, el gráfico de la región factible y la función objetivo con la ganancia \(z = 17000\) es el siguiente:
+  \begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+        xlabel={$x_1$},
+        ylabel={$x_2$},
+        xmin=0, xmax=300,
+        ymin=0, ymax=200,
+        grid=major,
+        legend pos=north east,
+        width=13cm,
+        height=10cm,
+        legend style={font=\footnotesize}
+    ]
+    
+    % Restricción 1: 7x₁ + 10x₂ ≤ 1400 → x₂ ≤ 140 - 0.7x₁
+    \addplot[blue, thick, dashed, domain=0:200] {140-0.7*x};
+    \addlegendentry{$7x_1 + 10x_2 \leq 1400$}
+    
+    % Restricción 2: 12x₁ + 8x₂ ≤ 2000 → x₂ ≤ 250 - 1.5x₁
+    \addplot[red, thick, dashed, domain=0:166.67] {250-1.5*x};
+    \addlegendentry{$12x_1 + 8x_2 \leq 2000$}
+    
+    % Restricción 3: 8x₁ + 10x₂ ≥ 900 → x₂ ≥ 90 - 0.8x₁
+    \addplot[green!70!black, thick, dashed, domain=0:112.5] {90-0.8*x};
+    \addlegendentry{$8x_1 + 10x_2 \geq 900$}
+    
+    % Restricción 4: 6x₁ + 7x₂ ≥ 300 → x₂ ≥ 42.86 - 0.857x₁
+    \addplot[orange, thick, dashed, domain=0:50] {(300/7)-(6/7)*x};
+    \addlegendentry{$6x_1 + 7x_2 \geq 300$}
+    
+    % Restricción 5: 5x₁ + 4x₂ ≥ 800 → x₂ ≥ 200 - 1.25x₁
+    \addplot[purple, thick, dashed, domain=0:160] {200-1.25*x};
+    \addlegendentry{$5x_1 + 4x_2 \geq 800$}
+    
+    % Restricción 6: 5x₁ + 4x₂ ≤ 1700 → x₂ ≤ 425 - 1.25x₁
+    \addplot[brown, thick, dashed, domain=0:300] {425-1.25*x};
+    \addlegendentry{$5x_1 + 4x_2 \leq 1700$}
+    
+    % Región factible aproximada (necesitarías calcular los vértices exactos)
+    % Esta es una aproximación visual de la región factible
+    \fill[cyan!25, opacity=0.5] 
+        (1200/11,700/11) -- (275/2,43.75) -- (500/3,0) -- (160,0) -- cycle;
+
+    % Función objetivo
+    \addplot[magenta, very thick, domain=0:165] {-(103/110)*x + (1700/11)};
+    \addlegendentry{$z = 17000$}
+    
+    % Algunos puntos de intersección importantes (aproximados)
+    \addplot[only marks, mark=*, mark size=3pt, color=black] 
+    coordinates {(1200/11,700/11) (275/2,43.75) (500/3,0) (160,0)};
+    
+    % Etiquetas para algunos puntos clave
+    \node at (axis cs:1200/11,700/11) [below left] {\footnotesize A \(\left(\frac{1200}{11},\frac{700}{11}\right)\)};
+    \node at (axis cs:275/2,43.75) [above right] {\footnotesize B \(\left(\frac{275}{2},\frac{175}{4}\right)\)};
+    \node at (axis cs:160,0) [above right] {\footnotesize C \(\left(160,0\right)\)};
+    \node at (axis cs:500/3,0) [above left] {\footnotesize D \(\left(\frac{500}{3},0\right)\)};
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Región factible del PPL de ejemplo \ref{ej:modelo_de_ppl_verbal} en color \textcolor{cyan}{cyan}}
+    \label{fig:ppl-maximizacion}
+  \end{figure}
+  Vemos que la la función objetivo \(z\) se encuentra dentro de la región factible, sin embargo, no es la solución óptima. Se puede ver que el punto más alejado del origen de coordenadas que puede tomar la función objetivo es el vértice \textit{B}. Por lo tanto, la solución óptima es el vértice \textit{B}, que es el punto \(\left(275/2,175/4\right)\). Entonces:
+  \[
+    z_B = 103\left(\frac{275}{2}\right) + 110\left(\frac{175}{4}\right) = \boxed{18975}
+  \]
+
+  \textbf{3. Respuesta:}
+
+  En base a la resolución del PPL, se deben realizar \(137.5\) sesiones de destilación usando la tecnología nueva (\(T_n\)) y \(43.75\) sesiones de destilación usando la tecnología antigua (\(T_a\)), para obtener la mayor ganancia posible, que es \$\(18975\).
+
+  \begin{tcolorbox}[remember]
+    Aunque la respuesta pueda resultar confusa, recordemos que el enunciado decía que los procesos de destilación \textit{se pueden utilizar total o parcialmente}, por lo que la respuesta toma valores fraccionarios. Si se quisiera que la respuesta fuera un número entero, entonces se agregan las respectivas restricciones y se resuelve el PPL de la misma manera, tomando únicamente los puntos enteros de \(x_1\) y \(x_2\).
+  \end{tcolorbox}
+
+\end{quote}
+
+\subsubsection{Método Simplex}
+
+Como anteriormente mencionamos, el método simplex es un algoritmo que nos permite resolver problemas de optimización lineal. Aunque disponemos del método gráfico, cuando el número de \textit{variables de decisión} es grande (\(> 2\)), el método gráfico es impracticable, por lo que utilizar el método analítico se vuelve una necesidad.
+
+Además, en general, la mayoría de los problemas de optimización suelen tener más de dos variables de decisión, por lo que la necesidad de generalizar la búsqueda de la solución optima es importante.
+
+Antes de ver el método Simplex, vamos a ver algunos conceptos necesarios para comprender la formulación del método.
+
+\paragraph{Forma matricial de un PPL}
 
 Un PPL puede ser representado en forma matricial de la siguiente manera:
 \begin{align*}
   \text{optimizar:} \quad   &z = \mathbf{c}^T\mathbf{x} \\[3pt]
   \text{sujeto a:} \quad    &A\mathbf{x} \thicksim  b \\
 \end{align*}
+donde:
+\begin{itemize}
+  \item \(\mathbf{c}\) es la matriz (o el vector) de coeficientes de la función objetivo
+  \item \(\mathbf{x}\) es la matriz (o el vector) de variables de decisión
+  \item \(A\) es la matriz de coeficientes de las restricciones
+  \item \(b\) es la matriz (o el vector) de términos independientes de las restricciones
+\end{itemize}
+de forma explícita se puede ver como:
+\begin{align*}
+  \text{optimizar:} \quad   &z = c_{1}x_{1} + c_{2}x_{2} + \cdots + c_{n}x_{n} \\[3pt]
+  \text{sujeto a:} \quad    &a_{11}x_{1} + a_{12}x_{2} + \cdots + a_{1n}x_{n} \thicksim b_{1} \\[3pt]
+                            &a_{21}x_{1} + a_{22}x_{2} + \cdots + a_{2n}x_{n} \thicksim b_{2} \\[3pt]
+                            &\quad \vdots \\[3pt]
+                            &a_{m1}x_{1} + a_{m2}x_{2} + \cdots + a_{mn}x_{n} \thicksim b_{m} \\[3pt]
+\end{align*}
+\begin{align*}
+  \text{donde:} \quad       &\mathbf{c} = \begin{pmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{pmatrix},\ \mathbf{x} = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix},\ A = \begin{pmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{pmatrix},\ b = \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{pmatrix}
+\end{align*}
 
+Esta forma es conveniente ya que permite representar el PPL de una manera más compacta y permite referirnos a una parte específica como la matriz de los coeficientes \(\mathbf{c}\) para referirnos a los coeficientes de la función objetivo.
+
+\paragraph{¿Qué necesitamos para usar el método Simplex?}
+
+Para poder usar el método Simplex necesitamos, evidentemente un PPL, pero también necesitamos que el PPL esté en su \textit{forma estándar}. Un PPL está en su forma estándar si cumple determinadas condiciones:
+\begin{enumerate}
+  \item \textbf{Condición de no negatividad}: todas las variables de decisión deben ser positivas: \(\forall x_i,\ x_i \geq 0;\ i = 1,2,\ldots,n\)
+  \item \textbf{Condición de restricciones}: todas las restricciones deben ser de la forma \(Ax = b\). Para lograr esto se introducen \hl{variables de holgura} y \hl{variables superfluas}.
+\end{enumerate}
+Estas dos condiciones consideran que \(b_i \geq 0\). Es decir, que todas las restricciones de la forma \(\sum a_{ij} x_{j} \thicksim b_i\), o bien de forma general:
+\[
+  a_{i1}x_1 + a_{i2}x_2 + a_{i3}x_3 + ... + a_{in}x_n \thicksim b_i
+\]
+tengan el término independiente \(b_i \geq 0\). Para lograr esto, si \(b_i < 0\), se multiplica toda la restricción por \(-1\).
+
+Otra cosa que debemos tener es una \textbf{solución factible}, que llamaremos la \textit{solución factible inicial}. Esto es una solución que cumple con todas las restricciones y que, por lo tanto es factible, pero no necesariamente es la solución óptima. 
+
+En algunos problemas, la solución factible inicial puede ser prácticamente trivial, es decir, que todas las variables de decisión sean cero, sin embargo, los ejemplos que hemos visto (ejemplo \ref{ej:resolucion_ppl_petroleos_grafico} y \ref{ej:mtd_grfico}) son problemas que no cumplen con esta condición, ya que \((0,0)\) no es una solución factible. 
+
+\begin{tcolorbox}[interesting_data, title=Dato curioso]
+  La caratula de este documento tiene un gráfico de un PPL que si tiene una solución factible inicial trivial, es decir, que todas las variables de decisión puedan ser cero. En el problema de la caratula, se busca maximizar \(z\), por lo que la solución factible inicial trivial no es la solución óptima, de hecho el beneficio para esa solución es \(z = 0\). 
+\end{tcolorbox}
+
+Esto lleva a que, en la mayoría de casos, encontrar una solución factible inicial no sea tan sencillo como lo parece, y por lo tanto, se tenga que buscar una a través de algún método o teorema. Esto lo profundizaremos más adelante, cuando hayamos visto cómo transformar un PPL en su forma estándar.
+
+\paragraph{Transformación de un PPL en su forma estándar}
+
+Como vimos anteriormente, Simplex requiere de un PPL en formato estándar. Si un PPL no cumple las dos condiciones del formato estándar, entonces debemos transformarlo a su forma estándar. 
+
+Puede ver el siguiente video: \href{https://www.youtube.com/watch?v=6f5K3O7yUzU}{\texttt{forma estándar en programación lineal - YouTube}}, donde se muestran algunos ejemplos de cómo transformar un PPL a forma estándar. De igual manera, en este documento se mostrará el proceso de transformación a formato estándar de un PPL ejemplificado en dicho video. 
+
+\ejemplo\label{ej:transformacion_ppl_forma_estandar}: Transformación de un PPL a forma estándar.
+
+Consideremos el siguiente PPL (ejemplo del video recomendado):
+\begin{align*}
+  \text{maximizar:} \quad   &z = -8x_1 + 16x_2 - 4x_3 \\[3pt]
+  \text{sujeto a:} \quad    &5x_1 + 8x_3 \geq 100 \\
+                            &-x_1 + 6x_2 \geq 100 \\
+                            &-6x_2 + 4x_3 \leq 100 \\
+                            &x_1 \geq 0 \\
+                            &x_2 \text{ Libre} \\
+                            &x_3 \leq0
+\end{align*}
+
+\noindent\textbf{1. Condición de no negatividad:}
+
+Este es un buen ejemplo ya que tenemos las tres posibilidades en las variables de decisión:
+\begin{itemize}
+  \item Libre: \(x_2\)
+  \item Positiva: \(x_1\)
+  \item Negativa: \(x_3\)
+\end{itemize}
+
+La única variable que cumple con la condición de no negatividad es \(x_1\), por lo tanto esta variable se mantiene como está, es decir, \(x_1 \geq 0\). 
+
+Las variables que no cumplen con la condición de no negatividad son \(x_2\) y \(x_3\), por lo que debemos operar sobre ellas para hacer cumplir con la condición de no negatividad. Veamos el caso de \(x_3\) primero: 
+
+La variable \(x_3\) es negativa, para transformar la restricción a positiva debemos realizar un cambio de variable, tal que:
+\[
+  x_3 = -y_3 \quad \rightarrow \quad y_3 \geq 0
+\]
+
+\noindent donde \(y_3\) es una variable que reemplaza a \(x_3\) y que es positiva. Esta variable debe cambiarse en todo el PPL, es decir, en la función objetivo y en las restricciones. 
+
+Para el caso de \(x_2\), la variable puede tomar cualquier valor, por lo que para que estrictamente cumpla la condición de no negatividad podemos realizar lo siguiente:
+\[
+  x_2 = y_2 - y_2' \quad \rightarrow \quad y_2,\ y_2' \geq 0
+\]
+
+\noindent donde \(y_2\) y \(y_2'\) son variables que reemplazan a \(x_2\) y que cumplen con la condición de no negatividad. Estas variables deben reemplazar a \(x_2\) en todo el PPL, al igual que \(x_3\) se reemplaza por \(y_3\). Reemplazando las variables en el PPL, obtenemos:
+\begin{align*}
+  \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 \\[3pt]
+  \text{sujeto a:} \quad    &5x_1 - 8y_3 \geq 100 \\
+                            &-x_1 + 6y_2 - 6y_2' \geq 100 \\
+                            &-6y_2 + 6y_2' - 4y_3 \leq 100 \\
+                            &x_1,\ y_2,\ y_2',\ y_3 \geq 0
+\end{align*}
+Listo, la primer condición se cumple, ahora veamos la segunda condición.
+
+\noindent\textbf{2. Condición de restricciones:}
+
+La segunda condición es que todas las restricciones deben ser de la forma \(Ax = b\). En este caso, ninguna de las restricciones cumple con esta condición, por lo que debemos operar sobre todas ellas. 
+
+Cuando analizamos la segunda condición, podemos encontrarnos con tres casos posibles:
+\begin{enumerate}
+  \item Restricción de la forma \(A_i x \leq b_i\): agregar una \textit{variable de holgura}
+  \item Restricción de la forma \(A_i x \geq b_i\): agregar una \textit{variable superflua}
+  \item Restricción de la forma \(A_i x = b_i\): cumple con la condición de forma estándar, por lo que no se necesita ninguna variable adicional
+\end{enumerate}
+\noindent donde \(A_i\) es la i-ésima restricción y \(b_i\) es su término independiente.
+\begin{tcolorbox}[remember, title=¿Qué significa variable de holgura y variable superflua?]
+  La \textbf{variable de holgura} es aquella que se agrega a una restricción de la forma \(A_i x \leq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos de los que se disponían pero no se usaron. 
+
+  \textit{Ejemplo}: si se disponen de 10 horas totales para fabricar un producto, pero solo se usan 8 horas, entonces la variable de holgura representa las \(2\) horas que se disponían pero no se usaron. 
+  
+  \vspace{3pt}
+
+  Por otro lado, la \textbf{variable superflua} es aquella que se agrega a una restricción de la forma \(A_i x \geq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos que se fabrican más de lo que se necesita.
+
+  \textit{Ejemplo}: si se requieren como mínimo 54 toneladas de mineral, pero se extraen 60 toneladas, entonces la variable superflua vale \(60 - 54 = 6\) toneladas, y representa el exceso de toneladas de mineral que se extraen más de lo que se necesita. 
+\end{tcolorbox}
+
+\noindent Las restricciones de nuestro PPL que deben cumplir con esta condición son:
+\begin{align*}
+  5x_1 - 8y_3 &\geq 100 \\
+  -x_1 + 6y_2 - 6y_2' &\geq 100 \\
+  -6y_2 + 6y_2' - 4y_3 &\leq 100
+\end{align*}
+Para la tercera restricción, tenemos el caso 1. Para este caso debemos agregar una \textit{variable de holgura}:
+\[
+  -6y_2 + 6y_2' - 4y_3 \leq 100 \quad \rightarrow \quad -6y_2 + 6y_2' - 4y_3 + h_1 = 100
+\]
+Luego, para la primera y la segunda restricción tenemos el caso 2. Para este caso debemos agregar una \textit{variable superflua}:
+\begin{align*}
+  5x_1 - 8y_3 \geq 100 \quad &\rightarrow \quad 5x_1 - 8y_3 - s_1 = 100 \\
+  -x_1 + 6y_2 - 6y_2' \geq 100 \quad &\rightarrow \quad -x_1 + 6y_2 - 6y_2' - s_2 = 100
+\end{align*}
+
+Estas variables que se han agregado a las restricciones deben aparecer en la función objetivo, sin embargo, como no son variables de decisión, su coeficiente en la función objetivo debe ser cero. Por lo que el PPL transformado a forma estándar es:
+\begin{align*}
+  \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
+  \text{sujeto a:} \quad    &5x_1 + 0y_2 - 0y_2' - 8y_3 - s_1 - 0s_2 + 0h_1 = 100 \\
+                            &-x_1 + 6y_2 - 6y_2' + 0y_3 - 0s_1 - s_2 + 0h_1 = 100 \\
+                            &0x_1 -6y_2 + 6y_2' - 4y_3 - 0s_1 - 0s_2 + h_1 = 100 \\
+                            &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
+\end{align*}
+Si quitamos todos los términos con coeficiente nulo de las restricciones queda:
+\begin{align*}
+  \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
+  \text{sujeto a:} \quad    &5x_1 - 8y_3 - s_1 = 100 \\
+                            &-x_1 + 6y_2 - 6y_2' - s_2 = 100 \\
+                            &-6y_2 + 6y_2' - 4y_3 + h_1 = 100 \\
+                            &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
+\end{align*}
+
+\paragraph{Generación de solución factible inicial}
+
+Como vimos, Simplex también requiere de una solución factible inicial ya que el algoritmo se mueve de una solución factible básica a otra, mejorando el valor de la función objetivo en cada iteración. Entonces podemos generar una solución factible inicial a través de los siguientes métodos:
+\begin{itemize}
+  \item Inspección directa: si es fácil identificar un punto que satisface todas las restricciones, se puede usar directamente
+  \item Método de la \textit{Fase I} del Simplex: para aquellos casos donde no es fácil aplicar la inspección directa, se utiliza este método. Este método consiste en cuatro pasos:
+  \begin{enumerate}
+    \item Se construye un problema auxiliar donde se agregan \textit{variables artificiales} para convertir el problema original en uno con una solución factible evidente
+    \item Se minimiza la suma de esas variables artificiales
+    \item Si en el óptimo esta suma es cero, se ha encontrado una solución factible al problema original
+    \item Si no es cero, el problema original no tiene solución factible (es incompatible)
+  \end{enumerate}
+\end{itemize}
+
+\subparagraph{Método de la Fase I}
+
+Consiste en resolver un problema auxiliar con el único objetivo de encontrar una solución factible al problema original. Una vez que se obtiene dicha solución se procede a la \textit{Fase II} donde se busca la solución óptima del problema original.
+
+Este método consiste en cuatro pasos:
+\begin{enumerate}
+  \item Transformar el problema a forma estándar
+  \item Agregar variables artificiales en todas las restricciones que \textbf{no} se hayan agregado variables de holgura. En términos del PPL original podemos decir que se agrega una variable artificial en donde no se puede generar una solución factible inicial directa (restricciones del tipo \(\geq\) o \(=\)).
+  \item Construir el problema auxiliar: el nuevo problema tiene como función objetivo minimizar la suma de las variables artificiales:
+  \[\text{min}\ \omega = \sum_{i=1}^{n} a_i\]
+  Esto se resuelve en el mismo método Simplex.
+  \item interpretación del resultado: Si el valor óptimo es mayor que cero, el problema original no tiene solución factible (es incompatible). Si el valor óptimo es cero, entonces se ha encontrado una solución factible al problema original sin variables artificiales activas, por lo que se puede proceder a la Fase II.
+\end{enumerate}
+
+\ejemplo\label{ej:fase_1} El conjunto de restricciones:
+\begin{quote}
+  \begin{align*}
+    x_1 + 2x_2 &\leq 3 \\
+    4x_1 + 5x_2 &\geq 6 \\
+    7x_1 + 8x_2 &= 15
+  \end{align*}
+  se transforma en un sistema de ecuaciones (forma estándar del PPL) agregando una variable de holgura \(h_1\) y una variable superflua \(s_1\):
+  \begin{align*}
+    x_1 + 2x_2 + h_1 &= 3 \\
+    4x_1 + 5x_2 - s_1 &= 6 \\
+    7x_1 + 8x_2 &= 15
+  \end{align*}
+  Si ahora se agregan respectivamente las variables artificiales \(a_1\) y \(a_2\), el problema auxiliar se transforma en:
+  \begin{align*}
+    x_1 + 2x_2 + h_1 \phantom{+ s_1 + a_1 + a_2} &= 3 \\
+    4x_1 + 5x_2 \phantom{+ h_1} - s_1 + a_1 \phantom{+ a_2} &= 6 \\
+    7x_1 + 8x_2 \phantom{+ h_1 - s_1 + a_1} + a_2 &= 15 \\
+  \end{align*}
+  Una solución \textit{no negativa} a este último sistema es:
+  \begin{align*}
+    h_1 &= 3 \\
+    a_1 &= 6 \\
+    a_2 &= 15 \\
+    x_1 = x_2 = s_1 &= 0
+  \end{align*}
+  Nótese, sin embargo, que \(x_1=0\) y \(x_2=0\) no es una solución al conjunto inicial de restricciones. 
+\end{quote}
+
+\paragraph{Costos de Penalización}
+
+La introducción de variables de holgura y superfluas no altera ni la naturaleza de las restricciones ni al objetivo. Por consiguiente, estas variables se incorporan a la función objetivo con coeficientes cero. Las variables artificiales, sin embargo, cambian la naturaleza de als restricciones. Ya que se agregan a un solo lado de una desigualdad, el nuevo sistema es equivalente al sistema anterior de restricciones sólo si las variables artificiales son cero. Para garantizar estas condiciones en la solución óptima las variables artificiales se introducen a la función objetivo con coeficientes muy grandes (si hay que maximizar la ganancia, una ganancia muy pequeña o negativa implica una gran penalización, por el contrario si hay que minimizar costos, un costo grande implica una gran penalización para esa variable). Estos coeficientes se denotan generalmente como \(+M\) (para minimización) o \(-M\) (para maximización).
+
+Los coeficientes \(\pm M\) donde \(M\) se considera un número positivo muy grande, representan el severo costo de penalización que se impone a las variables artificiales cuando se activan en la solución óptima. 
