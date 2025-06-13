@@ -16,6 +16,39 @@ sudo pacman -S texlive texlive-fontsrecommended texlive-langspanish biber
 
 Estos paquetes incluyen todas las dependencias necesarias para trabajar con LaTeX.
 
+### 🔁 Clonar el repositorio
+
+Como este proyecto tiene archivos binarios (imágenes) para poder clonar el repositorio y compilar correctamente el documento deben tenerse algunas consideraciones. Para manejar los archivos binarios se está utilizando `git lfs`, entonces debes instalarlo previamente. Si estás en Arch:
+
+```sh
+sudo pacman -S git-lfs
+```
+
+Luego de haber instalado la herramienta puedes usar el comando
+
+```sh
+git lfs install
+```
+
+para incluir este paquete en git. Una vez hecho esto puedes clonar normalmente el repositorio y debería incluir todos los archivos binarios.
+
+Si por algún motivo al hacer:
+
+```sh
+file images/cover.png
+```
+
+aparece `ascii text` y no `ìmage file` entonces es porque `git lfs` no ha descargado correctamente los archivos binarios.
+
+Para solucionar esto simplemente escribe en el repositorio:
+
+```sh
+git lfs install
+git lfs pull
+```
+
+y todos los archivos binarios se descargarán correctamente.
+
 ### 📄 Generar el PDF
 
 1. Sitúate en la raíz del repositorio.
