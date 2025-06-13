@@ -539,7 +539,25 @@ Como anteriormente mencionamos, el método simplex es un algoritmo que nos permi
 
 Además, en general, la mayoría de los problemas de optimización suelen tener más de dos variables de decisión, por lo que la necesidad de generalizar la búsqueda de la solución optima es importante.
 
-Antes de ver el método Simplex, vamos a ver algunos conceptos necesarios para comprender la formulación del método.
+\paragraph{Estructura general del método}
+
+El método se basa en representar el problema en \textbf{forma tabular}. Cada paso del algoritmo consiste en:
+\begin{enumerate}
+  \item \textbf{Iniciar en una solución básica factible inicial}: esta primera solución se obtiene en la \textit{Fase I} del Simplex. 
+  \item \textbf{Seleccionar una variable entrante}: mediante la \textbf{regla del criterio} se selecciona aquella que más mejora la función objetivo
+  \item \textbf{Seleccionar una variable saliente}: para mantener la factibilidad (cumplir restricciones)
+  \item \textbf{Actualizar la tabla (pivoteo)}: para generar una nueva solución básica
+  \item \textbf{Repetir el proceso}: hasta que no haya más mejoras posibles
+\end{enumerate} 
+No se preocupe por entender el concepto de \textit{Fase I} y la \textit{regla del criterio}, ya que se explicarán en detalle más adelante.
+
+\begin{tcolorbox}[remember, title=Forma tabular]
+  Que el método Simplex se base en representar el problema en ``forma tabular'' significa que todas las ecuaciones (la función objetivo y las restricciones) del problema de Programación Lineal se organizan en una matriz estructurada, una tabla, llamada ``tableau Simplex''
+\end{tcolorbox}
+
+Antes de ver el método Simplex en profundidad, vamos a ver algunos conceptos necesarios para comprender la formulación del método.
+
+\vspace{3mm}
 
 \paragraph{Forma matricial de un PPL}
 
