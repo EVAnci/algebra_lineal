@@ -922,8 +922,7 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
                             &x_1 - x_2 - s_2 + a_2 = 2\\
                             &x_1, x_2, s_2, a_1, a_2 \geq 0
   \end{align*}
-  Por lo tanto, el \textbf{vector de costos} asociado a todas las variables (en el orden \(x_1, x_2, s_2, a_1, a_2\)) es: 
-  \[c = (0, 0, 0, 1, 1)\] 
+
   Para las restricciones, la base inicial está formada por las variables artificiales \(a_1\) y \(a_2\), porque aparecen con coeficiente 1 y sólo en una ecuación (forman una matriz identidad).
   \begin{align*}
     \begin{pmatrix}
@@ -954,7 +953,183 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
   Si en cambio \(\omega > 0\), entonces el problema original no tiene solución factible.  
 \end{quote}
 
-Antes de 
+Antes de continuar con la construcción de la tabla Simplex, es absolutamente conveniente (e incluso necesario) comprender los elementos que definen el problema auxiliar de la Fase I en profundidad, en particular:
+\begin{itemize}
+  \item El \textbf{vector de costos} (función objetivo auxiliar),
+  \item La \textbf{base inicial} y su interpretación,
+  \item El \textbf{costo reducido} o \textbf{función Z},
+  \item Y cómo se arma correctamente la primera \textit{tabla Simplex}.
+\end{itemize}
+
+Entonces, siguiendo con el ejemplo \ref{ej:fase_1}, vamos a desarrollar estos tres puntos.
+
+\paragraph{Contrucción del vector de costos \(c\) para la Fase I}
+
+Recordando que la función objetivo del problema auxiliar es \(\omega = a_1 + a_2\), por lo tanto el \textbf{vector de costos} asociado a todas las variables (en el orden \(x_1, x_2, s_2, a_1, a_2\)) es: 
+\[c = (0, 0, 0, 1, 1)\]
+Ya que \(x_1\), \(x_2\) y \(s_2\) no participan en la función objetivo del problema auxiliar, su coeficiente es cero.
+
+\paragraph{Elección de la base inicial}
+
+Para poder aplicar el método Simplex, se necesita una \textit{base inicial} formada por un conjunto de variables básicas tales que el sistema:
+\[
+A_{\beta}X_{\beta} = B
+\]
+tenga una solución factible (es decir, \(X_\beta \geq 0\)).
+\begin{tcolorbox}[remember, title=Aclaración]
+  Cuando se usa \(A_\beta\) o \(X_\beta\) se refiere al vector de \textbf{variables básicas} y sus respectivos coeficientes. Eso no tiene nada que ver con la matriz \(B\).
+\end{tcolorbox}
+
+En el problema auxiliar hemos introducido \(a_1\) y \(a_2\) de modo que:
+\begin{itemize}
+  \item Cada una aparece \textbf{una sola vez} en una ecuación,
+  \item Con coeficiente 1,
+  \item Y no aparece en las demás ecuaciones.
+\end{itemize}
+Este tipo de estructura es ideal para que las variables artificiales sirvan como base inicial. Por lo tanto, tomamos como base inicial:
+\[
+  \beta = \{a_1, a_2\}
+\]
+Esto garantiza que la matriz base \(A_\beta\) es la \textit{matriz identidad} \(I_2\), y por lo tanto, \(X_\beta = B\) tiene solución inmediata:
+\[
+  x_{a_1} = 4, ~~ x_{a_2} = 2
+\]
+Entonces ya tenemos una \textbf{SBF} inicial (aunque no es deseable por contener variables artificiales).
+
+\paragraph{Cálculo de \(Z_j\) y \(Z_{j}-c_j\) (costos reducidos)}
+
+Ahora preparamos la tabla Simplex. Para cada variable \(x_j\) en la fila correspondiente, se calcula:
+\[
+  Z_j = \sum_{i \in \beta} c_i \cdot a_{ij}
+\]
+donde:
+\begin{itemize}
+  \item \(\beta=\{a_1, a_2\}\),
+  \item \(c_i\) son los costos de la función objetivo auxiliar (\(\omega = a_1 + a_2\)),
+  \item \(a_{ij}\) son los coeficientes de la variable \(x_j\) en la fila correspondiente.
+\end{itemize}
+Luego se calcula el \textbf{costo reducido}:
+\[
+  Z_j - c_j
+\]
+La interpretación es:
+\begin{itemize}
+  \item Si \(Z_j - c_j > 0\), introducir la variable reducirá el valor de \(omega\) (recordar que estamos \textit{minimizando}).
+  \item Si todos los \(Z_j - c_j \geq 0\), la solución es óptima para la Fase I.
+\end{itemize}
+Con esto completo, ahora \textbf{si} estamos listos para armar la primera tabla Simplex de la Fase I con total seguridad.
+
+% Ampliación de los costos reducidos
+
+% Excelente que lo señales, porque entender el **significado y cálculo de los costos reducidos** es clave para aplicar correctamente el método Simplex. Vamos a repasarlo de forma clara, con base en el ejemplo de Fase I que estamos utilizando. Primero daré una explicación general, luego la aplicaremos paso a paso.
+
+% ---
+
+% ### ¿Qué son los costos reducidos?
+
+% En el método Simplex, el valor $Z_j - c_j$ (llamado **costo reducido** de la variable $x_j$) indica **cuánto cambia la función objetivo** si introducimos esa variable en la base (es decir, si la hacemos básica).
+
+% En la **Fase I**, queremos **minimizar** la función auxiliar $w = a_1 + a_2$. Por eso:
+
+% * Si $Z_j - c_j > 0$, introducir esa variable **aumenta** el valor de $w$ → no conviene.
+% * Si $Z_j - c_j < 0$, introducirla **disminuye** el valor de $w$ → sí conviene.
+% * Si todos los $Z_j - c_j \geq 0$, entonces ya estamos en el **mínimo** de $w$.
+
+% ---
+
+% ### ¿Cómo se calcula?
+
+% Primero, definimos:
+
+% * $B$: conjunto de variables **básicas** actuales. En la primera tabla son $a_1$ y $a_2$.
+% * $c_B$: vector de **costos** asociados a las variables básicas (en Fase I: ambos son 1).
+% * $A_B$: matriz de coeficientes de las variables básicas (es una matriz identidad).
+% * $a_j$: columna de la variable $x_j$ en el sistema de restricciones.
+% * $c_j$: costo asociado a la variable $x_j$ en la función objetivo auxiliar (es 0 para $x_1$ y $x_2$, 1 para $a_1$ y $a_2$).
+
+% La fórmula del costo reducido es:
+
+% $$
+% Z_j - c_j = c_B^\top A_B^{-1} a_j - c_j
+% $$
+
+% En palabras: **el costo reducido se calcula multiplicando los costos de las básicas por la solución del sistema con la columna $a_j$, y restando el costo directo de $x_j$**.
+
+% ---
+
+% ### Aplicación al ejemplo
+
+% Retomamos el problema auxiliar:
+
+% $$
+% \begin{aligned}
+% x_1 + x_2 + a_1 &= 4 \quad \text{(F1)}\\
+% 2x_1 + 3x_2 + a_2 &= 9 \quad \text{(F2)}
+% \end{aligned}
+% $$
+
+% Orden de las variables: $x_1,\ x_2,\ a_1,\ a_2$
+
+% Coeficientes:
+
+% $$
+% \begin{array}{c|cccc|c}
+% \text{Base} & x_1 & x_2 & a_1 & a_2 & b \\
+% \hline
+% a_1 & 1 & 1 & 1 & 0 & 4 \\
+% a_2 & 2 & 3 & 0 & 1 & 9 \\
+% \end{array}
+% $$
+
+% Ahora, los costos $c_B$ son:
+
+% $$
+% c_B = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \quad \text{(porque la base es } a_1,\ a_2)
+% $$
+
+% Y como $A_B = I_2$, tenemos $A_B^{-1} = I_2$ también. Entonces para cada variable no básica (en este caso, $x_1$ y $x_2$):
+
+% **Costo reducido para $x_1$:**
+
+% La columna de $x_1$ es $a_{x_1} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$
+
+% Entonces:
+
+% $$
+% Z_{x_1} = c_B^\top a_{x_1} = [1\ 1] \cdot \begin{bmatrix} 1 \\ 2 \end{bmatrix} = 1 \cdot 1 + 1 \cdot 2 = 3
+% $$
+
+% $$
+% Z_{x_1} - c_{x_1} = 3 - 0 = 3
+% $$
+
+% **Costo reducido para $x_2$:**
+
+% La columna de $x_2$ es $a_{x_2} = \begin{bmatrix} 1 \\ 3 \end{bmatrix}$
+
+% Entonces:
+
+% $$
+% Z_{x_2} = c_B^\top a_{x_2} = [1\ 1] \cdot \begin{bmatrix} 1 \\ 3 \end{bmatrix} = 1 \cdot 1 + 1 \cdot 3 = 4
+% $$
+
+% $$
+% Z_{x_2} - c_{x_2} = 4 - 0 = 4
+% $$
+
+% **Conclusión**:
+
+% Ambos costos reducidos son positivos:
+
+% * $Z_1 - c_1 = 3$,
+% * $Z_2 - c_2 = 4$.
+
+% Entonces introducir $x_1$ o $x_2$ aumentaría el valor de $w$. Como **estamos minimizando**, esto **no conviene**, por lo tanto la solución actual es **óptima para la Fase I**.
+
+% ---
+
+% ¿Deseas que revisemos ahora cómo interpretar esta información para decidir si pasamos a la Fase II? ¿O te gustaría que volvamos a repasar este concepto con una representación gráfica o una analogía más intuitiva?
+
 
 \paragraph{Costos de Penalización}
 
