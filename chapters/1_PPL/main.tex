@@ -399,7 +399,8 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
 
   \noindent En el gráfico se puede observar que la región factible es el segmento color cyan. En este caso, el valor de costo \(z=50\) no se encuentra dentro de la región factible. Buscar este valor a prueba y error no es lo más conveniente, entonces vamos a usar un teorema que nos asegura que la solución óptima se encuentra en un vértice del \textbf{polígono} de la región factible. Más adelante se verá la demostración de este teorema.
 
-  Entonces, basado en el teorema, la solución óptima se encuentra en el vértice \textit{A} o en el vértice \textit{B}. A simple vista en el gráfico podemos ver que el punto \textit{A} está más cerca del origen de coordenadas, y por lo tanto el costo será menor, sin embargo veremos el costo en ambos puntos para mostrar que el costo aumenta a medida que el punto se aleja del origen de coordenadas.
+  Entonces, basado en el teorema, la solución óptima se encuentra en el vértice \textit{A} o en el vértice \textit{B}. A simple vista en el gráfico podemos ver que la función objetivo está más cerca del origen de coordenadas en el punto \textit{A} y por lo tanto el costo será menor, sin embargo veremos el costo en ambos puntos para mostrar que el costo aumenta a medida que la función objetivo se aleja del origen de coordenadas.
+
   \begin{align*}
     z_A &= 80\left(\frac{2}{3}\right) + 60\left(\frac{1}{3}\right) \\
     z_A &= \frac{220}{3} \approx \boxed{73.33} \\[5pt]
@@ -518,6 +519,7 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
     \caption{Región factible del PPL de ejemplo \ref{ej:modelo_de_ppl_verbal} en color \textcolor{cyan}{cyan}}
     \label{fig:ppl-maximizacion}
   \end{figure}
+
   Vemos que la la función objetivo \(z\) se encuentra dentro de la región factible, sin embargo, no es la solución óptima. Se puede ver que el punto más alejado del origen de coordenadas que puede tomar la función objetivo es el vértice \textit{B}. Por lo tanto, la solución óptima es el vértice \textit{B}, que es el punto \(\left(275/2,175/4\right)\). Entonces:
   \[
     z_B = 103\left(\frac{275}{2}\right) + 110\left(\frac{175}{4}\right) = \boxed{18975}
@@ -533,25 +535,31 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
 
 \end{quote}
 
-\subsubsection{Método Simplex}
+\subsubsection{Introducción al método Simplex}
 
 Como anteriormente mencionamos, el método simplex es un algoritmo que nos permite resolver problemas de optimización lineal. Aunque disponemos del método gráfico, cuando el número de \textit{variables de decisión} es grande (\(> 2\)), el método gráfico es impracticable, por lo que utilizar el método analítico se vuelve una necesidad.
 
-Además, en general, la mayoría de los problemas de optimización suelen tener más de dos variables de decisión, por lo que la necesidad de generalizar la búsqueda de la solución optima es importante.
+Además, en general, la mayoría de los problemas de optimización suelen tener más de dos variables de decisión, por lo que la necesidad de generalizar la búsqueda de la solución optima es un tema de interés.
+
+\paragraph{¿Qué hace el método Simplex?}
+
+El método Simplex es un algoritmo iterativo que parte de una solución básica factible (es decir, un vértice del conjunto factible del problema) y se \hl{desplaza de un vértice a otro adyacente}, mejorando en cada paso el valor de la función objetivo, hasta que no se puede mejorar más, lo que significa que se ha llegado a la \textbf{solución óptima}.
+
+Visualmente, imagina un poliedro (la región factible), donde cada vértice es una posible solución básica. El Simplex camina por los bordes del poliedro en dirección ascendente (en problemas de maximización) hasta llegar al punto más alto.
 
 \paragraph{Estructura general del método}
 
 El método se basa en representar el problema en \textbf{forma tabular}. Cada paso del algoritmo consiste en:
 \begin{enumerate}
   \item \textbf{Iniciar en una solución básica factible inicial}: esta primera solución se obtiene en la \textit{Fase I} del Simplex. 
-  \item \textbf{Seleccionar una variable entrante}: mediante la \textbf{regla del criterio} se selecciona aquella que más mejora la función objetivo
+  \item \textbf{Seleccionar una variable entrante}: mediante la \textit{regla del criterio} se selecciona aquella que más mejora la función objetivo
   \item \textbf{Seleccionar una variable saliente}: para mantener la factibilidad (cumplir restricciones)
   \item \textbf{Actualizar la tabla (pivoteo)}: para generar una nueva solución básica
   \item \textbf{Repetir el proceso}: hasta que no haya más mejoras posibles
 \end{enumerate} 
 No se preocupe por entender el concepto de \textit{Fase I} y la \textit{regla del criterio}, ya que se explicarán en detalle más adelante.
 
-\begin{tcolorbox}[remember, title=Forma tabular]
+\begin{tcolorbox}[interesting_data, title=Forma tabular]
   Que el método Simplex se base en representar el problema en ``forma tabular'' significa que todas las ecuaciones (la función objetivo y las restricciones) del problema de Programación Lineal se organizan en una matriz estructurada, una tabla, llamada ``tableau Simplex''
 \end{tcolorbox}
 
@@ -563,169 +571,264 @@ Antes de ver el método Simplex en profundidad, vamos a ver algunos conceptos ne
 
 Un PPL puede ser representado en forma matricial de la siguiente manera:
 \begin{align*}
-  \text{optimizar:} \quad   &z = \mathbf{c}^T\mathbf{x} \\[3pt]
-  \text{sujeto a:} \quad    &A\mathbf{x} \thicksim  b \\
+  \text{optimizar:} \quad   &z = C^TX \\[3pt]
+  \text{sujeto a:} \quad    &AX \thicksim  B \\
 \end{align*}
 donde:
 \begin{itemize}
-  \item \(\mathbf{c}\) es la matriz (o el vector) de coeficientes de la función objetivo
-  \item \(\mathbf{x}\) es la matriz (o el vector) de variables de decisión
-  \item \(A\) es la matriz de coeficientes de las restricciones
-  \item \(b\) es la matriz (o el vector) de términos independientes de las restricciones
+  \item \(C\) es la matriz (o el vector) de coeficientes de la función objetivo,
+  \item \(X\) es la matriz (o el vector) de variables de decisión,
+  \item \(A\) es la matriz de coeficientes de las restricciones,
+  \item \(B\) es la matriz (o el vector) de términos independientes de las restricciones.
 \end{itemize}
-de forma explícita se puede ver como:
+\vspace{5pt}
+\noindent De forma explícita se puede ver como:
 \begin{align*}
   \text{optimizar:} \quad   &z = c_{1}x_{1} + c_{2}x_{2} + \cdots + c_{n}x_{n} \\[3pt]
   \text{sujeto a:} \quad    &a_{11}x_{1} + a_{12}x_{2} + \cdots + a_{1n}x_{n} \thicksim b_{1} \\[3pt]
                             &a_{21}x_{1} + a_{22}x_{2} + \cdots + a_{2n}x_{n} \thicksim b_{2} \\[3pt]
                             &\quad \vdots \\[3pt]
-                            &a_{m1}x_{1} + a_{m2}x_{2} + \cdots + a_{mn}x_{n} \thicksim b_{m} \\[3pt]
+                            &a_{m1}x_{1} + a_{m2}x_{2} + \cdots + a_{mn}x_{n} \thicksim b_{m}
 \end{align*}
-\begin{align*}
-  \text{donde:} \quad       &\mathbf{c} = \begin{pmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{pmatrix},\ \mathbf{x} = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix},\ A = \begin{pmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{pmatrix},\ b = \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{pmatrix}
-\end{align*}
-
-Esta forma es conveniente ya que permite representar el PPL de una manera más compacta y permite referirnos a una parte específica como la matriz de los coeficientes \(\mathbf{c}\) para referirnos a los coeficientes de la función objetivo.
-
-\paragraph{¿Qué necesitamos para usar el método Simplex?}
-
-Para poder usar el método Simplex necesitamos, evidentemente un PPL, pero también necesitamos que el PPL esté en su \textit{forma estándar}. Un PPL está en su forma estándar si cumple determinadas condiciones:
-\begin{enumerate}
-  \item \textbf{Condición de no negatividad}: todas las variables de decisión deben ser positivas: \(\forall x_i,\ x_i \geq 0;\ i = 1,2,\ldots,n\)
-  \item \textbf{Condición de restricciones}: todas las restricciones deben ser de la forma \(Ax = b\). Para lograr esto se introducen \hl{variables de holgura} y \hl{variables superfluas}.
-\end{enumerate}
-Estas dos condiciones consideran que \(b_i \geq 0\). Es decir, que todas las restricciones de la forma \(\sum a_{ij} x_{j} \thicksim b_i\), o bien de forma general:
+donde:
 \[
-  a_{i1}x_1 + a_{i2}x_2 + a_{i3}x_3 + ... + a_{in}x_n \thicksim b_i
+  C = \begin{pmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{pmatrix},\ X = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix},\ A = \begin{pmatrix} a_{11} & a_{12} & \cdots & a_{1n} \\ a_{21} & a_{22} & \cdots & a_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ a_{m1} & a_{m2} & \cdots & a_{mn} \end{pmatrix},\ B = \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{pmatrix}
 \]
-tengan el término independiente \(b_i \geq 0\). Para lograr esto, si \(b_i < 0\), se multiplica toda la restricción por \(-1\).
 
-Otra cosa que debemos tener es una \textbf{solución factible}, que llamaremos la \textit{solución factible inicial}. Esto es una solución que cumple con todas las restricciones y que, por lo tanto es factible, pero no necesariamente es la solución óptima. 
+Esta forma es conveniente ya que permite representar el PPL de una manera más compacta y permite referirnos a una parte específica como la matriz de los coeficientes \(C\) para referirnos a los coeficientes de la función objetivo.
 
-En algunos problemas, la solución factible inicial puede ser prácticamente trivial, es decir, que todas las variables de decisión sean cero, sin embargo, los ejemplos que hemos visto (ejemplo \ref{ej:resolucion_ppl_petroleos_grafico} y \ref{ej:mtd_grfico}) son problemas que no cumplen con esta condición, ya que \((0,0)\) no es una solución factible. 
+Con estos conceptos estamos listos para ver la forma de resolución de PPLs mediante el método Simplex.
 
-\begin{tcolorbox}[interesting_data, title=Dato curioso]
-  La caratula de este documento tiene un gráfico de un PPL que si tiene una solución factible inicial trivial, es decir, que todas las variables de decisión puedan ser cero. En el problema de la caratula, se busca maximizar \(z\), por lo que la solución factible inicial trivial no es la solución óptima, de hecho el beneficio para esa solución es \(z = 0\). 
-\end{tcolorbox}
+\subsection{Requisitos para la resolución de PPL mediante el método Simplex}
 
-Esto lleva a que, en la mayoría de casos, encontrar una solución factible inicial no sea tan sencillo como lo parece, y por lo tanto, se tenga que buscar una a través de algún método o teorema. Esto lo profundizaremos más adelante, cuando hayamos visto cómo transformar un PPL en su forma estándar.
+El método simplex se mueve de un vértice del poliedro factible a un vértice adyacente que mejora el valor de la función objetivo. Repasando lo que vimos anteriormente cada iteración corresponde a:
+\begin{itemize}
+  \item \textbf{Evaluación del vértice actual}: Verificar si es óptimo mediante los costos reducidos
+  \item \textbf{Selección de arista}: Elegir la arista (dirección) que más mejora la función objetivo
+  \item \textbf{Movimiento}: Desplazarse a lo largo de la arista hasta el siguiente vértice
+  \item \textbf{Actualización de la tabla}: El nuevo vértice se convierte en la nueva solución básica
+\end{itemize}
+Más adelante veremos un ejemplo simple para comprender mejor el método Simplex, pero antes necesitamos ver qué necesitamos para usar el método Simplex.
+
+\paragraph{Condiciones para usar el método Simplex}
+
+Entender con claridad \textit{cuáles son las condiciones necesarias para aplicar el método Simplex} es fundamental, ya que no todo problema lineal puede resolverse directamente con él sin alguna transformación previa. De forma resumida, para aplicar Simplex se necesita:
+\begin{enumerate}
+  \item Convertir el problema a forma estándar,
+  \item Tener una solución básica factible inicial,
+  \item Asegurar que el problema tiene solución factible y acotada.
+\end{enumerate}
+En general, para poder aplicar el método simplex, se expresa el PPL en su forma matricial, ya que permite realizar las transformaciones y operaciones de forma ordenada.
+
+A continuación veremos cada una de las condiciones en detalle.
+
+\subsubsection{Forma estándar del problema}
+\label{sec:forma_estandar}
+
+Un PPL está en su forma estándar si cumple las siguientes condiciones:
+\begin{itemize}
+  \item La función objetivo debe ser de maximización,
+  \item Todas las variables deben ser mayores o iguales a cero (restricción de no negatividad).
+  \item Todas las restricciones deben estar escritas como igualdades (no desigualdades).
+\end{itemize}
+Ya puede intuir, por los ejemplos vistos, que no todos los PPLs cumplen con estas condiciones, por lo que se requiere transformar el PPL a su forma estándar.
 
 \paragraph{Transformación de un PPL en su forma estándar}
 
-Como vimos anteriormente, Simplex requiere de un PPL en formato estándar. Si un PPL no cumple las dos condiciones del formato estándar, entonces debemos transformarlo a su forma estándar. 
+Como vimos anteriormente, un PPL está en su forma estándar si cumple las condiciones vistas. Para trabajar de forma ordenada vamos a llamar a cada condición de la siguiente manera:
+\begin{enumerate}
+  \item \textbf{Condición de maximización}: la función objetivo debe ser de maximización,
+  \item \textbf{Condición de no negatividad}: todas las variables de decisión deben ser positivas: \(\forall x_i,\ x_i \geq 0;\ i = 1,2,\ldots,n\)
+  \item \textbf{Condición no desigualdad}: todas las restricciones deben ser de la forma \(A_iX = b_i\). Para lograr esto se introducen \hl{variables de holgura} y \hl{variables superfluas}.
+\end{enumerate}
+En un momento se explicará el concepto de variables de holgura y variables superfluas.
 
-Puede ver el siguiente video: \href{https://www.youtube.com/watch?v=6f5K3O7yUzU}{\texttt{forma estándar en programación lineal - YouTube}}, donde se muestran algunos ejemplos de cómo transformar un PPL a forma estándar. De igual manera, en este documento se mostrará el proceso de transformación a formato estándar de un PPL ejemplificado en dicho video. 
+Para tener un contexto previo, ver el siguiente video: \href{https://www.youtube.com/watch?v=6f5K3O7yUzU}{\texttt{forma estándar en programación lineal - YouTube}}, donde se muestran algunos ejemplos de cómo transformar un PPL a forma estándar. De igual manera, en este documento se mostrará el proceso de transformación a formato estándar de un PPL. 
 
 \ejemplo\label{ej:transformacion_ppl_forma_estandar}: Transformación de un PPL a forma estándar.
+\begin{quote}
+  Consideremos el siguiente PPL (ejemplo del video recomendado):
+  \begin{align*}
+    \text{maximizar:} \quad   &z = -8x_1 + 16x_2 - 4x_3 \\[3pt]
+    \text{sujeto a:} \quad    &5x_1 + 8x_3 \geq 100 \\
+                              &-x_1 + 6x_2 \geq 100 \\
+                              &-6x_2 + 4x_3 \leq 100 \\
+                              &x_1 \geq 0 \\
+                              &x_2 \text{ Libre} \\
+                              &x_3 \leq0
+  \end{align*}
 
-Consideremos el siguiente PPL (ejemplo del video recomendado):
-\begin{align*}
-  \text{maximizar:} \quad   &z = -8x_1 + 16x_2 - 4x_3 \\[3pt]
-  \text{sujeto a:} \quad    &5x_1 + 8x_3 \geq 100 \\
-                            &-x_1 + 6x_2 \geq 100 \\
-                            &-6x_2 + 4x_3 \leq 100 \\
-                            &x_1 \geq 0 \\
-                            &x_2 \text{ Libre} \\
-                            &x_3 \leq0
-\end{align*}
+  \noindent\textbf{1. Condición de maximización:}
 
-\noindent\textbf{1. Condición de no negatividad:}
+  El PPL ya cumple con la condición de maximización, por lo que no se requiere ninguna transformación. Para aquellos PPL que buscan \textit{minimizar}, que no cumplen esta condición, al multiplicar la función objetivo por \(-1\) se puede transformar en una maximización. 
 
-Este es un buen ejemplo ya que tenemos las tres posibilidades en las variables de decisión:
-\begin{itemize}
-  \item Libre: \(x_2\)
-  \item Positiva: \(x_1\)
-  \item Negativa: \(x_3\)
-\end{itemize}
+  \noindent\textbf{2. Condición de no negatividad:}
 
-La única variable que cumple con la condición de no negatividad es \(x_1\), por lo tanto esta variable se mantiene como está, es decir, \(x_1 \geq 0\). 
+  En este caso, tenemos las tres posibilidades en las variables de decisión:
+  \begin{itemize}
+    \item Libre: \(x_2\)
+    \item Positiva: \(x_1\)
+    \item Negativa: \(x_3\)
+  \end{itemize}
 
-Las variables que no cumplen con la condición de no negatividad son \(x_2\) y \(x_3\), por lo que debemos operar sobre ellas para hacer cumplir con la condición de no negatividad. Veamos el caso de \(x_3\) primero: 
+  La única variable que cumple con la condición de no negatividad es \(x_1\), por lo tanto esta variable se mantiene como está, es decir, \(x_1 \geq 0\). 
 
-La variable \(x_3\) es negativa, para transformar la restricción a positiva debemos realizar un cambio de variable, tal que:
+  Las variables que no cumplen con esta condición son \(x_2\) y \(x_3\), por lo que debemos operar sobre ellas para hacer cumplir la condición. Veamos el caso de \(x_3\) primero: 
+
+  La variable \(x_3\) es negativa, para transformar la restricción a positiva debemos realizar un cambio de variable, tal que:
+  \[
+    x_3 = -y_3 \quad \rightarrow \quad y_3 \geq 0
+  \]
+
+  \noindent donde \(y_3\) es una variable que reemplaza a \(x_3\) y que es positiva. Esta variable debe cambiarse en todo el PPL, es decir, en la función objetivo y en las restricciones. 
+
+  Para el caso de \(x_2\), la variable puede tomar cualquier valor, por lo que para que estrictamente cumpla la condición de no negatividad podemos realizar lo siguiente:
+  \[
+    x_2 = y_2 - y_2' \quad \rightarrow \quad y_2,\ y_2' \geq 0
+  \]
+
+  \noindent donde \(y_2\) y \(y_2'\) son variables que reemplazan a \(x_2\) y que cumplen con la condición de no negatividad. Estas variables deben reemplazar a \(x_2\) en todo el PPL, al igual que \(x_3\) se reemplaza por \(y_3\). Reemplazando las variables en el PPL, obtenemos:
+  \begin{align*}
+    \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 \\[3pt]
+    \text{sujeto a:} \quad    &5x_1 - 8y_3 \geq 100 \\
+                              &-x_1 + 6y_2 - 6y_2' \geq 100 \\
+                              &-6y_2 + 6y_2' - 4y_3 \leq 100 \\
+                              &x_1,\ y_2,\ y_2',\ y_3 \geq 0
+  \end{align*}
+  Listo, la condición de no negatividad se cumple, ahora veamos la tercera condición.
+
+  \noindent\textbf{3. Condición de no desigualdad:}
+
+  La tercera condición es que todas las restricciones deben ser de la forma \(Ax = b\). En este caso, ninguna de las restricciones cumple con esta condición, por lo que debemos operar sobre todas ellas. 
+
+  Cuando analizamos la tercera condición, podemos encontrarnos con tres casos posibles:
+  \begin{enumerate}
+    \item Restricción de la forma \(A_i x \leq b_i\): agregar una \hl{\textit{variable de holgura}}
+    \item Restricción de la forma \(A_i x \geq b_i\): agregar una \hl{\textit{variable superflua}}
+    \item Restricción de la forma \(A_i x = b_i\): cumple con la condición de forma estándar, por lo que no se necesita ninguna variable adicional
+  \end{enumerate}
+  \noindent donde \(A_i\) es la i-ésima restricción y \(b_i\) es su término independiente.
+  \begin{tcolorbox}[interesting_data, title=¿Qué significa variable de holgura?]
+    La \textbf{variable de holgura} es aquella que se agrega a una restricción de la forma \(A_i x \leq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos de los que se disponían pero no se usaron. 
+
+    \textit{Ejemplo}: si se disponen de 10 horas totales para fabricar un producto, pero solo se usan 8 horas, entonces la variable de holgura representa las \(2\) horas que se disponían pero no se usaron. 
+  \end{tcolorbox}
+
+  \begin{tcolorbox}[interesting_data, title=¿Qué significa variable superflua?]
+    Por otro lado, la \textbf{variable superflua} es aquella que se agrega a una restricción de la forma \(A_i x \geq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos que se fabrican más de lo que se necesita.
+
+    \textit{Ejemplo}: si se requieren como mínimo 54 toneladas de mineral, pero se extraen 60 toneladas, entonces la variable superflua vale \(60 - 54 = 6\) toneladas, y representa el exceso de toneladas de mineral que se extraen más de lo que se necesita. 
+  \end{tcolorbox}
+
+  \noindent Las restricciones de nuestro PPL que deben cumplir con esta condición son:
+  \begin{align*}
+    5x_1 - 8y_3 &\geq 100 \\
+    -x_1 + 6y_2 - 6y_2' &\geq 100 \\
+    -6y_2 + 6y_2' - 4y_3 &\leq 100
+  \end{align*}
+  Para la tercera restricción, tenemos el caso 1. Para este caso debemos agregar una \textit{variable de holgura}:
+  \[
+    -6y_2 + 6y_2' - 4y_3 \leq 100 \quad \rightarrow \quad -6y_2 + 6y_2' - 4y_3 + h_1 = 100
+  \]
+  Luego, para la primera y la segunda restricción tenemos el caso 2. Para este caso debemos agregar una \textit{variable superflua}:
+  \begin{align*}
+    5x_1 - 8y_3 \geq 100 \quad &\rightarrow \quad 5x_1 - 8y_3 - s_1 = 100 \\
+    -x_1 + 6y_2 - 6y_2' \geq 100 \quad &\rightarrow \quad -x_1 + 6y_2 - 6y_2' - s_2 = 100
+  \end{align*}
+
+  Estas variables que se han agregado a las restricciones deben aparecer en la función objetivo, sin embargo, como no son variables de decisión, su coeficiente en la función objetivo debe ser cero. Por lo que el PPL transformado a forma estándar es:
+  \begin{align*}
+    \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
+    \text{sujeto a:} \quad    &5x_1 + 0y_2 - 0y_2' - 8y_3 - s_1 - 0s_2 + 0h_1 = 100 \\
+                              &-x_1 + 6y_2 - 6y_2' + 0y_3 - 0s_1 - s_2 + 0h_1 = 100 \\
+                              &0x_1 -6y_2 + 6y_2' - 4y_3 - 0s_1 - 0s_2 + h_1 = 100 \\
+                              &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
+  \end{align*}
+  Si quitamos todos los términos con coeficiente nulo de las restricciones queda:
+  \begin{align*}
+    \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
+    \text{sujeto a:} \quad    &5x_1 - 8y_3 - s_1 = 100 \\
+                              &-x_1 + 6y_2 - 6y_2' - s_2 = 100 \\
+                              &-6y_2 + 6y_2' - 4y_3 + h_1 = 100 \\
+                              &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
+  \end{align*}
+\end{quote}
+
+\subsubsection{Existencia de una solución básica factible inicial (SBF)}
+
+Este es el ``\textit{punto más delicado}''. Para comenzar el método Simplex, se necesita un punto inicial que cumpla todas las restricciones (factible) y sea una solución básica (es decir, con tantas variables básicas como ecuaciones, y el resto en cero).
+
+Como ya vimos, si las restricciones son de tipo \(\leq\) y se agregan variables de \textit{holgura positiva}, entonces la \textbf{SBF} inicial está dada simplemente por poner en cero las variables originales y tomar las variables de holgura como solución. Por otro lado, si las restricciones son de tipo \(\geq\) o \(=\), o si el sistema \textbf{no} tiene una SBF evidente, entonces se debe recurrir a un método auxiliar como el método de la fase I del Simplex o el método de las dos fases.
+
+\paragraph{¿Qué es una solución básica?}
+
+En términos del álgebra lineal, una \textit{solución básica} es una solución del sistema lineal:
 \[
-  x_3 = -y_3 \quad \rightarrow \quad y_3 \geq 0
+AX = B
 \]
+Este sistema, representado de forma matricial, no es más que las restricciones del PPL en forma estándar.
 
-\noindent donde \(y_3\) es una variable que reemplaza a \(x_3\) y que es positiva. Esta variable debe cambiarse en todo el PPL, es decir, en la función objetivo y en las restricciones. 
+\paragraph{¿Cómo se define una \textit{solución básica}?}
 
-Para el caso de \(x_2\), la variable puede tomar cualquier valor, por lo que para que estrictamente cumpla la condición de no negatividad podemos realizar lo siguiente:
-\[
-  x_2 = y_2 - y_2' \quad \rightarrow \quad y_2,\ y_2' \geq 0
-\]
-
-\noindent donde \(y_2\) y \(y_2'\) son variables que reemplazan a \(x_2\) y que cumplen con la condición de no negatividad. Estas variables deben reemplazar a \(x_2\) en todo el PPL, al igual que \(x_3\) se reemplaza por \(y_3\). Reemplazando las variables en el PPL, obtenemos:
-\begin{align*}
-  \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 \\[3pt]
-  \text{sujeto a:} \quad    &5x_1 - 8y_3 \geq 100 \\
-                            &-x_1 + 6y_2 - 6y_2' \geq 100 \\
-                            &-6y_2 + 6y_2' - 4y_3 \leq 100 \\
-                            &x_1,\ y_2,\ y_2',\ y_3 \geq 0
-\end{align*}
-Listo, la primer condición se cumple, ahora veamos la segunda condición.
-
-\noindent\textbf{2. Condición de restricciones:}
-
-La segunda condición es que todas las restricciones deben ser de la forma \(Ax = b\). En este caso, ninguna de las restricciones cumple con esta condición, por lo que debemos operar sobre todas ellas. 
-
-Cuando analizamos la segunda condición, podemos encontrarnos con tres casos posibles:
+Para construir una \textit{solución básica}, se hace lo siguiente:
 \begin{enumerate}
-  \item Restricción de la forma \(A_i x \leq b_i\): agregar una \textit{variable de holgura}
-  \item Restricción de la forma \(A_i x \geq b_i\): agregar una \textit{variable superflua}
-  \item Restricción de la forma \(A_i x = b_i\): cumple con la condición de forma estándar, por lo que no se necesita ninguna variable adicional
+  \item Se eligen arbitrariamente \(m\) variables del vector \(X\), a las que se llama \textbf{variables básicas}.
+  \item El resto de las \(n - m\) variables se fijan en cero; estas se llaman \textbf{variables no básicas}.
+  \item Luego se resuelve el sistema lineal con esas \(m\) incógnitas (las básicas), usando las \(m\) ecuaciones.
 \end{enumerate}
-\noindent donde \(A_i\) es la i-ésima restricción y \(b_i\) es su término independiente.
-\begin{tcolorbox}[remember, title=¿Qué significa variable de holgura y variable superflua?]
-  La \textbf{variable de holgura} es aquella que se agrega a una restricción de la forma \(A_i x \leq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos de los que se disponían pero no se usaron. 
+Esto es posible si las columnas de \(A\) correspondientes a las variables básicas son \textbf{linealmente independientes}, lo que permite resolver el sistema.
 
-  \textit{Ejemplo}: si se disponen de 10 horas totales para fabricar un producto, pero solo se usan 8 horas, entonces la variable de holgura representa las \(2\) horas que se disponían pero no se usaron. 
-  
-  \vspace{3pt}
+\paragraph{¿Y qué es una \textit{solución básica factible} (SBF)?}
 
-  Por otro lado, la \textbf{variable superflua} es aquella que se agrega a una restricción de la forma \(A_i x \geq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos que se fabrican más de lo que se necesita.
-
-  \textit{Ejemplo}: si se requieren como mínimo 54 toneladas de mineral, pero se extraen 60 toneladas, entonces la variable superflua vale \(60 - 54 = 6\) toneladas, y representa el exceso de toneladas de mineral que se extraen más de lo que se necesita. 
-\end{tcolorbox}
-
-\noindent Las restricciones de nuestro PPL que deben cumplir con esta condición son:
-\begin{align*}
-  5x_1 - 8y_3 &\geq 100 \\
-  -x_1 + 6y_2 - 6y_2' &\geq 100 \\
-  -6y_2 + 6y_2' - 4y_3 &\leq 100
-\end{align*}
-Para la tercera restricción, tenemos el caso 1. Para este caso debemos agregar una \textit{variable de holgura}:
+Una solución básica factible es una solución básica que además satisface:
 \[
-  -6y_2 + 6y_2' - 4y_3 \leq 100 \quad \rightarrow \quad -6y_2 + 6y_2' - 4y_3 + h_1 = 100
+x \geq 0
 \]
-Luego, para la primera y la segunda restricción tenemos el caso 2. Para este caso debemos agregar una \textit{variable superflua}:
-\begin{align*}
-  5x_1 - 8y_3 \geq 100 \quad &\rightarrow \quad 5x_1 - 8y_3 - s_1 = 100 \\
-  -x_1 + 6y_2 - 6y_2' \geq 100 \quad &\rightarrow \quad -x_1 + 6y_2 - 6y_2' - s_2 = 100
-\end{align*}
+Es decir, todas las variables (básicas y no básicas) deben ser \textbf{mayores o iguales a cero}. Esta condición es necesaria porque el método Simplex trabaja solamente en la región factible del espacio, que está limitada por las restricciones del problema.
 
-Estas variables que se han agregado a las restricciones deben aparecer en la función objetivo, sin embargo, como no son variables de decisión, su coeficiente en la función objetivo debe ser cero. Por lo que el PPL transformado a forma estándar es:
-\begin{align*}
-  \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
-  \text{sujeto a:} \quad    &5x_1 + 0y_2 - 0y_2' - 8y_3 - s_1 - 0s_2 + 0h_1 = 100 \\
-                            &-x_1 + 6y_2 - 6y_2' + 0y_3 - 0s_1 - s_2 + 0h_1 = 100 \\
-                            &0x_1 -6y_2 + 6y_2' - 4y_3 - 0s_1 - 0s_2 + h_1 = 100 \\
-                            &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
-\end{align*}
-Si quitamos todos los términos con coeficiente nulo de las restricciones queda:
-\begin{align*}
-  \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
-  \text{sujeto a:} \quad    &5x_1 - 8y_3 - s_1 = 100 \\
-                            &-x_1 + 6y_2 - 6y_2' - s_2 = 100 \\
-                            &-6y_2 + 6y_2' - 4y_3 + h_1 = 100 \\
-                            &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
-\end{align*}
+\paragraph{Intuición geométrica}
 
-\paragraph{Generación de solución factible inicial}
+En geometría, la región factible de un problema lineal es un \textit{poliedro} (en 2D, un polígono; en 3D, un poliedro tridimensional). Cada \textit{vértice} (o esquina) de esa región corresponde a una \textbf{solución básica factible}.
 
-Como vimos, Simplex también requiere de una solución factible inicial ya que el algoritmo se mueve de una solución factible básica a otra, mejorando el valor de la función objetivo en cada iteración. Entonces podemos generar una solución factible inicial a través de los siguientes métodos:
+El método Simplex camina de un vértice al siguiente, buscando mejorar el valor de la función objetivo, hasta que ya no puede mejorar más.
+
+Por eso se necesita comenzar desde un vértice: es decir, desde una \textbf{SBF}.
+
+\ejemplo\label{ej:busqueda_sbf}{: Búsqueda de SBF}
+
+Supón que tienes este sistema (ya convertido a forma estándar):
+\begin{align*}
+  x_1 + x_2 + x_3 &= 4 \\
+  2x_1 + 3x_2 + x_4 &= 7 \\
+  x_1, x_2, x_3, x_4 &\geq 0
+ \end{align*}
+
+Aquí hay 4 variables y 2 ecuaciones. Una solución básica se obtiene eligiendo, por ejemplo, las variables \(x_1\) y \(x_3\) como básicas, y fijando \(x_2 = x_4 = 0\).
+
+Al resolver el sistema para \(x_1\) y \(x_3\), obtenemos \(x_1 = 3.5, x_3 = 0.5\). Como todas las variables son no negativas, entonces \(x_1 = 3.5, x_3 = 0.5\) es una \hl{solución básica factible}.
+
+Ahora veamos qué pasa si elegimos las variables \(x_1\) y \(x_2\) como básicas, y fijamos \(x_3 = x_4 = 0\). Al resolver el sistema para \(x_1\) y \(x_2\) el resultado da \(x_1 = 5, x_2 = -1\). Como \(x_2\) es negativo, entonces \textbf{no es} una solución básica factible, simplemente es una solución básica al sistema.
+\vspace{5mm}
+\hrule
+
+\subsubsection{Condición de factibilidad y acotación}
+
+Esta es la última condición que debe cumplir el problema para que el Simplex sea aplicable.
+
+El método Simplex solo es aplicable si el problema tiene una solución factible. Si no la tiene, el Simplex lo detectará (normalmente en la fase I).
+
+El problema también debe ser acotado, es decir, si la función objetivo puede crecer indefinidamente sin violar las restricciones, el Simplex lo reportará como no acotado.
+
+En términos simples, con el método simplex buscamos una solución factible \textbf{única}.
+
+\subsection{Inicialización del método Simplex}
+
+\subsubsection{Generación de solución factible inicial}
+
+Como vimos, Simplex también requiere de una solución básica factible (SBF) inicial ya que el algoritmo se mueve de una solución factible básica a otra, mejorando el valor de la función objetivo en cada iteración. Anteriormente, en el ejemplo \ref{ej:busqueda_sbf} vimos, tras elegir arbitrariamente las variables básicas, que dimos con una SBF y luego, tras elegir nuevamente otras variables básicas, dimos con una solución básica pero no factible. Ese problema tenía pocas variables de decisión, por lo que si queremos encontrar una SBF podemos ir probando hasta dar con alguna. Sin embargo, si el problema tiene muchas variables de decisión, es difícil encontrar una SBF inicial, y probar todas las posibilidades no es lo más eficiente. Por lo que existen dos métodos para generar una SBF inicial:
 \begin{itemize}
-  \item Inspección directa: si es fácil identificar un punto que satisface todas las restricciones, se puede usar directamente
-  \item Método de la \textit{Fase I} del Simplex: para aquellos casos donde no es fácil aplicar la inspección directa, se utiliza este método. Este método consiste en cuatro pasos:
+  \item \hl{Inspección directa}: si es fácil identificar un punto que satisface todas las restricciones, se puede usar directamente.
+  \item \hl{Método de la Fase I del Simplex}: para aquellos casos donde no es fácil aplicar la inspección directa, se utiliza este método. Este método consiste en cuatro pasos:
   \begin{enumerate}
     \item Se construye un problema auxiliar donde se agregan \textit{variables artificiales} para convertir el problema original en uno con una solución factible evidente
     \item Se minimiza la suma de esas variables artificiales
@@ -734,48 +837,124 @@ Como vimos, Simplex también requiere de una solución factible inicial ya que e
   \end{enumerate}
 \end{itemize}
 
-\subparagraph{Método de la Fase I}
+\noindent El método de la inspección directa se vió en el ejemplo \ref{ej:busqueda_sbf}. Básicamente consiste en analizar las restricciones y verificar si se puede generar una solución básica que sea factible. Ahora veamos el método de la Fase I.
 
-Consiste en resolver un problema auxiliar con el único objetivo de encontrar una solución factible al problema original. Una vez que se obtiene dicha solución se procede a la \textit{Fase II} donde se busca la solución óptima del problema original.
+\subsubsection{Método de la Fase I: construcción del problema auxiliar}
 
-Este método consiste en cuatro pasos:
+Esta fase tiene como objetivo encontrar una solución básica factible inicial para un problema de programación lineal (PPL) cuando no está disponible de forma directa.
+
+Recordemos que el método Simplex parte de una SBF y se mueve de una a otra mejorando el valor de la función objetivo. Por eso, si no contamos con una SBF al comienzo, necesitamos construir un problema auxiliar que nos la proporcione. Esto es lo que hace la Fase I.
+
+El objetivo de la Fase I es formular y resolver un problema auxiliar que:
+\begin{itemize}
+  \item Sea fácil de resolver
+  \item Tenga una SBF evidente
+  \item Su solución, si es factible, nos permita obtener una SBF \textbf{del problema original}
+\end{itemize}
+
+Este método consiste en cuatro pasos generales:
 \begin{enumerate}
-  \item Transformar el problema a forma estándar
-  \item Agregar variables artificiales en todas las restricciones que \textbf{no} se hayan agregado variables de holgura. En términos del PPL original podemos decir que se agrega una variable artificial en donde no se puede generar una solución factible inicial directa (restricciones del tipo \(\geq\) o \(=\)).
-  \item Construir el problema auxiliar: el nuevo problema tiene como función objetivo minimizar la suma de las variables artificiales:
-  \[\text{min}\ \omega = \sum_{i=1}^{n} a_i\]
-  Esto se resuelve en el mismo método Simplex.
-  \item interpretación del resultado: Si el valor óptimo es mayor que cero, el problema original no tiene solución factible (es incompatible). Si el valor óptimo es cero, entonces se ha encontrado una solución factible al problema original sin variables artificiales activas, por lo que se puede proceder a la Fase II.
+
+  \item \textbf{Convertir el PPL original a forma estándar}: Esto incluye que todas las restricciones sean igualdades (introduciendo variables de holgura, exceso, etc.) y todas las variables estén acotadas inferiormente por cero.
+
+  \item \textbf{Identificar las restricciones problemáticas}: Por ejemplo, si una ecuación tiene una constante en el lado derecho negativa, o si las variables artificiales son necesarias para armar una base inicial.
+
+  \item \textbf{Agregar variables artificiales}: Se introducen \hl{variables auxiliares (artificiales)} para poder construir una base inicial. Esto se hace cuando:
+    \begin{itemize}
+      \item Tenemos ecuaciones con signo \(\geq\) o \(=\), donde las variables de holgura o exceso no permiten construir directamente una base.
+      \item La matriz de restricciones no contiene directamente columnas de la forma \(e_i\) necesarias para formar una base.
+    \end{itemize}
+
+  \item \textbf{Formular un problema auxiliar (problema de la Fase I)}: Se define una nueva función objetivo auxiliar: Minimizar la suma de todas las variables artificiales. Esta función objetivo representa el “costo” de alejarse del espacio factible del problema original.
+
+  \item \textbf{Resolver el problema auxiliar con el método Simplex}: 
+  \begin{itemize}
+    \item Si la solución óptima del problema auxiliar tiene valor cero, significa que se ha encontrado una SBF para el problema original.
+    \item Si la solución óptima tiene valor distinto de cero, el problema original no es factible (no existe ninguna solución que satisfaga todas las restricciones).
+  \end{itemize}
+
+  \item \textbf{Eliminar las variables artificiales}: Si la Fase I fue exitosa, se eliminan las variables artificiales (si aún están presentes en la base se deben reemplazar mediante pivoteos), y se continúa con la \textit{Fase II}, ahora con una SBF válida y la función objetivo original.
 \end{enumerate}
 
-\ejemplo\label{ej:fase_1} El conjunto de restricciones:
+\paragraph{¿Por qué funciona?}
+
+El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las variables artificiales. Si puede lograr que todas ellas sean cero, significa que existe una combinación de las variables reales (originales y de holgura) que satisfacen todas las restricciones. Esa es justamente una solución básica factible. Veamos un ejemplo de la Fase I.
+
+\ejemplo\label{ej:fase_1} Sea el siguiente problema de programación lineal:
 \begin{quote}
   \begin{align*}
-    x_1 + 2x_2 &\leq 3 \\
-    4x_1 + 5x_2 &\geq 6 \\
-    7x_1 + 8x_2 &= 15
+    \text{maximizar} \quad  &z = 3x_1 + 2x_2\\[3pt]
+    \text{sujeto a:} \quad  &x_1 + x_2 = 4\\
+                            &x_1 - x_2 \geq 2\\
+                            &x_1, x_2 \geq 0
   \end{align*}
-  se transforma en un sistema de ecuaciones (forma estándar del PPL) agregando una variable de holgura \(h_1\) y una variable superflua \(s_1\):
+  Observamos que:
+  \begin{itemize}
+    \item La primera restricción ya está en forma de igualdad, pero no tiene una variable de holgura asociada que permita incluir una columna identidad.
+    \item La segunda es una desigualdad \(\geq\), por lo tanto debemos restar una variable superflua y, además, agregar una variable artificial para poder construir una base inicial.
+  \end{itemize}
+  
+  \subparagraph{Paso 1: Convertimos a forma estándar}
+  \begin{enumerate}
+    \item A la primera ecuación (que ya es igualdad), agregamos una variable artificial \(a_1\), porque no hay variable de holgura ni exceso que permita formar la base inicial.
+    \item A la segunda desigualdad, restamos una variable de exceso \(s_2\), y agregamos una variable artificial \(a_2\).
+  \end{enumerate}
+  El sistema queda:
   \begin{align*}
-    x_1 + 2x_2 + h_1 &= 3 \\
-    4x_1 + 5x_2 - s_1 &= 6 \\
-    7x_1 + 8x_2 &= 15
-  \end{align*}
-  Si ahora se agregan respectivamente las variables artificiales \(a_1\) y \(a_2\), el problema auxiliar se transforma en:
+    x_1 + x_2 + a_1 &= 4\\
+    x_1 - x_2 - s_2 + a_2 &= 2
+  \end{align*}  
+  Con condiciones:
+  \[
+    x_1, x_2, s_2, a_1, a_2 \geq 0
+  \]
+
+  \subparagraph{Paso 2: Definimos el problema auxiliar}
+  
+  La función objetivo auxiliar es:
+  \[
+    \omega = a_1 + a_2
+  \]
+  Nuestro nuevo problema (problema auxiliar) es:
   \begin{align*}
-    x_1 + 2x_2 + h_1 \phantom{+ s_1 + a_1 + a_2} &= 3 \\
-    4x_1 + 5x_2 \phantom{+ h_1} - s_1 + a_1 \phantom{+ a_2} &= 6 \\
-    7x_1 + 8x_2 \phantom{+ h_1 - s_1 + a_1} + a_2 &= 15 \\
+    \text{minimizar} \quad  &\omega = a_1 + a_2\\[3pt]
+    \text{sujeto a:} \quad  &x_1 + x_2 + a_1 = 4\\
+                            &x_1 - x_2 - s_2 + a_2 = 2\\
+                            &x_1, x_2, s_2, a_1, a_2 \geq 0
   \end{align*}
-  Una solución \textit{no negativa} a este último sistema es:
+  Por lo tanto, el \textbf{vector de costos} asociado a todas las variables (en el orden \(x_1, x_2, s_2, a_1, a_2\)) es: 
+  \[c = (0, 0, 0, 1, 1)\] 
+  Para las restricciones, la base inicial está formada por las variables artificiales \(a_1\) y \(a_2\), porque aparecen con coeficiente 1 y sólo en una ecuación (forman una matriz identidad).
   \begin{align*}
-    h_1 &= 3 \\
-    a_1 &= 6 \\
-    a_2 &= 15 \\
-    x_1 = x_2 = s_1 &= 0
+    \begin{pmatrix}
+      1 & 1 & 0 & 1 & 0\\
+      1 & -1 & -1 & 0 & 1
+    \end{pmatrix}
+    \begin{pmatrix}
+      x_1\\
+      x_2\\
+      s_2\\
+      a_1\\
+      a_2
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      4\\
+      2
+    \end{pmatrix}
   \end{align*}
-  Nótese, sin embargo, que \(x_1=0\) y \(x_2=0\) no es una solución al conjunto inicial de restricciones. 
+  Esto significa que, si establecemos como variables básicas a \(a_1\) y \(a_2\), y las demás en cero, obtenemos una solución básica factible para el problema auxiliar, ya que \(a_1 = 4\) y \(a_2 = 2\).
+
+  De este modo, ya tenemos una \hl{SBF inicial} para el problema auxiliar.
+  
+  \subparagraph{Paso 3: Aplicamos el método Simplex}
+  
+  A partir de esta situación, podríamos construir la tabla Simplex con \(a_1\) y \(a_2\) en la base, y comenzar a iterar para minimizar \(\omega\). Si al finalizar el valor óptimo de \(\omega\) es cero, habremos encontrado una combinación de \(x_1\), \(x_2\) y \(s_2\) que satisface las restricciones sin necesidad de variables artificiales, es decir, una solución básica factible del problema original.
+  
+  Si en cambio \(\omega > 0\), entonces el problema original no tiene solución factible.  
 \end{quote}
+
+Antes de 
 
 \paragraph{Costos de Penalización}
 
