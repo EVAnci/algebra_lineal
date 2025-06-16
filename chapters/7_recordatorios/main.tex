@@ -1,0 +1,194 @@
+\section{Recordatorios}
+
+\subsection{Sistemas de ecuaciones lineales}
+\label{sec:sel}
+
+Un sistema de ecuaciones lineales (SEL) es un conjunto de ecuaciones de la forma
+\begin{align*}
+  a_{1,1}x_1 + a_{1,2}x_2 + &\cdots + a_{1,n}x_n = b_1,\\
+  a_{2,1}x_1 + a_{2,2}x_2 + &\cdots + a_{2,n}x_n = b_2,\\
+  &\vdots\\
+  a_{m,1}x_1 + a_{m,2}x_2 + &\cdots + a_{m,n}x_n = b_m,
+\end{align*}
+donde los coeficientes \(a_{i,j}\) y los términos independientes \(b_i\) son números dados, y las incógnitas \(x_1,\dots,x_n\) son las que buscamos. El SEL puede representarse de forma compacta usando la notación matricial
+\[
+  A\,\mathbf{x} = \mathbf{b},
+\]
+con \(A\in\mathbb{R}^{m\times n}\), \(\mathbf{x}\in\mathbb{R}^n\) y \(\mathbf{b}\in\mathbb{R}^m\).
+
+\vspace{5pt}
+
+\paragraph{Clasificación mediante el rango}
+
+Para decidir si un SEL tiene solución, y en qué forma, se emplea el concepto de rango de una matriz. El rango de \(A\), denotado \(\mathrm{rang}(A)\), es el número máximo de filas (o columnas) linealmente independientes. Si se forma la matriz aumentada \([A\mid \mathbf{b}]\in\mathbb{R}^{m\times(n+1)}\), entonces el teorema de Rouché-Frobenius afirma que:
+\begin{itemize}
+  \item El sistema es \hl{compatible} (tiene al menos una solución) si y solo si
+
+  \[
+  \mathrm{rang}(A) = \mathrm{rang}([A\mid \mathbf{b}]).
+  \]
+  \item Dentro de los compatibles, es \hl{determinado} (solución única) cuando
+  \(\mathrm{rang}(A) = n\) (el número de incógnitas);
+  en caso contrario, se dice \hl{indeterminado} y posee infinitas soluciones.
+  \item El sistema es \hl{incompatible} (no tiene solución) si
+  \(\mathrm{rang}(A) < \mathrm{rang}([A\mid \mathbf{b}])\).
+\end{itemize}
+
+En la práctica el rango se calcula por eliminación de Gauss: al triangular la matriz, el número de filas no nulas en la forma escalonada es precisamente el rango.
+
+\vspace{5pt}
+
+\paragraph{Métodos de resolución}
+
+Desde el punto de vista práctico, existen varias técnicas para obtener las soluciones:
+
+En primer lugar, el \textit{método de sustitución} consiste en despejar una incógnita de una ecuación y sustituirla en las restantes, reduciendo progresivamente el número de incógnitas hasta resolver una ecuación en una sola variable. A continuación se retrocede sustituyendo cada valor hallado en los despejes previos. Este procedimiento es sencillo pero engorroso cuando hay más de tres incógnitas.
+
+Una variante, el \textit{método de igualación}, despeja la misma incógnita en dos ecuaciones diferentes, iguala esas expresiones y elimina así una variable de todo el sistema. Se repite hasta obtener una ecuación con una sola incógnita y luego se retroalimenta.
+
+Para casos con muchas ecuaciones y variables, el \textit{método de eliminación de Gauss} resulta más sistemático: se forman operaciones elementales (intercambio de filas, multiplicar una fila por escalar distinto de cero, sumar un múltiplo de una fila a otra) para llevar la matriz aumentada a una forma triangular superior. En esa forma, cada ecuación sencilla permite el despeje directo de una incógnita (proceso llamado ``descenso'' o ``back-substitution''). Si se continúa hasta reducir a la matriz identidad en el bloque de coeficientes, se obtiene el \textit{método de Gauss-Jordan}, que produce la solución inmediatamente sin necesidad de retroceder.
+
+Cuando el sistema es cuadrado (\(m=n\)) y el determinante de \(A\) es distinto de cero, se puede invocar la \textit{regla de Cramer}: cada incógnita \(x_j\) se calcula como
+\[
+x_j = \frac{\det(A_j)}{\det(A)},
+\]
+donde \(A_j\) se obtiene de \(A\) reemplazando su columna \(j\) por el vector \(\mathbf{b}\). El coste de calcular determinantes hace que este método sea eficiente sólo para pequeñas dimensiones. Alternativamente, si \(\det(A)\neq 0\), es posible computar directamente la \textit{matriz inversa} \(A^{-1}\) y resolver
+\[
+\mathbf{x} = A^{-1}\,\mathbf{b}.
+\]
+Para sistemas de gran tamaño o con estructuras especiales (por ejemplo, muy dispersos), se emplean métodos iterativos como Jacobi, Gauss-Seidel o mínimos cuadrados, que aproximan la solución por sucesivas iteraciones y suelen converger cuando la matriz de coeficientes cumple propiedades de diagonal dominante o positividad definida.
+
+\subparagraph{Ejemplo ilustrativo}
+
+Supongamos el sistema
+\[
+\begin{cases}
+x + 2y - z = 3,\\
+2x - y + 3z = -1,\\
+-\,x + y + 2z = 4.
+\end{cases}
+\]
+La matriz de coeficientes y vector independiente son
+\[
+A = \begin{pmatrix}
+1 & 2 & -1\\
+2 & -1 & 3\\
+-1 & 1 & 2
+\end{pmatrix},\quad
+\mathbf{b} = \begin{pmatrix}3\\-1\\4\end{pmatrix}.
+\]
+Al aplicar eliminación de Gauss sobre \([A\mid \mathbf{b}]\) obtenemos tras operaciones elementales una forma escalonada de rango 3 igual al número de incógnitas, luego el sistema es compatible y determinado. El back-substitution conduce a la única solución \((x,y,z) = (1,\,0,\,2)\).
+
+Si en cambio reemplazáramos \(\mathbf{b}\) por otro vector que rompiera la consistencia de última fila, podríamos obtener un pivote cero en el bloque de coeficientes pero un término independiente distinto de cero, lo que revelaría rango aumentado y, por tanto, un sistema incompatible.
+
+En síntesis, para abordar un SEL conviene en primer lugar formularlo en notación matricial, calcular rangos de \(A\) y de \([A\mid\mathbf{b}]\) para determinar su compatibilidad y grado de determinación, y luego aplicar el método que resulte más adecuado según el tamaño, la estructura y la dimensión: sustitución o igualación para casos muy pequeños, Gauss o Gauss-Jordan para sistemas de mediano tamaño, Cramer o inversa cuando \(A\) es cuadrada y no singular, e iterativos cuando el sistema es muy grande o disperso.
+
+\vspace{5pt}
+
+\paragraph{Método de Gauss-Jordan para resolución de SEL}
+
+El método de Gauss-Jordan es una extensión del procedimiento de eliminación de Gauss que lleva la matriz aumentada \([A\mid \mathbf b]\) no sólo a forma escalonada, sino a la forma escalonada reducida (RREF). En esta forma cada columna de pivote contiene un único 1 y ceros en todas las demás posiciones, de modo que la solución del sistema queda inmediatamente visible en la columna de términos independientes.
+
+El procedimiento general es el siguiente. Partimos de la matriz aumentada
+\[
+\bigl[A\mid \mathbf b\bigr]=
+\begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} & \bigm| & b_1\\
+a_{21} & a_{22} & \cdots & a_{2n} & \bigm| & b_2\\
+\vdots & \vdots & \ddots & \vdots & \bigm| & \vdots\\
+a_{m1} & a_{m2} & \cdots & a_{mn} & \bigm| & b_m
+\end{pmatrix}.
+\]
+
+Empleamos operaciones elementales de fila (intercambiar filas, multiplicar una fila por escalar distinto de cero, sumar un múltiplo de una fila a otra) para alcanzar RREF:
+\begin{itemize}
+  \item Primero se localiza el primer pivote, es decir, el primer coeficiente no nulo de la fila superior izquierda. Si no está en la fila adecuada, se intercambian filas para llevarlo a la posición \((1,1)\).
+  \item A continuación se escala la fila 1 para que el pivote valga exactamente 1.
+  \item Luego se eliminan todos los demás elementos de esa columna: para cada fila \(i\neq1\), se resta de la fila \(i\) el múltiplo adecuado de la fila 1 de forma que el resto quede 0.
+  \item Se prosigue al siguiente pivote en la submatriz que queda descartando la fila 1 y la columna 1, y se repite el proceso (incluir intercambio si es necesario, escala a 1 y eliminación de arriba y abajo).
+\end{itemize}
+
+Al finalizar estos pasos para todas las columnas de pivote, la parte izquierda será una matriz identidad (o bien una matriz escalonada reducida si el sistema tiene infinitas soluciones), y la columna de la derecha contendrá los valores de las incógnitas.
+
+Para ver con claridad cómo funciona, consideremos de nuevo el sistema
+\[
+\begin{cases}
+x + 2y - z = 3,\\
+2x - y + 3z = -1,\\
+-\,x + y + 2z = 4.
+\end{cases}
+\]
+La matriz aumentada inicial es
+\[
+\left[\begin{array}{ccc|c}
+1 & 2 & -1 & 3\\
+2 & -1 & 3 & -1\\
+-1 & 1 & 2 & 4
+\end{array}\right].
+\]
+
+\noindent \textbf{1.} Ya tenemos pivote \(a_{11}=1\). Para anular en columna 1:
+\begin{itemize}
+  \item \(\text{Fila} ~ 2 \leftarrow ~ \text{Fila} ~ 2 - 2\cdot\text{Fila} ~ 1\)
+  \item \(\text{Fila} ~ 3 \leftarrow ~ \text{Fila} ~ 3 + \text{Fila} ~ 1\)
+\end{itemize}
+Esto arroja
+\[
+\left[\begin{array}{ccc|c}
+1 & 2 & -1 & 3\\
+0 & -5 & 5 & -7\\
+0 & 3 & 1 & 7
+\end{array}\right].
+\]
+
+\noindent \textbf{2.} El siguiente pivote deseamos en posición \((2,2)\). Dividimos la fila 2 por \(-5\) para obtener un 1:
+\[
+\left[\begin{array}{ccc|c}
+1 & 2 & -1 & 3\\
+0 & 1 & -1 & 7/5\\
+0 & 3 & 1 & 7
+\end{array}\right].
+\]
+
+Luego anular en esa columna sobre y bajo:
+\begin{itemize}
+  \item \(\text{Fila} ~ 1 \leftarrow ~ \text{Fila} ~ 1 - 2\cdot\text{Fila} ~ 2\)
+  \item \(\text{Fila} ~ 3 \leftarrow ~ \text{Fila} ~ 3 - 3\cdot\text{Fila} ~ 2\)
+\end{itemize}
+
+\[
+\left[\begin{array}{ccc|c}
+1 & 0 & 1 & 1/5\\
+0 & 1 & -1 & 7/5\\
+0 & 0 & 4 & 4/5
+\end{array}\right].
+\]
+
+\noindent \textbf{3.} En \((3,3)\) el pivote es 4; dividimos fila 3 por 4:
+\[
+\left[\begin{array}{ccc|c}
+1 & 0 & 1 & 1/5\\
+0 & 1 & -1 & 7/5\\
+0 & 0 & 1 & 1/5
+\end{array}\right].
+\]
+
+\noindent \textbf{4.} Finalmente, eliminamos arriba:
+\begin{itemize}
+  \item \(\text{Fila} ~ 1 \leftarrow ~ \text{Fila} ~ 1 - 1\cdot\text{Fila} ~ 3\)
+  \item \(\text{Fila} ~ 2 \leftarrow ~ \text{Fila} ~ 2 + 1\cdot\text{Fila} ~ 3\)
+\end{itemize}
+
+\[
+\left[\begin{array}{ccc|c}
+1 & 0 & 0 & 0\\
+0 & 1 & 0 & 2\\
+0 & 0 & 1 & 1/5
+\end{array}\right].
+\]
+
+La solución es \(x=0\), \(y=2\), \(z=\tfrac15\).
+
+Cuando el sistema es compatible e indeterminado, al terminar quedan algunas columnas sin pivote; entonces esas variables se consideran libres y se expresan en función de parámetros. Si aparece una fila con todos coeficientes cero y el término independiente distinto de cero, el sistema es incompatible.
+
+En síntesis, Gauss-Jordan aporta como ventaja principal que no requiere “descenso” posterior: una vez en RREF se leen directamente todas las incógnitas. Es especialmente útil cuando se precisa la matriz inversa, pues basta aplicar Gauss-Jordan a \([A\mid I]\) y al final el bloque derecho será \(A^{-1}\). Su coste computacional es mayor que la eliminación de Gauss pura, por lo que para resolver sistemas muy grandes suele preferirse ésta última combinada con back-substitution.

@@ -715,12 +715,12 @@ Para tener un contexto previo, ver el siguiente video: \href{https://www.youtube
   \end{tcolorbox}
 
   \begin{tcolorbox}[interesting_data, title=¿Qué significa variable superflua?]
-    Por otro lado, la \textbf{variable superflua} es aquella que se agrega a una restricción de la forma \(A_i x \geq b_i\) para transformarla en una igualdad, y representa la cantidad de recursos que se fabrican más de lo que se necesita.
+    Por otro lado, la \textbf{variable superflua} es aquella que se agrega a una restricción de la forma \(A_i x \geq b_i\) para transformarla en una igualdad, y representa la cantidad en que el lado izquierdo de la restricción \textbf{excede} el requisito mínimo establecido por el lado derecho.
 
-    \textit{Ejemplo}: si se requieren como mínimo 54 toneladas de mineral, pero se extraen 60 toneladas, entonces la variable superflua vale \(60 - 54 = 6\) toneladas, y representa el exceso de toneladas de mineral que se extraen más de lo que se necesita. 
+    \textit{Ejemplo}: si se requieren como mínimo 54 toneladas de mineral, pero se extraen 60 toneladas, entonces la variable superflua vale \(60 - 54 = 6\) toneladas, y representa el exceso de toneladas de mineral que se extrae. 
   \end{tcolorbox}
 
-  \noindent Las restricciones de nuestro PPL que deben cumplir con esta condición son:
+  \noindent Volviendo al problema original, las restricciones que no cumplen la tercer condición son:
   \begin{align*}
     5x_1 - 8y_3 &\geq 100 \\
     -x_1 + 6y_2 - 6y_2' &\geq 100 \\
@@ -766,7 +766,7 @@ En términos del álgebra lineal, una \textit{solución básica} es una solució
 \[
 AX = B
 \]
-Este sistema, representado de forma matricial, no es más que las restricciones del PPL en forma estándar.
+Este sistema, representado de forma matricial, no es más que las restricciones del PPL en forma estándar. Si desea repasar el tema de sistemas de ecuaciones lineales puede consultar el capítulo \ref{sec:sel}.
 
 \paragraph{¿Cómo se define una \textit{solución básica}?}
 
@@ -805,9 +805,9 @@ Supón que tienes este sistema (ya convertido a forma estándar):
 
 Aquí hay 4 variables y 2 ecuaciones. Una solución básica se obtiene eligiendo, por ejemplo, las variables \(x_1\) y \(x_3\) como básicas, y fijando \(x_2 = x_4 = 0\).
 
-Al resolver el sistema para \(x_1\) y \(x_3\), obtenemos \(x_1 = 3.5, x_3 = 0.5\). Como todas las variables son no negativas, entonces \(x_1 = 3.5, x_3 = 0.5\) es una \hl{solución básica factible}.
+Al resolver el sistema para \(x_1\) y \(x_3\), obtenemos \(x_1 = 3.5;\, x_3 = 0.5\). Como todas las variables son no negativas, entonces \(x_1 = 3.5;\, x_3 = 0.5\) es una \hl{solución básica factible}.
 
-Ahora veamos qué pasa si elegimos las variables \(x_1\) y \(x_2\) como básicas, y fijamos \(x_3 = x_4 = 0\). Al resolver el sistema para \(x_1\) y \(x_2\) el resultado da \(x_1 = 5, x_2 = -1\). Como \(x_2\) es negativo, entonces \textbf{no es} una solución básica factible, simplemente es una solución básica al sistema.
+Ahora veamos qué pasa si elegimos las variables \(x_1\) y \(x_2\) como básicas, y fijamos \(x_3 = x_4 = 0\). Al resolver el sistema para \(x_1\) y \(x_2\) el resultado da \(x_1 = 5;\, x_2 = -1\). Como \(x_2\) es negativo, entonces \textbf{no es} una solución básica factible, simplemente es una solución básica al sistema.
 \vspace{5mm}
 \hrule
 
@@ -841,7 +841,7 @@ Como vimos, Simplex también requiere de una solución básica factible (SBF) in
 
 \subsubsection{Método de la Fase I: construcción del problema auxiliar}
 
-Esta fase tiene como objetivo encontrar una solución básica factible inicial para un problema de programación lineal (PPL) cuando no está disponible de forma directa.
+Esta fase tiene como objetivo encontrar una solución básica factible inicial para un problema de programación lineal (PPL) cuando no está disponible de forma directa, aunque también puede usarse para aquellos problemas que tienen una SBF evidente.
 
 Recordemos que el método Simplex parte de una SBF y se mueve de una a otra mejorando el valor de la función objetivo. Por eso, si no contamos con una SBF al comienzo, necesitamos construir un problema auxiliar que nos la proporcione. Esto es lo que hace la Fase I.
 
@@ -915,7 +915,7 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
   \[
     \omega = a_1 + a_2
   \]
-  Nuestro nuevo problema (problema auxiliar) es:
+  Nuestro nuevo problema (auxiliar) es:
   \begin{align*}
     \text{minimizar} \quad  &\omega = a_1 + a_2\\[3pt]
     \text{sujeto a:} \quad  &x_1 + x_2 + a_1 = 4\\
@@ -990,10 +990,30 @@ Este tipo de estructura es ideal para que las variables artificiales sirvan como
 \[
   \beta = \{a_1, a_2\}
 \]
-Esto garantiza que la matriz base \(A_\beta\) es la \textit{matriz identidad} \(I_2\), y por lo tanto, \(X_\beta = B\) tiene solución inmediata:
-\[
-  x_{a_1} = 4, ~~ x_{a_2} = 2
-\]
+Esto garantiza que la matriz base \(A_\beta\) es la \textit{matriz identidad} \(I_2\), y por lo tanto, \(X_\beta = B\) tiene solución inmediata. En forma matricial es:
+\begin{align*}
+  A_\beta =
+  \begin{pmatrix}
+    1 & 0\\
+    0 & 1
+  \end{pmatrix}
+  \quad
+  X_\beta =
+  \begin{pmatrix}
+    a_1\\
+    a_2
+  \end{pmatrix}
+  \quad
+  B =
+  \begin{pmatrix}
+    4\\
+    2
+  \end{pmatrix}
+\end{align*}
+Entonces:
+\begin{align*}
+  A_\beta X_\beta = B \quad \rightarrow \quad x_{a_1} = 4, ~~ x_{a_2} = 2
+\end{align*}
 Entonces ya tenemos una \textbf{SBF} inicial (aunque no es deseable por contener variables artificiales).
 
 \paragraph{Cálculo de \(Z_j\) y \(Z_{j}-c_j\) (costos reducidos)}
