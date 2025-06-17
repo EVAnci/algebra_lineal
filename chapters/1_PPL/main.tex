@@ -1019,6 +1019,92 @@ Entonces:
 \end{align*}
 Entonces ya tenemos una \textbf{SBF} inicial (como vimos anteriormente).
 
+\paragraph{Introducción de costos reducidos}
+
+Los costos reducidos (también llamados costos relativos) son un concepto fundamental para entender cómo el método Simplex decide qué variable entra en la base en cada iteración.
+
+En un problema de programación lineal de la forma:
+\[
+\begin{aligned}
+\text{Maximizar} \quad & z = c^T x \\
+\text{s.a.} \quad & Ax = b \\
+& x \geq 0
+\end{aligned}
+\]
+
+El costo reducido de una variable \(x_j\) es:
+\[
+\bar{c}_j = c_j - c_B^T B^{-1} A_j
+\]
+Donde:
+\begin{itemize}
+  \item \(c_j\) es el coeficiente de \(x_j\) en la función objetivo original.
+  \item \(c_B\) es el vector de los coeficientes de las variables básicas en la función objetivo.
+  \item \(B\) es la matriz de las columnas de \(A\) asociadas a las variables básicas.
+  \item \(A_j\) es la columna de la matriz \(A\) correspondiente a la variable \(x_j\).
+\end{itemize}
+
+Este valor mide cuánto aumentaría (o disminuiría) la función objetivo si se introdujera la variable \(x_j\) en la base.
+
+El método Simplex se mueve de un vértice a otro del poliedro factible buscando mejorar la función objetivo. El costo reducido de una variable indica \textit{la pendiente} en la dirección asociada a esa variable:
+\begin{itemize}
+  \item Si \(\bar{c}_j < 0\) en un problema de maximización, entonces introducir \(x_j\) puede mejorar la solución (la variable entra a la base).
+  \item Si \(\bar{c}_j > 0\), introducir \(x_j\) empeoraría la solución, por lo tanto no se la considera.
+  \item Si \(\bar{c}_j = 0\), introducir esa variable no cambia el valor de la función objetivo (es decir, hay degeneración o soluciones múltiples).
+\end{itemize}
+Para nuestro ejemplo, teníamos la función objetivo auxiliar:
+\[
+\omega = a_1 + a_2
+\Rightarrow z = -\omega = -a_1 - a_2
+\]
+
+En la primera tabla Simplex que armamos:
+
+```latex
+\[
+\begin{array}{c|rrrrr|r}
+\text{Base} & x_1 & x_2 & s_2 & a_1 & a_2 & \text{Término independiente} \\
+\hline
+a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+\hline
+z & -2 & 0 & 1 & 0 & 0 & -6 \\
+\end{array}
+\]
+```
+
+Fijate en la **última fila** de la tabla (la fila de $z$). Es allí donde se reflejan los **costos reducidos** de las variables **no básicas**. Cada entrada de esa fila es precisamente:
+
+$$
+\bar{c}_j = c_j - z_j
+$$
+
+* En este caso, $x_1$ tiene un costo reducido de $-2$
+* $x_2$ tiene costo reducido 0
+* $s_2$ tiene costo reducido $1$
+* $a_1$ y $a_2$ tienen costos reducidos $0$ porque ya están en la base, y sus coeficientes están anulados por la forma canónica
+
+---
+
+### ¿Qué representa el valor $-2$ en $x_1$?
+
+Significa que si 
+reemplazás una de las variables básicas actuales por $x_1$, la función $z = -\omega$ aumentaría 2 unidades por cada unidad que entre $x_1$ en la base. Como estamos maximizando $-\omega$, esto equivale a **minimizar $\omega$**.
+
+Es por eso que $x_1$ es la **mejor candidata para entrar a la base** en esta iteración.
+
+---
+
+### Conclusión
+
+Los costos reducidos en la fila de $z$ indican para cada variable **cuánto se modificaría la función objetivo si esa variable entra en la base**. En el método Simplex:
+
+* Se elige como **entrante** a la variable con el **costo reducido más negativo** (en maximización)
+* Se detiene el algoritmo cuando **todos los costos reducidos son mayores o iguales a cero**
+
+¿Te gustaría que calcule explícitamente los costos reducidos en este ejemplo usando la fórmula $\bar{c}_j = c_j - c_B^T B^{-1} A_j$? Podemos hacerlo paso a paso.
+
+
 Ahora si, el siguiente paso consiste en aplicar el método Simplex para hallar una \textbf{solución básica factible inicial (SBFI)} que sirva de punto de partida para el problema original. Para ello, se construye la \textbf{primera tabla del método Simplex correspondiente al problema auxiliar}.
 
 \paragraph{Componentes de la tabla}
