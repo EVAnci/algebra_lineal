@@ -1,0 +1,151 @@
+\subsection{Planteamiento de problemas}
+
+Los problemas de optimización se plantean muy a menudo verbalmente, es decir, en palabras. Ya se verá un ejemplo a continuación (ejemplo \ref{ej:ppl_verbal}) de un problema de optimización planteado verbalmente. El procedimiento para la solución consiste en realizar un modelo del problema para poder resolverlo mediante técnicas de programación lineal.
+
+\begin{tcolorbox}[interesting_data, title=¿Existe solo una forma de plantear problemas?]
+  Existen múltiples formas de plantear un problema de optimización, por lo que los dos métodos que se proponen en este documento puedes tomarlos como sugerencias.
+\end{tcolorbox}
+
+\begin{quote}
+  \ejemplo\label{ej:ppl_verbal}: Una compañía de petróleos produce en sus refinerías gasóleo (\(G\)), gasolina sin plomo (\(P\)) y gasolina súper (\(S\)) a partir de dos tipos de crudos, \(C_1\) y \(C_2\). Las refinerías están dotadas de dos tipos de tecnologías. La tecnología nueva (\(T_n\)) utiliza en cada sesión de destilación \(7\) unidades de \(C_1\) y \(12\) de \(C_2\), para producir \(8\) unidades de \(G\), \(6\) de \(P\) y \(5\) de \(S\). Con la tecnología antigua (\(T_a\)), se obtienen en cada destilación \(10\) unidades de \(G\), \(7\) de \(P\) y \(4\) de \(S\), con un gasto de \(10\) unidades de \(C_1\) y \(8\) de \(C_2\).
+
+  Estudios de la demanda permiten estimar que para el próximo mes se deben producir al menos \(900\) unidades de \(G\), \(300\) de \(P\) y entre \(800\) y \(1700\) de \(S\). La disponibilidad de \(C_1\) es de \(1400\) unidades y de \(C_2\) de \(2000\) unidades. Los beneficios por unidad producida son:
+  \begin{table}[ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    Gasolina & \textit{G} & \textit{P} & \textit{S} \\ \hline
+    Beneficio/u & 4 & 6 & 7 \\ \hline
+    \end{tabular}
+  \end{table}
+
+  La compañía desea conocer cómo utilizar ambos procesos de destilación, que se pueden utilizar total o parcialmente, y los crudos disponibles para que el beneficio sea el máximo.
+\end{quote}
+\vspace{5mm}
+\hrule
+\vspace{5mm}
+
+Este problema es un ejemplo típico de un PPL verbal. Hay una cantidad que se desea optimizar y un conjunto de restricciones que se deben cumplir. En este caso, se desea maximizar el beneficio y las restricciones son las cantidades de crudos disponibles y las cantidades de gasolina que se deben producir. Más adelante vamos a plantear el PPL asociado a este problema y vamos a resolver otros problemas. De momento con darnos a la idea de cómo es un problema verbal es suficiente.
+
+\subsubsection{Métodos de planteamiento de PPLs}
+
+Como dijimos anteriormente, existen múltiples formas de plantear un problema de optimización, por lo que los dos métodos que se proponen son el método recomendado por el libro Bronson (sacado de la cátedra) y el método que se propone en el libro de Alfaomega (\cite{PPL_Alfaomega}). 
+
+Luego de describir los métodos de planteamiento de PPLs, el ejemplo \ref{ej:modelo_de_ppl_verbal} muestra el planteo del ejemplo \ref{ej:ppl_verbal} con el método de Alfaomega.
+
+\begin{tcolorbox}[title=Método del libro Bronson]
+  Luego de tener un enunciado verbal de un problema de optimización, se deben seguir los siguientes pasos:
+  \begin{enumerate}
+    \item Determínese la cantidad que se optimizará y exprésese como una función matemática. Hacer esto sirve para definir las variables de decisión.
+    \item Identifíquese todos los requerimientos, restricciones y limitaciones estipulados, y exprésense matemáticamente. Estos requerimientos constituyen las restricciones.
+    \item Exprésense todas aquellas condiciones ocultas. Tales condiciones no están estipuladas explícitamente, pero se hacen evidentes a partir de la situación física para la que se está planteando el modelo. Generalmente, involucran requerimientos de no negatividad o de ser enteras, para las variables de decisión.
+  \end{enumerate}  
+\end{tcolorbox}
+
+\noindent Por otro lado, el método que se proponen en el libro PPL de Alfaomega es el siguiente:
+\begin{tcolorbox}[title=Método del libro Alfaomega]
+  \begin{enumerate}
+    \item \textit{Reconocimiento de las variables de decisión}: las variables de decisión son las variables sobre las que el decisor tiene control y que se suponen continuas. Representan productos o bienes a producir, almacenar o vender, disponibilidad o adquisición de materias primas, etc.
+    \item \textit{Identificación de las restricciones}: las restricciones representan las limitaciones o requisitos y definen la \textit{región factible} del problema. Representan el deseo de no exceder un valor específico (\(\leq\)), no descender por debajo de un valor particular (\(\geq\)) o ser igual a un valor particular (\(=\)).
+    \item \textit{Obtención de la función objetivo}: la función objetivo es la que se quiere maximizar o minimizar. Representa el beneficio, renta, ganancias, costos, etc.
+    \item \textit{Formulación del PPL}: cuando se tienen los tres pasos anteriores se puede formular el PPL. La solución de este PPL se denomina \textit{solución óptima} y se estudiará en la proxima sección.
+  \end{enumerate}
+\end{tcolorbox}
+
+\begin{tcolorbox}[mydanger]
+  \textbf{Cuidado:} El paso 2 de la metodología de Alfaomega incluye \textit{todas} las restricciones, incluso aquellas que no están en el enunciado verbal (como no negatividad por ejemplo).
+\end{tcolorbox}
+
+\vspace{5mm}
+\hrule
+\vspace{5mm}
+
+\begin{quote}
+  \ejemplo\label{ej:modelo_de_ppl_verbal}: Tomemos el PPL verbal del ejemplo \ref{ej:ppl_verbal}. Propongo al lector que intente plantear el PPL asociado (no resolver) y luego comparar con la solución. En este caso vamos a modelar el PPL siguiendo el método recomendado por el libro de Alfaomega (segundo método).
+
+  \noindent\textbf{Paso 1: Reconocimiento de las variables de decisión}
+
+  Si bien la consigna puede resultar un poco enredada al principio, si prestamos atención, vemos que al final nos pregunta sobre \hl{cómo usar los procesos de destilación}. Esto nos da un indicio de que lo que se quiere es saber cuánto usar el proceso \(T_n\) y el proceso \(T_a\) para maximizar el beneficio.
+
+  Entonces, las variables sobre las que el vendedor tiene control son:
+  \begin{itemize}
+    \item \(x_1 ~\rightarrow\) cantidad de sesiones de destilación usando el proceso \(T_n\)
+    \item \(x_2 ~\rightarrow\) cantidad de sesiones de destilación usando el proceso \(T_a\)
+  \end{itemize}
+
+  \noindent\textbf{Paso 2: Identificación de las restricciones}
+
+  Tenemos restricciones debidas a las limitaciones en la disponibilidad de ambos tipos de crudos:
+  \begin{itemize}
+    \item Para \(C_1\): \(7x_1 + 10x_2 \leq 1400\)
+    \item Para \(C_2\): \(12x_1 + 8x_2 \leq 2000\)
+  \end{itemize}
+
+  \noindent También se tienen restricciones según las necesidades de refinado que se requieren:
+  \begin{itemize}
+    \item Para Gasóleo (\(G\)): \(8x_1 + 10x_2 \geq 900\)
+    \item Para Sin Plomo (\(P\)): \(6x_1 + 7x_2 \geq 300\)
+    \item Para Super (\(S\)): \((5x_1 + 4x_2 \geq 800) \wedge (5x_1 + 4x_2 \leq 1700)\)
+  \end{itemize}
+
+  \noindent Además no debemos olvidar de tener en cuenta las restricciones implícitas, ya que es obvio que no se pueden realizar destilaciones negativas, se tiene:
+  \begin{itemize}
+    \item \(x_1 \geq 0\)
+    \item \(x_2 \geq 0\)
+  \end{itemize}
+
+  \noindent\textbf{Paso 3: Identificación de la función objetivo}
+
+  El beneficio será la suma de las cantidades de cada refinado que se vende, por lo que:
+  \begin{itemize}
+    \item Cantidad de Gasóleo: \(8x_1 + 10x_2 ~ \rightarrow G \times \text{Precio: } 4(8x_1 + 10x_2) = 32x_1 + 40x_2\)
+    \item Cantidad de Sin Plomo: \(6x_1 + 7x_2 ~ \rightarrow P \times \text{Precio: } 6(6x_1 + 7x_2) = 36x_1 + 42x_2\)
+    \item Cantidad de Super: \(5x_1 + 4x_2 ~ \rightarrow S \times \text{Precio: } 7(5x_1 + 4x_2) = 35x_1 + 28x_2\) 
+  \end{itemize}
+
+  \noindent Por lo tanto, la función objetivo es:
+  \begin{align*}
+    z &= 32x_1 + 40x_2 + 36x_1 + 42x_2 + 35x_1 + 28x_2 \\
+      &= 103x_1 + 110x_2
+  \end{align*}
+
+  \noindent\textbf{Paso 4: Formulación del PPL}
+  \begin{align*}
+    \text{maximizar:} \quad   &z = 103x_1 + 110x_2 \\[3pt]
+    \text{sujeto a:} \quad    &7x_1 + 10x_2 \leq 1400 \\
+                              &12x_1 + 8x_2 \leq 2000 \\
+                              &8x_1 + 10x_2 \geq 900 \\
+                              &6x_1 + 7x_2 \geq 300 \\
+                              &5x_1 + 4x_2 \geq 800 \\
+                              & 5x_1 + 4x_2 \leq 1700 \\
+                              &x_1 \geq 0 \\
+                              &x_2 \geq 0
+  \end{align*}
+\end{quote}
+
+Es muy importante entender la metodología del planteo, ya que si el modelo realizado no es adecuado, el resultado obtenido cuando se resuelva el problema será, muy probablemente, incorrecto.
+
+Al intentar plantear el problema del ejemplo \ref{ej:ppl_verbal} tal vez te hayan surgido algunas dudas, así que vamos a realizar un pequeño repaso sobre algunos detalles en el procedimiento del ejemplo \ref{ej:modelo_de_ppl_verbal}.
+
+\noindent\textbf{¿Por qué se tomaron \(T_n\) y \(T_a\) como variables de decisión y no \(C_1\) y \(C_2\)?}
+
+Tal vez podrías pensar que \(C_1\) y \(C_2\) pueden ser buenos candidatos a variables de decisión, ya que el vendedor puede controlar cuánta cantidad de cada tipo de curdo usa en cada tecnología. Entonces intentemos generar un modelo con \(C_1\) y \(C_2\) como variables de decisión.
+
+Como ya sabemos que las variables de decisión son \(C_1\) y \(C_2\) entonces el paso 1 resulta:
+\begin{itemize}
+  \item \(x_1 ~\rightarrow\) cantidad de crudo \(C_1\) utilizado
+  \item \(x_2 ~\rightarrow\) cantidad de crudo \(C_2\) utilizado
+\end{itemize}
+
+\noindent En el paso 2 tenemos las restricciones:
+\begin{enumerate}
+  \item Según la tecnología usada
+  \item Según la cantidad de crudo disponible
+  \item Según la cantidad de refinado que se debe producir dependiendo de la tecnología usada
+  \item Restricción de no negatividad (no se pueden refinar cantidades negativas)
+\end{enumerate}
+Si bien de alguna forma rebuscada puede llegarse a un PPL equivalente, vemos que es mucho más complicado, ya que la tercer restricción está relacionando los crudos con el destilado y la tecnología, por lo que serán restricciones largas y complejas de modelar correctamente.
+
+Es de mucha importancia tomarse el tiempo de analizar bien cuáles son las variables de decisión, ya que de ahí partirá todo el modelo. En caso de que usted elija utilizar el procedimiento de formulación de modelos del libro de Bronson, el paso 1 tiene este riesgo implícito, ya que si se genera una función objetivo cuyas variables de decisión no sean las adecuadas, el modelo puede terminar por ser incorrecto.
+
+En este documento se ha usado el enfoque de Alfaomega ya que la idea de tener un paso específico para analizar el enunciado y tomar las variables de decisión es muy importante y no debe pasarse por alto.

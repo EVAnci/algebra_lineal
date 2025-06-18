@@ -1,0 +1,33 @@
+\subsection{Introducción}
+
+La programación lineal es una técnica matemática de optimización que se utiliza para encontrar la mejor solución posible a un problema cuando se tienen recursos limitados y múltiples opciones para usar esos recursos.
+
+¿Qué es exactamente? Es un método que permite maximizar o minimizar una \hl{función objetivo} (como ganancias, costos, tiempo, etc.) sujeta a un conjunto de \hl{restricciones lineales}. Tanto la función objetivo como las restricciones se expresan mediante ecuaciones o inecuaciones lineales, es decir, donde las variables aparecen elevadas solo a la primera potencia.
+
+\noindent\textbf{Componentes principales:}
+\begin{itemize}
+  \item \textbf{Función objetivo}: Lo que queremos optimizar (maximizar ganancias o minimizar costos, por ejemplo)
+  \item \textbf{Variables de decisión}: Las cantidades que podemos controlar y necesitamos determinar
+  \item \textbf{Restricciones}: Las limitaciones del problema (presupuesto disponible, tiempo, materiales, capacidad de producción, etc.)
+\end{itemize}
+
+\subsection{Problemas de Optimización}
+
+En un \textit{problema de optimización}, se busca maximizar o minimizar una cantidad específica llamada \hl{objetivo}, la cual depende de un número finito de variables de entrada. Estas variables pueden ser independientes entre sí o estar relacionadas a través de una o más restricciones.
+
+\ejemplo\label{ej:ppl_lineal}: El siguiente problema:
+\begin{align*}
+  \text{max:} \quad         &z = 3x_1 + 2x_2 \\[3pt]
+  \text{sujeto a:} \quad    &x_1 + x_2 \leq 10 \\
+                            &x_1,x_2 \geq 0
+\end{align*}
+es un problema de optimización para el objetivo \(z\). Las variables de entrada son \(x_1\) y \(x_2\) y se denominan \textit{variables de decisión}, que deben cumplir dos restricciones: \(x_1 + x_2 \leq 10\) y \(x_1,x_2 \geq 0\).
+
+El problema del ejemplo \ref{ej:ppl_lineal} pide maximizar \(z = 3x_1 + 2x_2\), es decir, encontrar los valores de \(x_1\) y \(x_2\) que maximicen \(z\) bajo las restricciones dadas.
+
+En general, se llama PPL a un problema de optimización que se puede resolver mediante técnicas de programación lineal. Un problema de programación matemático es lineal si tanto la función objetivo \(z\) como las restricciones son lineales. Esto es:
+\begin{align*}
+  \text{optimizar:} \quad         &z = f(x_1, x_2, \ldots, x_n) \\[3pt]
+  \text{sujeto a:} \quad    &g_i(x_1, x_2, \ldots, x_n) \thicksim  b_i \qquad \forall i \in \{1, 2, \ldots, m\} \\
+\end{align*}
+donde las restricciones son ecuaciones o desigualdades lineales, es decir emplean alguno de los símbolos \(\leq\), \(\geq\) o \(=\).
