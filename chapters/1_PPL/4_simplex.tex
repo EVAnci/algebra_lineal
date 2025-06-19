@@ -8,7 +8,7 @@ El método simplex se mueve de un vértice del poliedro factible a un vértice a
   \item \textbf{Movimiento}: Desplazarse a lo largo de la arista hasta el siguiente vértice
   \item \textbf{Actualización de la tabla}: El nuevo vértice se convierte en la nueva solución básica
 \end{itemize}
-Más adelante veremos un ejemplo simple para comprender mejor el método Simplex, pero antes necesitamos ver qué necesitamos para usar el método Simplex.
+Más adelante veremos un ejemplo simple para comprender mejor el método Simplex, pero antes vamos a ver qué necesitamos para usar este método, ya que, como hemos dicho anteriormente, se requiere ciertas condiciones para su aplicación.
 
 \paragraph{Condiciones para usar el método Simplex}
 
@@ -43,7 +43,7 @@ Como vimos anteriormente, un PPL está en su forma estándar si cumple las condi
 \end{enumerate}
 En un momento se explicará el concepto de variables de holgura y variables superfluas.
 
-Para tener un contexto previo, ver el siguiente video: \href{https://www.youtube.com/watch?v=6f5K3O7yUzU}{\texttt{forma estándar en programación lineal - YouTube}}, donde se muestran algunos ejemplos de cómo transformar un PPL a forma estándar. De igual manera, en este documento se mostrará el proceso de transformación a formato estándar de un PPL. 
+Para tener un contexto previo, ver el siguiente video: \href{https://www.youtube.com/watch?v=6f5K3O7yUzU}{\texttt{forma estándar en prog- ramación lineal - YouTube}}\footnote{Si usted tiene una copia impresa, puede buscar el título del video ``forma estándar en programación lineal'' en YouTube}, donde se muestran algunos ejemplos de cómo transformar un PPL a forma estándar. De igual manera, en este documento se mostrará el proceso de transformación a formato estándar de un PPL. 
 
 \ejemplo\label{ej:transformacion_ppl_forma_estandar}: Transformación de un PPL a forma estándar.
 \begin{quote}
@@ -138,11 +138,11 @@ Para tener un contexto previo, ver el siguiente video: \href{https://www.youtube
 
   Estas variables que se han agregado a las restricciones deben aparecer en la función objetivo, sin embargo, como no son variables de decisión, su coeficiente en la función objetivo debe ser cero. Por lo que el PPL transformado a forma estándar es:
   \begin{align*}
-    \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
-    \text{sujeto a:} \quad    &5x_1 + 0y_2 - 0y_2' - 8y_3 - s_1 - 0s_2 + 0h_1 = 100 \\
-                              &-x_1 + 6y_2 - 6y_2' + 0y_3 - 0s_1 - s_2 + 0h_1 = 100 \\
-                              &0x_1 -6y_2 + 6y_2' - 4y_3 - 0s_1 - 0s_2 + h_1 = 100 \\
-                              &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
+    \text{maximizar:} \quad   z = -8x_1& + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
+    \text{sujeto a: } ~\qquad\quad   5x_1& + 0y_2 - 0y_2' - 8y_3 - s_1 - 0s_2 + 0h_1 = 100 \\
+                              -x_1& + 6y_2 - 6y_2' + 0y_3 - 0s_1 - s_2 + 0h_1 = 100 \\
+                              0x_1& -6y_2 + 6y_2' - 4y_3 - 0s_1 - 0s_2 + h_1 = 100 \\
+                              x_1&,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
   \end{align*}
   Si quitamos todos los términos con coeficiente nulo de las restricciones queda:
   \begin{align*}
@@ -158,33 +158,114 @@ Para tener un contexto previo, ver el siguiente video: \href{https://www.youtube
 
 Este es el ``\textit{punto más delicado}''. Para comenzar el método Simplex, se necesita un punto inicial que cumpla todas las restricciones (factible) y sea una solución básica (es decir, con tantas variables básicas como ecuaciones, y el resto en cero).
 
-Como ya vimos, si las restricciones son de tipo \(\leq\) y se agregan variables de \textit{holgura positiva}, entonces la \textbf{SBF} inicial está dada simplemente por poner en cero las variables originales y tomar las variables de holgura como solución. Por otro lado, si las restricciones son de tipo \(\geq\) o \(=\), o si el sistema \textbf{no} tiene una SBF evidente, entonces se debe recurrir a un método auxiliar como el método de la fase I del Simplex o el método de las dos fases.
-
-\paragraph{¿Qué es una solución básica?}
+\paragraph{¿Qué es una \textit{solución básica}?}
 
 En términos del álgebra lineal, una \textit{solución básica} es una solución del sistema lineal:
 \[
 AX = B
 \]
-Este sistema, representado de forma matricial, no es más que las restricciones del PPL en forma estándar. Si desea repasar el tema de sistemas de ecuaciones lineales puede consultar el capítulo \ref{sec:sel}.
+Supongamos que el sistema es compatible y \(A\) tiene rango completo. Entonces existen muchas soluciones \(X\) tal que \(AX=B\). Una solución básica es un tipo especial de solución con propiedades geométricas y algebraicas particulares\footnote{Si desea repasar el tema de sistemas de ecuaciones lineales puede consultar el capítulo \ref{sec:sel}.}. 
 
-\paragraph{¿Cómo se define una \textit{solución básica}?}
-
-Para construir una \textit{solución básica}, se hace lo siguiente:
-\begin{enumerate}
-  \item Se eligen arbitrariamente \(m\) variables del vector \(X\), a las que se llama \textbf{variables básicas}.
-  \item El resto de las \(n - m\) variables se fijan en cero; estas se llaman \textbf{variables no básicas}.
+Una solución básica del sistema \(AX=B\) es un vector \(X \in \mathbb{R}^n\) que se obtiene:
+\begin{itemize}
+  \item seleccionando \(m\) columnas linealmente independientes de la matriz \(A\) (llamadas \textbf{variables básicas}),
+  \item resolviendo el sistema restringido \(\beta X_\beta = B\), donde \(\beta\) es la submatriz formada por esas columnas, llamada base del sistema,
+  \item y asignando \textbf{valor cero} a las \(n - m\) variables restantes (llamadas \textbf{variables no básicas}).
   \item Luego se resuelve el sistema lineal con esas \(m\) incógnitas (las básicas), usando las \(m\) ecuaciones.
-\end{enumerate}
+\end{itemize}
+El vector obtenido se llama \textbf{solución básica asociada a la base \(\beta\)}.
+
 Esto es posible si las columnas de \(A\) correspondientes a las variables básicas son \textbf{linealmente independientes}, lo que permite resolver el sistema.
+
+En términos simples, veamos qué sería una solución básica continuando con el PPL del ejemplo anterior (ejemplo \ref{ej:transformacion_ppl_forma_estandar}):
+
+\begin{quote}
+  \ejemplo{ En el ejemplo habíamos transformado el PPL a su forma estándar, siendo este:}
+  \label{ej:solucion_basica}
+  \begin{align*}
+    \text{maximizar:} \quad   &z = -8x_1 + 16y_2 - 16y_2' + 4y_3 - 0s_1 - 0s_2 + 0h_1 \\[3pt]
+    \text{sujeto a:} \quad    &5x_1 - 8y_3 - s_1 = 100 \\
+                              &-x_1 + 6y_2 - 6y_2' - s_2 = 100 \\
+                              &-6y_2 + 6y_2' - 4y_3 + h_1 = 100 \\
+                              &x_1,\ y_2,\ y_2',\ y_3,\ h_1,\ s_1,\ s_2 \geq 0
+  \end{align*}
+  Si ponemos las restricciones del PPL en forma de sistema de ecuaciones lineales, el sistema resultante es:
+  \[
+    \begin{cases}
+      5x_1 - 8y_3 - s_1 = 100 \\
+      -x_1 + 6y_2 - 6y_2' - s_2 = 100 \\
+      -6y_2 + 6y_2' - 4y_3 + h_1 = 100
+    \end{cases}
+  \]
+  En este caso, las matrices asociadas son:
+  \[
+    A = \begin{pmatrix}
+      5 & 0 & 0 & -8 & 0 & -1 & 0 \\
+      -1 & 6 & -6 & 0 & 0 & 0 & -1 \\
+      0 & -6 & 6 & -4 & 1 & 0 & 0
+    \end{pmatrix},\quad
+    X = \begin{pmatrix}
+      x_1 \\ y_2 \\ y_2' \\ y_3 \\ h_1 \\ s_1 \\ s_2
+    \end{pmatrix},\quad
+    B = \begin{pmatrix}
+      100 \\ 100 \\ 100
+    \end{pmatrix}
+  \]
+  Donde:
+  \begin{itemize}
+    \item La matriz \(A\) es de \(3 \times 7\), es decir, tiene 3 filas y 7 columnas,
+    \item El vector \(X\) es de \(7 \times 1\), es decir, tiene 7 filas y 1 columna,
+    \item El vector \(B\) es de \(3 \times 1\), es decir, tiene 3 filas y 1 columna.
+  \end{itemize}
+  Entonces, \(m=3\) y \(n=7\). Como vimos para obtener una solución básica debemos seleccionar \(m\) columnas aleatorias de \(A\) que sean linealmente independientes. Sin embargo puede darse el caso de que se elija una base que no sea linealmente independiente, en este caso debemos seleccionar otra base. Intentemos seleccionar una base en este ejemplo para visualizar cómo funciona:
+  \[
+  A=\left[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{red!20}{2-1}{4-1}
+    \rectanglecolor{green!20}{2-4}{4-4}
+    \rectanglecolor{blue!20}{2-5}{4-5}
+  ]
+  x_1 & y_2 & y_2' & y_3 & h_1 & s_1 & s_2 \\
+  \hline
+  5 & 0 & 0 & -8 & 0 & -1 & 0 \\
+  -1 & 6 & -6 & 0 & 0 & 0 & -1 \\
+  0 & -6 & 6 & -4 & 1 & 0 & 0
+  \end{NiceMatrix}
+  \right]
+  \]
+  Entonces nuestra submatriz \(\beta\) y la matriz de variables básicas \(X_\beta\) nos quedan:
+  \[
+    \beta = \begin{pmatrix}
+      5 & -8 & 0 \\
+      -1 & 0 & 0 \\
+      0 & -4 & 1 
+    \end{pmatrix} \qquad
+    X_\beta = \begin{pmatrix}
+      x_1 \\ y_3 \\ h_1
+    \end{pmatrix}
+  \]
+  Y el sistema de ecuaciones a resolver es \(\beta X_\beta = B\), es decir:
+  \[
+    \begin{cases}
+      5x_1 - 8y_3 - 0s_1 = 100 \\
+      -1x_1 + 0y_3 - 0s_1 = 100 \\
+      0x_1 - 4y_3 + 1h_1 = 100
+    \end{cases}
+  \]
+  Al resolver este SEL resulta: \(x_1=-100\), \(y_3=-75\) y \(h_1=-200\). Luego, \(y_2 = y_2' = s_1 = s_2 = 0\). Esta es \textbf{una solución básica} del sistema. Aquí se ve claramente que las variables básicas han tomado valores con libertad (negativos en este caso), y las variables no básicas se mantienen en cero. 
+\end{quote}
 
 \paragraph{¿Y qué es una \textit{solución básica factible} (SBF)?}
 
 Una solución básica factible es una solución básica que además satisface:
 \[
-x \geq 0
+x_i \geq 0
 \]
-Es decir, todas las variables (básicas y no básicas) deben ser \textbf{mayores o iguales a cero}. Esta condición es necesaria porque el método Simplex trabaja solamente en la región factible del espacio, que está limitada por las restricciones del problema.
+Es decir, todas las variables (básicas y no básicas) deben ser \textbf{mayores o iguales a cero} (en cuanto a la solución respecta). Esta condición es necesaria porque el método Simplex trabaja solamente en la región factible del espacio, que está limitada por las restricciones del problema.
+
+Las soluciones no básicas siempre tomaran valor cero, de modo que lo único que tenemos que asegurar es que las variables básicas tomen valores no negativos.
+
+Por ejemplo, la solución básica obtenida en el ejemplo anterior (ejemplo \ref{ej:solucion_basica}) no es factible, ya que \(x_1, y_3, h_1 < 0\).
 
 \paragraph{Intuición geométrica}
 
@@ -201,22 +282,27 @@ Supón que tienes este sistema (ya convertido a forma estándar):
   x_1 + x_2 + x_3 &= 4 \\
   2x_1 + 3x_2 + x_4 &= 7 \\
   x_1, x_2, x_3, x_4 &\geq 0
- \end{align*}
+\end{align*}
 
 Aquí hay 4 variables y 2 ecuaciones. Una solución básica se obtiene eligiendo, por ejemplo, las variables \(x_1\) y \(x_3\) como básicas, y fijando \(x_2 = x_4 = 0\).
 
 Al resolver el sistema para \(x_1\) y \(x_3\), obtenemos \(x_1 = 3.5;\, x_3 = 0.5\). Como todas las variables son no negativas, entonces \(x_1 = 3.5;\, x_3 = 0.5\) es una \hl{solución básica factible}.
 
-Ahora veamos qué pasa si elegimos las variables \(x_1\) y \(x_2\) como básicas, y fijamos \(x_3 = x_4 = 0\). Al resolver el sistema para \(x_1\) y \(x_2\) el resultado da \(x_1 = 5;\, x_2 = -1\). Como \(x_2\) es negativo, entonces \textbf{no es} una solución básica factible, simplemente es una solución básica al sistema.
+Ahora veamos qué pasa si elegimos las variables \(x_1\) y \(x_2\) como básicas, y fijamos \(x_3 = x_4 = 0\). Al resolver el sistema para \(x_1\) y \(x_2\) el resultado da \(x_1 = 5;\, x_2 = -1\). Como \(x_2\) es negativo, entonces \textbf{no es} una solución básica factible, simplemente es una solución básica al sistema (como la del ejemplo \ref{ej:solucion_basica}).
 \vspace{5mm}
 \hrule
 
 \subsubsection{Condición de factibilidad y acotación}
 
-Esta es la última condición que debe cumplir el problema para que el Simplex sea aplicable.
+Si el problema es infactible (no tiene solución), la Fase 1 del simplex lo detectará. Durante esta fase, se resuelve un problema auxiliar que permite encontrar una solución básica factible inicial introduciendo variables artificiales. Si al final de la Fase 1 alguna variable artificial permanece en la base con valor positivo, esto indica que el problema original es infactible. En este caso, el algoritmo termina sin pasar a la Fase 2.
 
-El método Simplex solo es aplicable si el problema tiene una solución factible. Si no la tiene, el Simplex lo detectará (normalmente en la fase I).
+Y que el problema sea acotado es importante para el funcionamiento del simplex porque:
+\begin{itemize}
+  \item \textbf{Solución óptima finita}: Si el problema es no acotado, la función objetivo puede crecer indefinidamente en la dirección de optimización, por lo que no existe una solución óptima finita.
+  \item \textbf{Detección durante la ejecución}: El simplex detecta la no acotación cuando, al aplicar el criterio de entrada de variable (todas las razones en el test de salida son negativas o indefinidas), no se puede determinar qué variable debe salir de la base. Esto indica que se puede incrementar indefinidamente la variable que entra sin violar ninguna restricción.
+  \item \textbf{Terminación del algoritmo}: Sin acotación, el algoritmo no puede converger a una solución óptima porque esta no existe.
+\end{itemize}
 
-El problema también debe ser acotado, es decir, si la función objetivo puede crecer indefinidamente sin violar las restricciones, el Simplex lo reportará como no acotado.
-
-En términos simples, con el método simplex buscamos una solución factible \textbf{única}.
+\begin{tcolorbox}[myconclusion]
+  No se preocupe por la Fase I, las variables artificiales y la regla del criterio, esto se verá en la próxima sección.
+\end{tcolorbox}

@@ -121,13 +121,11 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
   Vemos que la cantidad total de grasa del albondigón debe ser menor o igual al 25\%, y que la cantidad de carne de res más la cantidad de carne de cerdo debe ser igual a 1 libra.
 
   Sumado a esto, también se tiene que las cantidades de carne de res y carne de cerdo no pueden ser negativas. Entonces, resulta:
-
   \begin{align*}
     0.2x_1 + 0.32x_2 &\leq 0.25 \\
     x_1 + x_2 &= 1 \\
     x_1, x_2 &\geq 0
   \end{align*}
-
   \textbf{3. Identificación de la función objetivo:}
 
   Vemos que la función objetivo es el costo total, que es la suma del costo de la carne de res y la carne de cerdo. Por lo que la función objetivo es:
@@ -144,7 +142,6 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
                               &x_1 + x_2 = 1 \\
                               &x_1, x_2 \geq 0
   \end{align*}
-
   \textbf{5. Resolución del PPL:}
 
   Para resolver el PPL usando el método gráfico, debemos graficar las restricciones, la región factible y la función objetivo. 
@@ -256,13 +253,10 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
   \begin{align*}
     7x_1 + 10x_2 = 1400 \quad &\rightarrow \quad x_2 = -\frac{7}{10}x_1 + 140 \\
     12x_1 + 8x_2 = 2000 \quad &\rightarrow \quad x_2 = -\frac{3}{2}x_1 + 250 \\
-    8x_1 + 10x_2 = 900  \quad &\rightarrow \quad x_2 = -\frac{4}{5}x_1 + 90
-  \end{align*}
-
-  \begin{align*}
+    8x_1 + 10x_2 = 900  \quad &\rightarrow \quad x_2 = -\frac{4}{5}x_1 + 90 \\
     6x_1 + 7x_2 = 300  \quad &\rightarrow \quad x_2 = -\frac{6}{7}x_1 + \frac{300}{7} \\
     5x_1 + 4x_2 = 800  \quad &\rightarrow \quad x_2 = -\frac{5}{4}x_1 + 200 \\
-    5x_1 + 4x_2 = 1700 \quad &\rightarrow \quad x_2 = -\frac{5}{4}x_1 + 425 \\
+    5x_1 + 4x_2 = 1700 \quad &\rightarrow \quad x_2 = -\frac{5}{4}x_1 + 425
   \end{align*}
   Y para las restricciones de no negatividad, sabemos que la región factible se tiene que encontrar el el primer cuadrante.
 
@@ -271,7 +265,7 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
     17000 = 103x_1 + 110x_2 \quad \rightarrow \quad x_2 = -\frac{103}{110}x_1 + \frac{1700}{11}
   \]
 
-  Entonces, el gráfico de la región factible y la función objetivo con la ganancia \(z = 17000\) es el siguiente:
+  Entonces, el gráfico (figura \ref{fig:ppl-maximizacion}) de la región factible y la función objetivo con la ganancia \(z = 17000\) es el siguiente:
   \begin{figure}[ht]
     \centering
     \begin{tikzpicture}
@@ -279,11 +273,11 @@ Como se mencionó anteriormente, el método gráfico es muy intuitivo, y por end
         xlabel={$x_1$},
         ylabel={$x_2$},
         xmin=0, xmax=300,
-        ymin=0, ymax=200,
+        ymin=0, ymax=199,
         grid=major,
         legend pos=north east,
         width=13cm,
-        height=10cm,
+        height=9.5cm,
         legend style={font=\footnotesize}
     ]
     
