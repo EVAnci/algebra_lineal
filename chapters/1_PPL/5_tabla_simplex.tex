@@ -70,22 +70,22 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
   Observamos que:
   \begin{itemize}
     \item La primera restricción ya está en forma de igualdad, pero no tiene una variable de holgura asociada que permita incluir una columna identidad. Por lo tanto debemos agregar una variable artificial.
-    \item La segunda es una desigualdad \(\geq\), por lo tanto debemos restar una variable superflua, por lo tanto, también debemos agregar una variable artificial.
+    \item La segunda es una desigualdad \(\geq\), por lo tanto debemos restar una variable superflua, y también debemos agregar una variable artificial.
   \end{itemize}
   
   \subparagraph{Paso 1: Convertimos a forma estándar y agregamos variables artificiales}
   \begin{enumerate}
-    \item A la primera ecuación (que ya es igualdad), agregamos una variable artificial \(a_1\), porque no hay variable de holgura ni exceso que permita formar la base inicial.
-    \item A la segunda desigualdad, restamos una variable de exceso \(s_2\), y agregamos una variable artificial \(a_2\).
+    \item A la primera ecuación (que ya es igualdad), agregamos una variable artificial \(a_1\), porque no hay variable de holgura que permita formar la base inicial.
+    \item A la segunda desigualdad, restamos una variable de exceso \(s_1\), y agregamos una variable artificial \(a_2\).
   \end{enumerate}
   El sistema queda:
   \begin{align*}
     x_1 + x_2 + a_1 &= 4\\
-    x_1 - x_2 - s_2 + a_2 &= 2
+    x_1 - x_2 - s_1 + a_2 &= 2
   \end{align*}  
   Con condiciones:
   \[
-    x_1, x_2, s_2, a_1, a_2 \geq 0
+    x_1, x_2, s_1, a_1, a_2 \geq 0
   \]
 
   \subparagraph{Paso 2: Definimos el problema auxiliar}
@@ -98,11 +98,11 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
   \begin{align*}
     \text{minimizar} \quad  &\omega = a_1 + a_2\\[3pt]
     \text{sujeto a:} \quad  &x_1 + x_2 + a_1 = 4\\
-                            &x_1 - x_2 - s_2 + a_2 = 2\\
-                            &x_1, x_2, s_2, a_1, a_2 \geq 0
+                            &x_1 - x_2 - s_1 + a_2 = 2\\
+                            &x_1, x_2, s_1, a_1, a_2 \geq 0
   \end{align*}
 
-  Para las restricciones, la base inicial está formada por las variables artificiales \(a_1\) y \(a_2\), porque aparecen con coeficiente 1 y sólo en una ecuación (forman una matriz identidad).
+  Para las restricciones, la base inicial\footnote{En la siguiente sección se verá qué es una base inicial. Por ahora puedes entenderlo como un conjunto de las variables básicas que dan solución factible al problema.} está formada por las variables artificiales \(a_1\) y \(a_2\), porque aparecen con coeficiente 1 y sólo en una ecuación (forman una matriz identidad).
   \begin{align*}
     \begin{pmatrix}
       1 & 1 & 0 & 1 & 0\\
@@ -111,7 +111,7 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
     \begin{pmatrix}
       x_1\\
       x_2\\
-      s_2\\
+      s_1\\
       a_1\\
       a_2
     \end{pmatrix}
@@ -127,7 +127,7 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
   
   \subparagraph{Paso 3: Aplicamos el método Simplex}
   
-  A partir de esta situación, podríamos construir la tabla Simplex con \(a_1\) y \(a_2\) en la base, y comenzar a iterar para minimizar \(\omega\). Si al finalizar el valor óptimo de \(\omega\) es cero, habremos encontrado una combinación de \(x_1\), \(x_2\) y \(s_2\) que satisface las restricciones sin necesidad de variables artificiales, es decir, una solución básica factible del problema original.
+  A partir de esta situación, podríamos construir la tabla Simplex con \(a_1\) y \(a_2\) en la base, y comenzar a iterar para minimizar \(\omega\). Si al finalizar el valor óptimo de \(\omega\) es cero, habremos encontrado una combinación de \(x_1\), \(x_2\) y \(s_1\) que satisface las restricciones sin necesidad de variables artificiales, es decir, una solución básica factible del problema original.
   
   Si en cambio \(\omega > 0\), entonces el problema original no tiene solución factible.  
 \end{quote}
@@ -151,11 +151,11 @@ Entonces, siguiendo con el ejemplo \ref{ej:fase_1}, vamos a armar la primer tabl
 
 \paragraph{Contrucción del vector de costos \(c\) para la Fase I}
 
-Recordando que la función objetivo del problema auxiliar es \(\omega = a_1 + a_2\), por lo tanto el \textbf{vector de costos} asociado a todas las variables \textbf{del PPL auxiliar} (en el orden \(x_1, x_2, s_2, a_1, a_2\)) es: 
+Recordando que la función objetivo del problema auxiliar es \(\omega = a_1 + a_2\), por lo tanto el \textbf{vector de costos} asociado a todas las variables \textbf{del PPL auxiliar} (en el orden \(x_1, x_2, s_1, a_1, a_2\)) es: 
 \[
   \hat{c} = (0, 0, 0, 1, 1)
 \]
-Ya que \(x_1\), \(x_2\) y \(s_2\) no participan en la función objetivo del problema auxiliar, su coeficiente es cero.
+Ya que \(x_1\), \(x_2\) y \(s_1\) no participan en la función objetivo del problema auxiliar, su coeficiente es cero.
 
 Un detalle muy importante es que el problema auxiliar es de \textit{minimización}, por lo que no está en formato estándar. Por ello debemos multiplicar a la función objetivo por (\(-1\)), resultando:
 \[
@@ -276,15 +276,15 @@ Para ilustrar mejor este vector, supongamos el mismo ejemplo que vimos anteriorm
   \makecell[l]{
     \(\text{maximizar} \quad z = 3x_1 + 2x_2\)\\[3pt]
     \(\text{sujeto a:} \quad x_1 + x_2 = 4\)\\
-    \hspace{4.5em}\(x_1 - x_2 - s_2 = 2\)\\
-    \hspace{4.5em}\(x_1, x_2, s_2 \geq 0\)
+    \hspace{4.5em}\(x_1 - x_2 - s_1 = 2\)\\
+    \hspace{4.5em}\(x_1, x_2, s_1 \geq 0\)
   }
   &
   \makecell[l]{
     \(\text{maximizar} \quad -\omega = -a_1 - a_2\)\\[3pt]
     \(\text{sujeto a:} \quad x_1 + x_2 + a_1 = 4\)\\
-    \hspace{4.5em}\(x_1 - x_2 - s_2 + a_2 = 2\)\\
-    \hspace{4.5em}\(x_1, x_2, s_2, a_1, a_2 \geq 0\)
+    \hspace{4.5em}\(x_1 - x_2 - s_1 + a_2 = 2\)\\
+    \hspace{4.5em}\(x_1, x_2, s_1, a_1, a_2 \geq 0\)
   }
   \\
   \end{tabular}
@@ -341,7 +341,7 @@ Entonces resulta:
   \bar{c}_{x1} = 0 - \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1\\ 1 \end{bmatrix} = 2
 \end{align*}
 
-Y para el PPL \hl{original}, el costo reducido para la variable \(s_1\):
+\noindent Y para el PPL \hl{original}, el costo reducido para la variable \(s_1\):
 \begin{enumerate}
   \item Costo de la variable en la función objetivo: \(c_j = 0\)
   \item Vector de costos de la base: \(c_\beta^T = \begin{bmatrix} 3 & 2 \end{bmatrix}\)
@@ -352,17 +352,175 @@ Y para el PPL \hl{original}, el costo reducido para la variable \(s_1\):
   \bar{c}_{s1} = 0 - \begin{bmatrix} 3 & 2 \end{bmatrix} \begin{bmatrix} 0.5 & 0.5\\ 0.5 & -0.5 \end{bmatrix} \begin{bmatrix} 0\\ -1 \end{bmatrix} = 0.5
 \end{align*}
 
+\vspace{5mm}
+
 \begin{tcolorbox}[remember, title=¿Para qué usamos costos reducidos?]
-  Los costos reducidos indican para cada variable cuánto se modificaría la función objetivo si esa variable entra en la base.
+  Los costos reducidos indican para cada variable cuánto se modificaría la función objetivo si esa variable entra en la base. Es decir, por ejemplo en el caso del PPL auxiliar, el costo reducido de la variable \(x_1\) es \(2\), lo que significa que si \(x_1\) entra en la base, la función objetivo \(z\) cambiaría en \(2\) unidades.
 \end{tcolorbox}
 
-\paragraph{Armado de la tabla Simplex}
+\newpage
+
+\paragraph{Armado de la tabla Simplex: Fase I}
+
+Ahora si, ya estamos completamente listos para armar la tabla. Voy a comentar algunas cosas al lector:
+\begin{quote}
+  ``Hasta ahora hemos visto todo lo necesario para entender el armado de la tabla. Luego el algoritmo en sí es más sencillo. Este método es bastante largo y consiste en muchos pasos y conceptos previos antes de la formación de la tabla inicial. No se frustre si le toma tiempo entenderlo, a mi también me costó la primera vez que lo estudié.'' 
+\end{quote}
+
+Considerando la transformación de la función \(\omega\) del problema auxiliar a maximización (\(-\omega = z = -a_1 - a_2\)) y la base inicial \(\{a_1, a_2\}\) los pasos para armar la tabla consisten en juntar lo que hemos visto anteriormente.
+
+\subparagraph{Paso 1: Identificar componentes}
+\begin{itemize}
+  \item Vector de costos (\(c_j\)) para \(z\):  
+  \[
+  c = \begin{bmatrix}
+  c_{x_1} & c_{x_2} & c_{s_1} & c_{a_1} & c_{a_2}
+  \end{bmatrix} = \begin{bmatrix}
+  0 & 0 & 0 & -1 & -1
+  \end{bmatrix}
+  \]
+  \item Matriz de restricciones (\(A\)):
+  \[
+  A = \begin{bmatrix}
+  1 & 1 & 0 & 1 & 0 \\
+  1 & -1 & -1 & 0 & 1
+  \end{bmatrix}, \quad B = \begin{bmatrix} 4 \\ 2 \end{bmatrix}
+  \]
+  \item Base inicial: \(\beta = \{a_1, a_2\}\) → \(A_\beta = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\) (matriz identidad).
+\end{itemize}
+
+\subparagraph{Paso 2: Calcular valores clave}
+\begin{itemize}
+  \item Solución básica:
+   \[
+   A_\beta^{-1} \cdot B = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 4 \\ 2 \end{bmatrix} = \begin{bmatrix} 4 \\ 2 \end{bmatrix}
+   \]
+   Entonces \(\rightarrow\) variables básicas: \(a_1 = 4\), \(a_2 = 2\).
+
+  \item Valor de \(z\) inicial:
+   \(
+   z = c_\beta^T \cdot B = \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 4 \\ 2 \end{bmatrix} = -6
+   \)
+
+  \item Costos reducidos (\(\bar{c}_j\)). Aplicamos la definición para cada variable:
+   \[
+   \bar{c}_j = c_j - c_\beta^T A_\beta^{-1} A_j
+   \]
+   \begin{itemize}
+    \item Para \(x_1\):
+     \(
+     \bar{c}_{x_1} = 0 - \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = 0 - (-2) = 2
+     \)
+    \item Para \(x_2\):
+     \(
+     \bar{c}_{x_2} = 0 - \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ -1 \end{bmatrix} = 0 - ( -1 + 1 ) = 0
+     \)
+    \item Para \(s_1\):
+     \(
+     \bar{c}_{s_1} = 0 - \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ -1 \end{bmatrix} = 0 - ( 0 + 1 ) = -1
+     \)
+    \item Para \(a_1\):
+     \(
+     \bar{c}_{a_1} = -1 - \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} = -1 - (-1) = 0
+     \)
+    \item Para \(a_2\):
+     \(
+     \bar{c}_{a_2} = -1 - \begin{bmatrix} -1 & -1 \end{bmatrix} \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \end{bmatrix} = -1 - (-1) = 0
+     \)
+   \end{itemize}
+\end{itemize}
+
+\begin{tcolorbox}[myconclusion]
+  Vea que las matrices identidad pueden quitarse y no modifican el resultado final. Esto es porque la matriz identidad es el elemento neutro de la multiplicación en matrices.
+\end{tcolorbox}
+
+\subparagraph{Paso 3: Estructura general de la tabla Simplex}
+
+Recordando que \(\beta\) es la base y \textit{B} es el vector de términos independientes la tabla es:
+
+\[
+\begin{array}{c|cccccc|c}
+\beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+\hline
+a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+\hline
+z & -2 & 0 & 1 & 1 & 0 & -6 \\
+\end{array}
+\]
+
+\begin{tcolorbox}[danger_box, title=Prevención de Riesgos]
+  Es importante tener en cuenta que los costos reducidos se introducen con signo cambiado a la tabla, es decir \(-\bar{c}_j\)
+\end{tcolorbox}
+
+\noindent las columnas de la tabla son:
+\begin{itemize}
+  \item \(\beta\): Variables básicas actuales (\(a_1, a_2\)).
+  \item \(x_1\): Coeficientes de cada variable en las restricciones.
+  \item \(s_1\): Valores de las variables básicas (solución actual).
+  \item \(a_1\): Coeficientes de cada variable en las restricciones.
+  \item \(a_2\): Coeficientes de cada variable en las restricciones.
+  \item \(B\): Valores de las variables básicas (solución actual).
+  \item Fila \(z\): muestra los costos reducidos de la función objetivo y el valor actual de \(z\), que en este caso es \(-6\).
+\end{itemize}
+
+% ---
+
+% #### **Paso 4: Interpretar la tabla**
+% 1. **Criterio de entrada (maximización)**:
+%    - Buscar **coeficientes negativos en la fila \(z\)** (pues \(-\bar{c}_j < 0 \implies \bar{c}_j > 0\)).
+%    - Variables candidatas: \(x_1\) (coeficiente \(-2\)).
+
+% 2. **Criterio de salida (ratio test)**:
+%    - Columna de \(x_1\) (variable entrante): 
+%      \[
+%      \text{Ratios} = \left\{ \frac{4}{1}, \frac{2}{1} \right\} = \{4, 2\}
+%      \]
+%    - Mínimo ratio: \(2\) → Fila de \(a_2\) sale.
+
+% 3. **Elemento pivote**:  
+%    - Intersección de columna \(x_1\) y fila \(a_2\) → Valor \(1\) (marcado en negrita).
+
+% ---
+
+% #### **Paso 5: Próximos pasos**
+% 1. Realizar operaciones fila para que \(x_1\) entre a la base y \(a_2\) salga.
+% 2. Actualizar la tabla:
+%    - Nueva base: \(\{a_1, x_1\}\).
+%    - Recalcular costos reducidos y valor de \(z\).
+% 3. Verificar optimalidad:
+%    - Si todos los coeficientes en fila \(z\) son \(\geq 0\) → Solución óptima.
+%    - En Fase I: Si \(z = 0\), pasar a Fase II; si \(z < 0\), problema infactible.
+
+% ---
+
+% ### **Estructura general de una tabla Simplex**
+% | Componente          | Descripción                                                                 |
+% |---------------------|---------------------------------------------------------------------------|
+% | **Columna "Base"**  | Variables básicas actuales.                                               |
+% | **Columnas variables** | Coeficientes de cada variable en las restricciones.                       |
+% | **Columna RHS**     | Valores actuales de las variables básicas.                                |
+% | **Fila \(z\)**      | Muestra \(-\bar{c}_j\) para variables no básicas. El RHS es el valor de \(z\). |
+% | **Elemento pivote** | Intersección de columna entrante y fila saliente (usar para operaciones). |
+
+% ### **Reglas clave**
+% - **Maximización**: Entra variable con coeficiente más negativo en fila \(z\).
+% - **Minimización**: Entra variable con coeficiente más positivo en fila \(z\).
+% - **Base inicial**: Usar variables de holgura/exceso/artificiales.
+% - **Fila \(z\)**: Siempre muestra \(-\bar{c}_j\), no \(\bar{c}_j\).
+
+% Esta estructura es universal para todas las fases del Simplex. ¡Con esto puedes construir tu primera tabla!
+
+
+
+
+
 
 % En la primera tabla Simplex que armamos:
 
 % \[
 % \begin{array}{c|ccccc|c}
-% \text{Base} \, \beta & x_1 & x_2 & s_2 & a_1 & a_2 & \text{B} \\
+% \text{Base} \, \beta & x_1 & x_2 & s_1 & a_1 & a_2 & \text{B} \\
 % \hline
 % a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
 % a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
@@ -379,7 +537,7 @@ Y para el PPL \hl{original}, el costo reducido para la variable \(s_1\):
 
 % * En este caso, $x_1$ tiene un costo reducido de $-2$
 % * $x_2$ tiene costo reducido 0
-% * $s_2$ tiene costo reducido $1$
+% * $s_1$ tiene costo reducido $1$
 % * $a_1$ y $a_2$ tienen costos reducidos $0$ porque ya están en la base, y sus coeficientes están anulados por la forma canónica
 
 % ¿Qué representa el valor $-2$ en $x_1$?
@@ -446,7 +604,7 @@ Y para el PPL \hl{original}, el costo reducido para la variable \(s_1\):
 
 % \[
 % \begin{array}{c|rrrrr|r}
-% \text{Base} & x_1 & x_2 & s_2 & a_1 & a_2 & \text{Término independiente} \\
+% \text{Base} & x_1 & x_2 & s_1 & a_1 & a_2 & \text{Término independiente} \\
 % \hline
 % a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
 % a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\

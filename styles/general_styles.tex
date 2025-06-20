@@ -16,6 +16,8 @@
 \definecolor{chamoisee}{rgb}{0.63, 0.47, 0.35}
 \definecolor{champagne}{rgb}{0.97, 0.91, 0.81}
 \definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{carnationpink}{rgb}{1.0, 0.65, 0.79}
+\definecolor{cerise}{rgb}{0.87, 0.19, 0.39}
 
 \sethlcolor{highlight}
 % Cambiar el color de los títulos
@@ -76,6 +78,16 @@
   interesting_data/.style={
     colback=chamoisee!5!white,
     colframe=applegreen!75!black,
+    fonttitle=\bfseries,
+    arc=6pt
+  }
+}
+
+% Prevención de riesgos
+\tcbset{
+  danger_box/.style={
+    colback=carnationpink!5!white,
+    colframe=cerise!75!black,
     fonttitle=\bfseries,
     arc=6pt
   }
