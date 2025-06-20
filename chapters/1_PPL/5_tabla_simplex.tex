@@ -144,6 +144,7 @@ El problema auxiliar busca un punto factible \hl{minimizando} el ``uso'' de las 
 Ahora profundizaremos más en lo que dice este cuadro. 
 
 \subsubsection{Construcción de la primera tabla del método Simplex (problema auxiliar)}
+\label{sec:tabla_simplex}
 
 Una vez que tienes el problema auxiliar planteado, el siguiente paso es construir la primera tabla del método Simplex para el problema auxiliar, resolverlo con iteraciones hasta obtener una SBFI, y a partir de ahí: si \(\omega = 0\), comenzar el Simplex para el problema original con esa base.
 
@@ -224,13 +225,18 @@ donde:
   \item \(A_j\) es la columna del sistema que corresponde a la variable \(x_j\) que está fuera de la base (candidata a entrar).
 \end{itemize}
 
+\noindent Esta fórmula nos dice: si agrego la variable \(x_j\) (actualmente fuera de la base), ¿cuánto cambia la función objetivo?
+\begin{itemize}
+  \item Si \(\bar{c}_j < 0\) en maximización (o \(\bar{c}_j > 0\) en minimización), es favorable introducir \(x_j\).
+  \item Si \(\bar{c}_j = 0\), la variable es \textit{degenerada} (puede introducirse sin cambiar el valor de la función objetivo).
+  \item Si \(\bar{c}_j > 0\) (en maximización), introducir esa variable empeora la función objetivo.
+\end{itemize}
+
 \begin{tcolorbox}[mydanger]
-  Atención en esta parte, suele ser un poco complicada de entender al principio. Recomiendo ir tomando nota de los distintos costos.
+  Atención en esta parte, suele ser un poco complicada de entender al principio. Recomiendo ir tomando nota de los distintos costos para relacionarlos rápidamente con la fórmula de costos reducidos.
 \end{tcolorbox}
 
-Antes de ver en qué consiste el cálculo de costos reducidos y para qué sirve, vamos a ver en detalle qué vectores se utilizan en la formula y cómo vamos a llamarlos.
-
-\vspace{5mm}
+\noindent A continuación vamos a ver detalladamente todos los costos que se utilizan en la fórmula de costos reducidos.
 
 \subparagraph{1. Vector de costos \textit{c}}
 
@@ -243,8 +249,6 @@ entonces el vector \(c\) es:
   c = \begin{bmatrix} c_1 & c_2 & \cdots & c_n \end{bmatrix}
 \]
 Este vector se utiliza una vez que el problema auxiliar ha sido resuelto, y se quiere retomar el método Simplex para optimizar el problema original.
-
-\vspace{5mm}
 
 \subparagraph{2. Vector de costos \(c_\omega\) (función auxiliar)}
 
@@ -297,7 +301,7 @@ Ahora, recordando que la base \(\beta\) es el conjunto de las variables básicas
 Entonces el vector \(c_\beta\) para cada uno de los PPLs sería:
 \begin{itemize}
   \item Para el PPL original (\(\beta\)): \(c_\beta = \begin{bmatrix} 3 & 2 \end{bmatrix}\) 
-  \item Para el PPL auxiliar (\(\beta_\omega\)): \(c_{\omega\beta} = \begin{bmatrix} -1 & -1 \end{bmatrix}\)
+  \item Para el PPL auxiliar (\(\beta_\omega\)): \(c_{\beta\omega} = \begin{bmatrix} -1 & -1 \end{bmatrix}\)
 \end{itemize}
 \begin{tcolorbox}[remember, title=Aclaración]
   Vea que el vector de costos \(c_\beta\) no es más que los costos asociados a la base \(\beta\) que se esté usando en ese momento.
@@ -306,14 +310,6 @@ Entonces el vector \(c_\beta\) para cada uno de los PPLs sería:
 \subparagraph{4. La matriz \(A_\beta^{-1}\)}
 
 Es la matriz inversa de la submatriz base (\(A_\beta\)), que está formada por las columnas del sistema \(A\) que corresponden a las variables en la base actual.
-
-
-Esta fórmula nos dice: si agrego la variable \(x_j\) (actualmente fuera de la base), ¿cuánto cambia la función objetivo?
-\begin{itemize}
-  \item Si \(\bar{c}_j < 0\) en maximización (o \(\bar{c}_j > 0\) en minimización), es favorable introducir \(x_j\).
-  \item Si \(\bar{c}_j = 0\), la variable es \textit{degenerada} (puede introducirse sin cambiar el valor de la función objetivo).
-  \item Si \(\bar{c}_j > 0\) (en maximización), introducir esa variable empeora la función objetivo.
-\end{itemize}
 
 Continuemos con el ejemplo del cuadro \ref{tab:comparacion_ppl}. Entonces, las bases y las submatrices asociadas a cada base para cada PPL son:
 \begin{align*}
@@ -325,6 +321,9 @@ Entonces, debemos calcular la inversa para cada una de las matrices base:
   A_\beta^{-1} &= \begin{bmatrix} 1 & 1\\ 1 & -1 \end{bmatrix}^{-1} = \begin{bmatrix} 0.5 & 0.5\\ 0.5 & -0.5 \end{bmatrix}\\[4pt]
   A_{\omega\beta}^{-1} &= \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix}^{-1} = \begin{bmatrix} 1 & 0\\ 0 & 1 \end{bmatrix}
 \end{align*}
+
+\subparagraph{5. Aplicación a los costos reducidos}
+
 Con esto, podemos entonces, reemplazar en la fórmula de costos reducidos:
 \[
   \bar{c}_j = c_j - c_\beta^T A_\beta^{-1} A_j
@@ -439,7 +438,7 @@ Considerando la transformación de la función \(\omega\) del problema auxiliar 
 Recordando que \(\beta\) es la base y \textit{B} es el vector de términos independientes la tabla es:
 
 \[
-\begin{array}{c|cccccc|c}
+\begin{array}{c|ccccc|c}
 \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
 \hline
 a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
@@ -450,179 +449,20 @@ z & -2 & 0 & 1 & 1 & 0 & -6 \\
 \]
 
 \begin{tcolorbox}[danger_box, title=Prevención de Riesgos]
-  Es importante tener en cuenta que los costos reducidos se introducen con signo cambiado a la tabla, es decir \(-\bar{c}_j\)
+  Es importante tener en cuenta que los costos reducidos se introducen con signo cambiado a la tabla, es decir \(-\bar{c}_j\). 
+  
+  La convención de mostrar \(-\bar{c}_j\) (en lugar de \(\bar{c}_j\)) en la fila objetivo (\(z\)) de la tabla Simplex es universal y aplica a todas las fases del método Simplex, no solo a la Fase I. Esta práctica es estándar y se mantiene tanto en problemas de maximización como de minimización, y en todas las etapas (Fase I, Fase II, o problemas sin variables artificiales).
+
+  En la sección \ref{sec:iteraciones_simplex} veremos la regla del criterio, donde cobra importancia esta convención.
 \end{tcolorbox}
 
 \noindent las columnas de la tabla son:
 \begin{itemize}
-  \item \(\beta\): Variables básicas actuales (\(a_1, a_2\)).
-  \item \(x_1\): Coeficientes de cada variable en las restricciones.
-  \item \(s_1\): Valores de las variables básicas (solución actual).
-  \item \(a_1\): Coeficientes de cada variable en las restricciones.
-  \item \(a_2\): Coeficientes de cada variable en las restricciones.
-  \item \(B\): Valores de las variables básicas (solución actual).
+  \item \(\beta\): Variables básicas actuales (\(a_1, a_2\)). Estas irán cambiando en las iteraciones,
+  \item \(x_1\): Coeficientes de cada variable en las restricciones,
+  \item \(s_1\): Valores de las variables básicas (solución actual),
+  \item \(a_1\): Coeficientes de cada variable en las restricciones,
+  \item \(a_2\): Coeficientes de cada variable en las restricciones,
+  \item \(B\): Valores de las variables básicas (solución actual),
   \item Fila \(z\): muestra los costos reducidos de la función objetivo y el valor actual de \(z\), que en este caso es \(-6\).
 \end{itemize}
-
-% ---
-
-% #### **Paso 4: Interpretar la tabla**
-% 1. **Criterio de entrada (maximización)**:
-%    - Buscar **coeficientes negativos en la fila \(z\)** (pues \(-\bar{c}_j < 0 \implies \bar{c}_j > 0\)).
-%    - Variables candidatas: \(x_1\) (coeficiente \(-2\)).
-
-% 2. **Criterio de salida (ratio test)**:
-%    - Columna de \(x_1\) (variable entrante): 
-%      \[
-%      \text{Ratios} = \left\{ \frac{4}{1}, \frac{2}{1} \right\} = \{4, 2\}
-%      \]
-%    - Mínimo ratio: \(2\) → Fila de \(a_2\) sale.
-
-% 3. **Elemento pivote**:  
-%    - Intersección de columna \(x_1\) y fila \(a_2\) → Valor \(1\) (marcado en negrita).
-
-% ---
-
-% #### **Paso 5: Próximos pasos**
-% 1. Realizar operaciones fila para que \(x_1\) entre a la base y \(a_2\) salga.
-% 2. Actualizar la tabla:
-%    - Nueva base: \(\{a_1, x_1\}\).
-%    - Recalcular costos reducidos y valor de \(z\).
-% 3. Verificar optimalidad:
-%    - Si todos los coeficientes en fila \(z\) son \(\geq 0\) → Solución óptima.
-%    - En Fase I: Si \(z = 0\), pasar a Fase II; si \(z < 0\), problema infactible.
-
-% ---
-
-% ### **Estructura general de una tabla Simplex**
-% | Componente          | Descripción                                                                 |
-% |---------------------|---------------------------------------------------------------------------|
-% | **Columna "Base"**  | Variables básicas actuales.                                               |
-% | **Columnas variables** | Coeficientes de cada variable en las restricciones.                       |
-% | **Columna RHS**     | Valores actuales de las variables básicas.                                |
-% | **Fila \(z\)**      | Muestra \(-\bar{c}_j\) para variables no básicas. El RHS es el valor de \(z\). |
-% | **Elemento pivote** | Intersección de columna entrante y fila saliente (usar para operaciones). |
-
-% ### **Reglas clave**
-% - **Maximización**: Entra variable con coeficiente más negativo en fila \(z\).
-% - **Minimización**: Entra variable con coeficiente más positivo en fila \(z\).
-% - **Base inicial**: Usar variables de holgura/exceso/artificiales.
-% - **Fila \(z\)**: Siempre muestra \(-\bar{c}_j\), no \(\bar{c}_j\).
-
-% Esta estructura es universal para todas las fases del Simplex. ¡Con esto puedes construir tu primera tabla!
-
-
-
-
-
-
-% En la primera tabla Simplex que armamos:
-
-% \[
-% \begin{array}{c|ccccc|c}
-% \text{Base} \, \beta & x_1 & x_2 & s_1 & a_1 & a_2 & \text{B} \\
-% \hline
-% a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
-% a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
-% \hline
-% z & -2 & 0 & 1 & 0 & 0 & -6 \\
-% \end{array}
-% \]
-
-% Fijate en la **última fila** de la tabla (la fila de $z$). Es allí donde se reflejan los **costos reducidos** de las variables **no básicas**. Cada entrada de esa fila es precisamente:
-
-% \[
-% \bar{c}_j = c_j - z_j
-% \]
-
-% * En este caso, $x_1$ tiene un costo reducido de $-2$
-% * $x_2$ tiene costo reducido 0
-% * $s_1$ tiene costo reducido $1$
-% * $a_1$ y $a_2$ tienen costos reducidos $0$ porque ya están en la base, y sus coeficientes están anulados por la forma canónica
-
-% ¿Qué representa el valor $-2$ en $x_1$?
-
-% Significa que si 
-% reemplazás una de las variables básicas actuales por $x_1$, la función $z = -\omega$ aumentaría 2 unidades por cada unidad que entre $x_1$ en la base. Como estamos maximizando $-\omega$, esto equivale a **minimizar $\omega$**.
-
-% Es por eso que $x_1$ es la **mejor candidata para entrar a la base** en esta iteración.
-
-
-
-% Los costos reducidos en la fila de $z$ indican para cada variable **cuánto se modificaría la función objetivo si esa variable entra en la base**. En el método Simplex:
-
-% * Se elige como **entrante** a la variable con el **costo reducido más negativo** (en maximización)
-% * Se detiene el algoritmo cuando **todos los costos reducidos son mayores o iguales a cero**
-
-% ¿Te gustaría que calcule explícitamente los costos reducidos en este ejemplo usando la fórmula $\bar{c}_j = c_j - c_B^T B^{-1} A_j$? Podemos hacerlo paso a paso.
-
-
-% Ahora si, el siguiente paso consiste en aplicar el método Simplex para hallar una \textbf{solución básica factible inicial (SBFI)} que sirva de punto de partida para el problema original. Para ello, se construye la \textbf{primera tabla del método Simplex correspondiente al problema auxiliar}.
-
-% \paragraph{Componentes de la tabla}
-
-% La tabla inicial debe contener:
-
-% \begin{itemize}
-%   \item Todas las \textbf{variables del sistema}: variables originales \(x_i\), variables de holgura \(h_i\) (si las hay), y variables artificiales \(a_i\).
-%   \item Una \textbf{columna de términos independientes} o la matriz \(B\) (lado derecho de las restricciones).
-%   \item Una \textbf{fila correspondiente a la función objetivo auxiliar} \(\omega = a_1 + a_2 + \cdots + a_k\), en forma canónica.
-%   \item Una \textbf{identificación de la base inicial}, que estará compuesta por las variables artificiales que se agregaron para formar una base identidad.
-% \end{itemize}
-
-% \subsubsection*{Forma general de la tabla}
-
-% La forma general de la tabla Simplex es la siguiente:
-
-% \[
-% \begin{array}{c|cccccc|c}
-% \text{Base} & x_1 & x_2 & \cdots & h_i & a_j & \cdots & \text{Término independiente} \\
-% \hline
-% a_1 & a_{11} & a_{12} & \cdots & a_{1i} & a_{1n} & \cdots & b_1 \\
-% a_2 & a_{21} & a_{22} & \cdots & a_{2i} & a_{2n} & \cdots & b_2 \\
-% \vdots & \vdots & \vdots & & \vdots & \vdots & & \vdots \\
-% a_k & a_{k1} & a_{k2} & \cdots & a_{ki} & a_{kn} & \cdots & b_k \\
-% \hline
-% \omega & c_1 & c_2 & \cdots & c_i & c_n & \cdots & -\sum b_i \\
-% \end{array}
-% \]
-
-% \textbf{Notas:}
-% \begin{itemize}
-%   \item No confundir la base \(\beta=\{a_1,a_2\}\) con los coeficientes de las restricciones \(A\) (\(a_{11},a_{12},\dots\)) 
-%   \item La fila de \(\omega\) está escrita en forma canónica. Es decir, los coeficientes se obtienen sustituyendo cada variable básica en la función objetivo auxiliar \(\omega\), lo cual produce la expresión: 
-%   \[
-%   \omega = -x_1 - x_2 - \cdots \quad \text{(solo si están presentes en la base)}
-%   \]
-%   y un término independiente igual a \( -\sum b_i \), si todos los coeficientes de las variables artificiales en \(\omega\) son 1.
-%   \item El signo negativo en la función objetivo responde al hecho de que el método Simplex estándar resuelve problemas de \textbf{maximización}, por lo que al resolver el problema auxiliar se transforma el objetivo \( \min \omega \) en \( \max (-\omega) \).
-% \end{itemize}
-
-% \begin{tcolorbox}[myconclusion]
-%   Ahora continuaremos con el ejemplo \ref{ej:fase_1} para visualizar el contenido de la tabla de forma numérica.
-% \end{tcolorbox}
-
-% \[
-% \begin{array}{c|rrrrr|r}
-% \text{Base} & x_1 & x_2 & s_1 & a_1 & a_2 & \text{Término independiente} \\
-% \hline
-% a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
-% a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
-% \hline
-% z = -\omega & -2 & 0 & 1 & 0 & 0 & -6 \\
-% \end{array}
-% \]
-
-
-% \paragraph{Procedimiento}
-
-% A partir de esta tabla inicial, se aplica el método Simplex como en cualquier problema estándar:
-
-% \begin{itemize}
-%   \item Se identifica la variable entrante mediante el criterio de optimalidad (el coeficiente más negativo en la fila de \(\omega\)).
-%   \item Se determina la variable saliente mediante el criterio del cociente mínimo.
-%   \item Se realizan operaciones fila para obtener la nueva tabla (pivoteo).
-%   \item Se repite el proceso hasta que todos los coeficientes en la fila de \(\omega\) sean mayores o iguales a cero (óptimo alcanzado).
-% \end{itemize}
-
-% Una vez obtenida la solución óptima del problema auxiliar, se evalúa el valor de \(\omega\). Si es cero, se ha obtenido una SBFI para el problema original. En ese caso, se eliminan las variables artificiales de la tabla (pivoteando si aún permanecen en la base) y se continúa con el método Simplex aplicado al problema original.

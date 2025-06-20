@@ -1,0 +1,238 @@
+\subsection{Iteraciones del método Simplex}
+\label{sec:iteraciones_simplex}
+
+Una vez se ha construido la tabla Simplex inicial, se procede a iterar el método Simplex hasta alcanzar la solución óptima. El proceso de iteración no es complicado, de hecho, lo más largo y tedioso suele ser el proceso previo de construcción de la tabla Simplex inicial. De igual manera, depende mucho del problema que se esté resolviendo. Simplex es un método general que sirve para cualquier PPL que pueda ser transformado para cumplir con las condiciones del método Simplex.
+
+A continuación veremos el proceso de iteración del método Simplex paso a paso.
+
+\subsubsection{Algoritmo Simplex Paso a Paso (después de construir la tabla inicial)}
+Para mostrar el algoritmo paso a paso, vamos a continuar con el ejemplo con el que trabajamos en el capítulo \ref{sec:tabla_simplex}. Para ello vamos a tener en cuenta las siguientes consideraciones:
+\begin{itemize}
+  \item Asumimos un problema de \textbf{maximización} y está en su forma estándar.
+  \item La tabla Simplex muestra \(-\bar{c}_j\) en la fila \(z\).
+  \item Variables artificiales están presentes (Fase I), pero el algoritmo es idéntico para Fase II.
+\end{itemize}
+
+\paragraph{Paso 1: Verificar optimalidad}
+
+El objetivo de este paso es evaluar si la solución básica actual (correspondiente a la tabla del método Simplex que ya has construido) es óptima. Esto se hace observando la fila de los coeficientes reducidos (comúnmente llamada fila \(z\)) en la tabla.
+
+En términos prácticos, debes observar los coeficientes de la fila \(z\), excluyendo la columna del término independiente \(B\):
+\begin{itemize}
+  \item Si todos los coeficientes son mayores o iguales a cero, es decir, \(\geq 0\), entonces ya no es posible mejorar más el valor de la función objetivo. Esto indica que la solución actual es \hl{óptima}.
+  \item Si algún coeficiente es negativo, significa que al aumentar el valor de la variable correspondiente, se podría mejorar (reducir, en caso de minimización) el valor de la función objetivo. Por tanto, aún no se ha alcanzado la solución óptima, y se debe continuar con la iteración (Paso 2).
+\end{itemize}
+
+El fundamento teórico tras este paso es el siguiente: En el método Simplex, el valor de cada coeficiente en la fila \(z\) representa el costo reducido de introducir la variable correspondiente en la base. Estos coeficientes suelen expresarse como \(-\bar{c}_j\), donde:
+\begin{itemize}
+  \item \(-\bar{c}_j = c_j - c_B^T B^{-1} A_j\), el costo reducido asociado a la variable \(x_j\).
+  \item \(c_j\): coeficiente de \(x_j\) en la función objetivo.
+  \item \(c_\beta\): vector de costos de las variables básicas actuales.
+  \item \(A_\beta\): matriz de columnas básicas.
+  \item \(A_j\): columna de la matriz de restricciones correspondiente a la variable \(x_j\).
+\end{itemize}
+Entonces:
+\begin{itemize}
+  \item Si \(-\bar{c}_j \geq 0\) para todos los \(j\), eso significa que \(\bar{c}_j \leq 0\). En este caso, introducir cualquier variable no básica en la base no mejora el valor de la función objetivo, por lo tanto, la solución es óptima.
+  \item En cambio, si \(-\bar{c}_j < 0\) para algún \(j\), es decir, \(\bar{c}_j > 0\), entonces aumentar \(x_j\) mejoraría la función objetivo (en un problema de minimización), y se debe continuar iterando.
+\end{itemize}
+
+Este paso responde a la pregunta: ¿ya hemos optimizado la función objetivo con las variables básicas actuales?
+
+Si todos los coeficientes en la fila \(z\) son positivos o cero, entonces sí: no hay variables no básicas que puedan mejorar el valor de \(z\).
+
+Si hay coeficientes negativos, entonces no: existe al menos una variable que, al entrar a la base, podría mejorar el resultado. En ese caso, se procede al siguiente paso del algoritmo (selección de variable entrante y saliente).
+
+\begin{tcolorbox}[title=Resumen del paso 1]
+  \noindent \textbf{Objetivo}: Determinar si la solución actual es óptima.
+
+  \noindent \textbf{Regla}:
+  \begin{itemize}
+    \item Si todos los coeficientes en la fila \(z\) (excluyendo la columna \textit{B}) son \(\geq 0\) (positivos) \(\rightarrow\) Solución óptima alcanzada.
+    \item Si hay algún coeficiente \(< 0\) (negativo) \(\rightarrow\) Ir al Paso 2.
+  \end{itemize}
+
+  \noindent \textbf{Fundamento}:
+  \begin{itemize}
+    \item Coeficiente en fila \(z = -\bar{c}_j\).
+    \item \(-\bar{c}_j \geq 0\) implica \(\bar{c}_j \leq 0\) (no hay variables que mejoren \(z\)).
+  \end{itemize}
+\end{tcolorbox}
+
+\paragraph{Paso 2: Seleccionar variable entrante}
+
+\begin{tcolorbox}[title=Resumen del paso 2]
+  \noindent \textbf{Objetivo}: Elegir la variable que ingresa a la base para mejorar \(z\).
+  
+  \noindent \textbf{Regla}:
+  \begin{itemize}
+    \item Seleccionar la columna con el coeficiente más negativo en la fila \(z\).
+    \item Si hay empate, elegir cualquiera (o usar regla de Bland).
+  \end{itemize}
+  
+  \noindent \textbf{Fundamento}: El coeficiente más negativo en fila \(z\) (\(-\bar{c}_j\)) corresponde al \(\bar{c}_j\) más positivo, que genera la mayor mejora en \(z\).
+\end{tcolorbox}
+
+\paragraph{Paso 3: Seleccionar variable saliente (Ratio Test)}
+
+\begin{tcolorbox}[title=Resumen del paso 3]
+  \noindent \textbf{Objetivo}: Determinar qué variable abandona la base.
+  
+  \noindent \textbf{Regla}:
+  \begin{enumerate}
+    \item En la columna de la variable entrante, considerar solo coeficientes \(> 0\).
+    \item Calcular ratio para cada fila \(i\):
+     \[
+     \text{Ratio}_i = \frac{\text{RHS}_i}{\text{Coeficiente}_{i,\text{entrante}}}
+     \]
+    \item Seleccionar la fila con el menor ratio positivo.
+    \item La variable básica de esa fila es la variable saliente.
+  \end{enumerate}
+  
+  \noindent \textbf{Caso especial}: Si todos los coeficientes \(\leq 0\) \(\rightarrow\) Problema no acotado (no existe solución óptima finita).
+\end{tcolorbox}
+
+\paragraph{Paso 4: Realizar pivoteo}
+
+\begin{tcolorbox}[title=Resumen del paso 4]
+  \noindent \textbf{Objetivo}: Actualizar la tabla para la nueva base.
+  
+  \noindent \textbf{Pasos}:
+  \begin{enumerate}
+    \item \textbf{Identificar el pivote}: Intersección de columna entrante y fila saliente.
+    \item \textbf{Normalizar la fila pivote}: Dividir toda la fila por el valor del pivote para convertirlo en 1. Por ejemplo si el pivote es 3, dividir toda la fila por 3.
+    \item \textbf{Hacer ceros en la columna pivote (excepto en fila pivote)}: Para cada fila \(i\) (incluyendo fila \(z\)):
+       \[
+       \text{Nueva Fila}_i = \text{Fila}_i - (\text{Coeficiente}_{i,\text{entrante}} \times \text{Fila Pivote})
+       \]
+    \item \textbf{Actualizar la base}: Reemplazar variable saliente por variable entrante en la columna ``Base''.
+  \end{enumerate}
+\end{tcolorbox}
+
+\paragraph{Paso 5: Actualizar la fila \(z\) y RHS}
+
+\begin{tcolorbox}[title=Resumen del paso 5]
+  \noindent \textbf{Objetivo}: Actualizar la fila \(z\) y RHS.
+  
+  \noindent \textbf{Nota}: La fila \(z\) se actualiza en el Paso 4 (operaciones fila).
+  
+  \noindent \textbf{Verificar consistencia}:
+  - El nuevo RHS en fila \(z\) debe ser el valor actual de \(z\).
+  - Coeficientes de variables básicas en fila \(z\) deben ser 0.
+\end{tcolorbox}
+
+\paragraph{Paso 6: Repetir el proceso}
+
+\begin{tcolorbox}[title=Resumen del paso 6]
+  \noindent \textbf{Objetivo}: Repetir el proceso.
+  
+  \noindent \textbf{Regla}:
+  - Volver al Paso 1 con la nueva tabla.
+  - Iterar hasta alcanzar optimalidad o no acotamiento.
+\end{tcolorbox}
+
+### Ejemplo con tu problema (Fase I)
+Tabla inicial:
+| Base | \(x_1\) | \(x_2\) | \(s_2\) | \(a_1\) | \(a_2\) | RHS  |
+|------|---------|---------|---------|---------|---------|------|
+| \(a_1\) | 1       | 1       | 0       | 1       | 0       | 4    |
+| \(a_2\) | 1       | -1      | -1      | 0       | 1       | 2    |
+| \(z\)  | -2      | 0       | 1       | 0       | 0       | -6   |
+
+---
+
+#### Iteración 1:
+1. Paso 1: Coeficientes en \(z\): \([-2, 0, 1, 0, 0]\). Hay negativo (\(-2\)) → No óptimo.
+2. Paso 2: Variable entrante = \(x_1\) (coeficiente más negativo: \(-2\)).
+3. Paso 3 (Ratio Test):
+   - Columna \(x_1\): \([1, 1]^T\) (ambos \(> 0\)).
+   - Ratios: \(\frac{4}{1} = 4\), \(\frac{2}{1} = 2\).
+   - Menor ratio: \(2\) → Fila de \(a_2\) sale.
+4. Paso 4 (Pivoteo):
+   - Pivote: \(1\) (intersección \(a_2\) y \(x_1\)).
+   - Normalizar fila \(a_2\): Ya es 1.
+   - Operaciones fila:
+     - Fila \(a_1\): \([1, 1, 0, 1, 0, 4] - (1 \times [1, -1, -1, 0, 1, 2]) = [0, 2, 1, 1, -1, 2]\)
+     - Fila \(z\): \([-2, 0, 1, 0, 0, -6] - (-2 \times [1, -1, -1, 0, 1, 2]) = [0, -2, -1, 0, 2, -2]\)
+   - Nueva base: \(\{a_1, x_1\}\).
+
+Tabla actualizada:
+| Base | \(x_1\) | \(x_2\) | \(s_2\) | \(a_1\) | \(a_2\) | RHS  |
+|------|---------|---------|---------|---------|---------|------|
+| \(a_1\) | 0       | 2       | 1       | 1       | -1      | 2    |
+| \(x_1\) | 1       | -1      | -1      | 0       | 1       | 2    |
+| \(z\)  | 0       | -2      | -1      | 0       | 2       | -2   |
+
+---
+
+#### Iteración 2:
+1. Paso 1: Coeficientes en \(z\): \([0, -2, -1, 0, 2]\). Hay negativo (\(-2\)) → No óptimo.
+2. Paso 2: Variable entrante = \(x_2\) (coeficiente más negativo: \(-2\)).
+3. Paso 3 (Ratio Test):
+   - Columna \(x_2\): \([2, -1]^T\). Solo \(a_1\) tiene coeficiente \(> 0\) (2).
+   - Ratio: \(\frac{2}{2} = 1\) → Fila de \(a_1\) sale.
+4. Paso 4 (Pivoteo):
+   - Pivote: \(2\) (intersección \(a_1\) y \(x_2\)).
+   - Normalizar fila \(a_1\): Dividir por 2 → \([0, 1, 0.5, 0.5, -0.5, 1]\).
+   - Operaciones fila:
+     - Fila \(x_1\): \([1, -1, -1, 0, 1, 2] - (-1 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [1, 0, -0.5, 0.5, 0.5, 3]\)
+     - Fila \(z\): \([0, -2, -1, 0, 2, -2] - (-2 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [0, 0, 0, 1, 1, 0]\)
+
+Tabla actualizada:
+| Base | \(x_1\) | \(x_2\) | \(s_2\)  | \(a_1\)  | \(a_2\)  | RHS  |
+|------|---------|---------|----------|----------|----------|------|
+| \(x_2\) | 0       | 1       | 0.5      | 0.5      | -0.5     | 1    |
+| \(x_1\) | 1       | 0       | -0.5     | 0.5      | 0.5      | 3    |
+| \(z\)  | 0       | 0       | 0        | 1        | 1        | 0    |
+
+---
+
+#### Final de Fase I:
+- Paso 1: Coeficientes en \(z\): \([0, 0, 0, 1, 1] \geq 0\) → Solución óptima de Fase I.
+- Valor de \(z = 0\) → Factible. Pasamos a Fase II.
+
+---
+
+### Transición a Fase II
+1. Eliminar columnas de variables artificiales (\(a_1, a_2\)).
+2. Reemplazar fila \(z\) por la función objetivo original.
+3. Recalcular costos reducidos para la base actual.
+
+Supongamos objetivo original: Maximizar \(x_1 + x_2\).  
+- Nueva fila \(z\): Coeficientes \([-1, -1, 0]\) (porque muestra \(-\bar{c}_j\)).
+- Cálculo:
+  - Base actual: \(\{x_1, x_2\}\), \(c_B = [1, 1]\).
+  - \(\bar{c}_{s_2} = 0 - [1, 1] \cdot [-0.5, 0.5]^T = 0 - (0) = 0\).
+  - Valor de \(z = [1, 1] \cdot [1, 3]^T = 4\).
+
+Tabla Fase II:
+| Base | \(x_1\) | \(x_2\) | \(s_2\)  | RHS  |
+|------|---------|---------|----------|------|
+| \(x_2\) | 0       | 1       | 0.5      | 1    |
+| \(x_1\) | 1       | 0       | -0.5     | 3    |
+| \(z\)  | 0       | 0       | 0        | 4    |
+
+- Solución óptima: \(x_1 = 3\), \(x_2 = 1\), \(z = 4\).
+
+---
+
+### Diagrama de Flujo del Algoritmo Simplex
+```mermaid
+graph TD
+    A[Inicio con tabla inicial] --> B[Verificar optimalidad]
+    B -->|Todos coeficientes ≥ 0| C[¡Solución óptima!]
+    B -->|Hay coeficiente < 0| D[Seleccionar variable entrante]
+    D --> E[Ratio Test]
+    E -->|Todos coeficientes ≤ 0| F[¡Problema no acotado!]
+    E -->|Encontrar pivote| G[Pivoteo]
+    G --> H[Actualizar tabla]
+    H --> B
+```
+
+### Consejos clave
+1. Fila \(z\) siempre muestra \(-\bar{c}_j\).
+2. Ratio Test ignora coeficientes \(\leq 0\).
+3. Variables artificiales:
+   - Fase I: Minimizar \(\omega = \sum a_i\) (transformada a \(z = -\omega\)).
+   - Si \(z_{\text{Fase I}} < 0\) → Problema infactible.
+4. Fase II: Usar solución de Fase I y función objetivo original.
