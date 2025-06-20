@@ -153,16 +153,8 @@ Este paso refleja una transición a lo largo de una \emph{arista del poliedro
 factible} en la dirección que más mejora \(z\), deteniéndose justo en el
 siguiente vértice (nueva solución básica).
 
-\subsection*{Caso especial: problema no acotado}
-
-Si \textbf{todos los coeficientes en la columna de la variable entrante son
-\(\leq 0\)}, entonces no se puede aplicar el Ratio Test, ya que:
-
-\begin{itemize}
-  \item Aumentar la variable entrante haría que todas las variables básicas
-    crezcan (o no se afecten), \emph{nunca decrezcan}, lo que implica que no hay
-    ningún límite superior que detenga el crecimiento de la variable entrante.
-\end{itemize}
+\textbf{Caso especial (problema no acotado)}: Si \textbf{todos los coeficientes en la columna de la variable entrante son
+\(\leq 0\)}, entonces no se puede aplicar el Ratio Test, ya que aumentar la variable entrante haría que todas las variables básicas crezcan (o no se afecten), \emph{nunca decrezcan}, lo que implica que no hay ningún límite superior que detenga el crecimiento de la variable entrante.
 
 Este escenario indica que el problema \textbf{no está acotado}, es decir, que la
 función objetivo \emph{puede seguir mejorando indefinidamente}, y por lo tanto
@@ -307,139 +299,129 @@ Realmente este no es un paso explícito como el resto de pasos, pero me parece �
   \end{itemize}
 \end{tcolorbox}
 
-\subsection{Ejecución del método con un ejemplo}
+\subsubsection{Ejecución del método con un ejemplo}
 
 Continuando con el ejemplo de la sección anterior:
 
+\paragraph{Iteración 1}
+
+\textbf{Paso 1}: Coeficientes en \(z\): \([-2, 0, 1, 0, 0]\). Hay negativo (\(-2\)) \(\rightarrow\) No óptimo.
+
 Tabla inicial:
-
+% Preguntar a chatgpt: 
+% Cómo puedo hacer para que nicematrix incluya el famoso {c|ccccc|c} de {array}? 
 \[
-  A=\left[
   \begin{NiceMatrix}[code-before = 
-    \rectanglecolor{red!20}{2-1}{4-1}
-    \rectanglecolor{green!20}{2-4}{4-4}
-    \rectanglecolor{blue!20}{2-5}{4-5}
+    \rectanglecolor{red!20}{4-2}{4-2}
   ]
-  x_1 & y_2 & y_2' & y_3 & h_1 & s_1 & s_2 \\
+  \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
   \hline
-  5 & 0 & 0 & -8 & 0 & -1 & 0 \\
-  -1 & 6 & -6 & 0 & 0 & 0 & -1 \\
-  0 & -6 & 6 & -4 & 1 & 0 & 0
+  a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+  a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+  \hline
+  z & -2 & 0 & 1 & 0 & 0 & -6 \\
   \end{NiceMatrix}
-  \right]
 \]
 
-\[
-\begin{array}{c|ccccc|c}
-\beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
-\hline
-a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
-a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
-\hline
-z & -2 & 0 & 1 & 0 & 0 & -6 \\
-\end{array}
-\]
+\textbf{Paso 2}: Variable entrante = \(x_1\) (coeficiente más negativo: \(-2\)).
 
-| Base | \(x_1\) | \(x_2\) | \(s_2\) | \(a_1\) | \(a_2\) | RHS  |
-|------|---------|---------|---------|---------|---------|------|
-| \(a_1\) | 1       | 1       | 0       | 1       | 0       | 4    |
-| \(a_2\) | 1       | -1      | -1      | 0       | 1       | 2    |
-| \(z\)  | -2      | 0       | 1       | 0       | 0       | -6   |
+\begin{enumerate}
+  \item Paso 3 (Ratio Test):
+  \begin{itemize}
+    \item Columna \(x_1\): \([1, 1]^T\) (ambos \(> 0\)).
+    \item Ratios: \(\frac{4}{1} = 4\), \(\frac{2}{1} = 2\).
+    \item Menor ratio: \(2\) → Fila de \(a_2\) sale.
+  \end{itemize}
+  \item Paso 4 (Pivoteo):
+  \begin{itemize}
+    \item Pivote: \(1\) (intersección \(a_2\) y \(x_1\)).
+    \item Normalizar fila \(a_2\): Ya es 1.
+    \item Operaciones fila:
+      \begin{itemize}
+        \item Fila \(a_1\): \([1, 1, 0, 1, 0, 4] - (1 \times [1, -1, -1, 0, 1, 2]) = [0, 2, 1, 1, -1, 2]\)
+        \item Fila \(z\): \([-2, 0, 1, 0, 0, -6] - (-2 \times [1, -1, -1, 0, 1, 2]) = [0, -2, -1, 0, 2, -2]\)
+      \end{itemize}
+    \item Nueva base: \(\{a_1, x_1\}\).
+  \end{itemize}
+\end{enumerate}
 
----
+% Tabla actualizada:
+% | Base | \(x_1\) | \(x_2\) | \(s_2\) | \(a_1\) | \(a_2\) | RHS  |
+% |------|---------|---------|---------|---------|---------|------|
+% | \(a_1\) | 0       | 2       | 1       | 1       | -1      | 2    |
+% | \(x_1\) | 1       | -1      | -1      | 0       | 1       | 2    |
+% | \(z\)  | 0       | -2      | -1      | 0       | 2       | -2   |
 
-#### Iteración 1:
-1. Paso 1: Coeficientes en \(z\): \([-2, 0, 1, 0, 0]\). Hay negativo (\(-2\)) → No óptimo.
-2. Paso 2: Variable entrante = \(x_1\) (coeficiente más negativo: \(-2\)).
-3. Paso 3 (Ratio Test):
-   - Columna \(x_1\): \([1, 1]^T\) (ambos \(> 0\)).
-   - Ratios: \(\frac{4}{1} = 4\), \(\frac{2}{1} = 2\).
-   - Menor ratio: \(2\) → Fila de \(a_2\) sale.
-4. Paso 4 (Pivoteo):
-   - Pivote: \(1\) (intersección \(a_2\) y \(x_1\)).
-   - Normalizar fila \(a_2\): Ya es 1.
-   - Operaciones fila:
-     - Fila \(a_1\): \([1, 1, 0, 1, 0, 4] - (1 \times [1, -1, -1, 0, 1, 2]) = [0, 2, 1, 1, -1, 2]\)
-     - Fila \(z\): \([-2, 0, 1, 0, 0, -6] - (-2 \times [1, -1, -1, 0, 1, 2]) = [0, -2, -1, 0, 2, -2]\)
-   - Nueva base: \(\{a_1, x_1\}\).
+% ---
 
-Tabla actualizada:
-| Base | \(x_1\) | \(x_2\) | \(s_2\) | \(a_1\) | \(a_2\) | RHS  |
-|------|---------|---------|---------|---------|---------|------|
-| \(a_1\) | 0       | 2       | 1       | 1       | -1      | 2    |
-| \(x_1\) | 1       | -1      | -1      | 0       | 1       | 2    |
-| \(z\)  | 0       | -2      | -1      | 0       | 2       | -2   |
+% #### Iteración 2:
+% 1. Paso 1: Coeficientes en \(z\): \([0, -2, -1, 0, 2]\). Hay negativo (\(-2\)) → No óptimo.
+% 2. Paso 2: Variable entrante = \(x_2\) (coeficiente más negativo: \(-2\)).
+% 3. Paso 3 (Ratio Test):
+%    - Columna \(x_2\): \([2, -1]^T\). Solo \(a_1\) tiene coeficiente \(> 0\) (2).
+%    - Ratio: \(\frac{2}{2} = 1\) → Fila de \(a_1\) sale.
+% 4. Paso 4 (Pivoteo):
+%    - Pivote: \(2\) (intersección \(a_1\) y \(x_2\)).
+%    - Normalizar fila \(a_1\): Dividir por 2 → \([0, 1, 0.5, 0.5, -0.5, 1]\).
+%    - Operaciones fila:
+%      - Fila \(x_1\): \([1, -1, -1, 0, 1, 2] - (-1 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [1, 0, -0.5, 0.5, 0.5, 3]\)
+%      - Fila \(z\): \([0, -2, -1, 0, 2, -2] - (-2 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [0, 0, 0, 1, 1, 0]\)
 
----
+% Tabla actualizada:
+% | Base | \(x_1\) | \(x_2\) | \(s_2\)  | \(a_1\)  | \(a_2\)  | RHS  |
+% |------|---------|---------|----------|----------|----------|------|
+% | \(x_2\) | 0       | 1       | 0.5      | 0.5      | -0.5     | 1    |
+% | \(x_1\) | 1       | 0       | -0.5     | 0.5      | 0.5      | 3    |
+% | \(z\)  | 0       | 0       | 0        | 1        | 1        | 0    |
 
-#### Iteración 2:
-1. Paso 1: Coeficientes en \(z\): \([0, -2, -1, 0, 2]\). Hay negativo (\(-2\)) → No óptimo.
-2. Paso 2: Variable entrante = \(x_2\) (coeficiente más negativo: \(-2\)).
-3. Paso 3 (Ratio Test):
-   - Columna \(x_2\): \([2, -1]^T\). Solo \(a_1\) tiene coeficiente \(> 0\) (2).
-   - Ratio: \(\frac{2}{2} = 1\) → Fila de \(a_1\) sale.
-4. Paso 4 (Pivoteo):
-   - Pivote: \(2\) (intersección \(a_1\) y \(x_2\)).
-   - Normalizar fila \(a_1\): Dividir por 2 → \([0, 1, 0.5, 0.5, -0.5, 1]\).
-   - Operaciones fila:
-     - Fila \(x_1\): \([1, -1, -1, 0, 1, 2] - (-1 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [1, 0, -0.5, 0.5, 0.5, 3]\)
-     - Fila \(z\): \([0, -2, -1, 0, 2, -2] - (-2 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [0, 0, 0, 1, 1, 0]\)
+% ---
 
-Tabla actualizada:
-| Base | \(x_1\) | \(x_2\) | \(s_2\)  | \(a_1\)  | \(a_2\)  | RHS  |
-|------|---------|---------|----------|----------|----------|------|
-| \(x_2\) | 0       | 1       | 0.5      | 0.5      | -0.5     | 1    |
-| \(x_1\) | 1       | 0       | -0.5     | 0.5      | 0.5      | 3    |
-| \(z\)  | 0       | 0       | 0        | 1        | 1        | 0    |
+% #### Final de Fase I:
+% - Paso 1: Coeficientes en \(z\): \([0, 0, 0, 1, 1] \geq 0\) → Solución óptima de Fase I.
+% - Valor de \(z = 0\) → Factible. Pasamos a Fase II.
 
----
+% ---
 
-#### Final de Fase I:
-- Paso 1: Coeficientes en \(z\): \([0, 0, 0, 1, 1] \geq 0\) → Solución óptima de Fase I.
-- Valor de \(z = 0\) → Factible. Pasamos a Fase II.
+% ### Transición a Fase II
+% 1. Eliminar columnas de variables artificiales (\(a_1, a_2\)).
+% 2. Reemplazar fila \(z\) por la función objetivo original.
+% 3. Recalcular costos reducidos para la base actual.
 
----
+% Supongamos objetivo original: Maximizar \(x_1 + x_2\).  
+% - Nueva fila \(z\): Coeficientes \([-1, -1, 0]\) (porque muestra \(-\bar{c}_j\)).
+% - Cálculo:
+%   - Base actual: \(\{x_1, x_2\}\), \(c_B = [1, 1]\).
+%   - \(\bar{c}_{s_2} = 0 - [1, 1] \cdot [-0.5, 0.5]^T = 0 - (0) = 0\).
+%   - Valor de \(z = [1, 1] \cdot [1, 3]^T = 4\).
 
-### Transición a Fase II
-1. Eliminar columnas de variables artificiales (\(a_1, a_2\)).
-2. Reemplazar fila \(z\) por la función objetivo original.
-3. Recalcular costos reducidos para la base actual.
+% Tabla Fase II:
+% | Base | \(x_1\) | \(x_2\) | \(s_2\)  | RHS  |
+% |------|---------|---------|----------|------|
+% | \(x_2\) | 0       | 1       | 0.5      | 1    |
+% | \(x_1\) | 1       | 0       | -0.5     | 3    |
+% | \(z\)  | 0       | 0       | 0        | 4    |
 
-Supongamos objetivo original: Maximizar \(x_1 + x_2\).  
-- Nueva fila \(z\): Coeficientes \([-1, -1, 0]\) (porque muestra \(-\bar{c}_j\)).
-- Cálculo:
-  - Base actual: \(\{x_1, x_2\}\), \(c_B = [1, 1]\).
-  - \(\bar{c}_{s_2} = 0 - [1, 1] \cdot [-0.5, 0.5]^T = 0 - (0) = 0\).
-  - Valor de \(z = [1, 1] \cdot [1, 3]^T = 4\).
+% - Solución óptima: \(x_1 = 3\), \(x_2 = 1\), \(z = 4\).
 
-Tabla Fase II:
-| Base | \(x_1\) | \(x_2\) | \(s_2\)  | RHS  |
-|------|---------|---------|----------|------|
-| \(x_2\) | 0       | 1       | 0.5      | 1    |
-| \(x_1\) | 1       | 0       | -0.5     | 3    |
-| \(z\)  | 0       | 0       | 0        | 4    |
+% ---
 
-- Solución óptima: \(x_1 = 3\), \(x_2 = 1\), \(z = 4\).
+% ### Diagrama de Flujo del Algoritmo Simplex
+% ```mermaid
+% graph TD
+%     A[Inicio con tabla inicial] --> B[Verificar optimalidad]
+%     B -->|Todos coeficientes ≥ 0| C[¡Solución óptima!]
+%     B -->|Hay coeficiente < 0| D[Seleccionar variable entrante]
+%     D --> E[Ratio Test]
+%     E -->|Todos coeficientes ≤ 0| F[¡Problema no acotado!]
+%     E -->|Encontrar pivote| G[Pivoteo]
+%     G --> H[Actualizar tabla]
+%     H --> B
+% ```
 
----
-
-### Diagrama de Flujo del Algoritmo Simplex
-```mermaid
-graph TD
-    A[Inicio con tabla inicial] --> B[Verificar optimalidad]
-    B -->|Todos coeficientes ≥ 0| C[¡Solución óptima!]
-    B -->|Hay coeficiente < 0| D[Seleccionar variable entrante]
-    D --> E[Ratio Test]
-    E -->|Todos coeficientes ≤ 0| F[¡Problema no acotado!]
-    E -->|Encontrar pivote| G[Pivoteo]
-    G --> H[Actualizar tabla]
-    H --> B
-```
-
-### Consejos clave
-1. Fila \(z\) siempre muestra \(-\bar{c}_j\).
-2. Ratio Test ignora coeficientes \(\leq 0\).
-3. Variables artificiales:
-   - Fase I: Minimizar \(\omega = \sum a_i\) (transformada a \(z = -\omega\)).
-   - Si \(z_{\text{Fase I}} < 0\) → Problema infactible.
-4. Fase II: Usar solución de Fase I y función objetivo original.
+% ### Consejos clave
+% 1. Fila \(z\) siempre muestra \(-\bar{c}_j\).
+% 2. Ratio Test ignora coeficientes \(\leq 0\).
+% 3. Variables artificiales:
+%    - Fase I: Minimizar \(\omega = \sum a_i\) (transformada a \(z = -\omega\)).
+%    - Si \(z_{\text{Fase I}} < 0\) → Problema infactible.
+% 4. Fase II: Usar solución de Fase I y función objetivo original.
