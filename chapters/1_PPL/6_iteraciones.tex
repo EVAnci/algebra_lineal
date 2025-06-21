@@ -6,38 +6,56 @@ Una vez se ha construido la tabla Simplex inicial, se procede a iterar el métod
 A continuación veremos el proceso de iteración del método Simplex paso a paso.
 
 \subsubsection{Algoritmo Simplex Paso a Paso (después de construir la tabla inicial)}
-Para mostrar el algoritmo paso a paso, vamos a continuar con el ejemplo con el que trabajamos en el capítulo \ref{sec:tabla_simplex}. Para ello vamos a tener en cuenta las siguientes consideraciones:
+Para mostrar el algoritmo paso a paso, vamos a tener en cuenta las siguientes consideraciones:
 \begin{itemize}
   \item Asumimos un problema de \textbf{maximización} y está en su forma estándar.
   \item La tabla Simplex muestra \(-\bar{c}_j\) en la fila \(z\).
   \item Variables artificiales están presentes (Fase I), pero el algoritmo es idéntico para Fase II.
 \end{itemize}
 
-Pero antes de continuar con el ejemplo, veamos el algoritmo paso a paso.
+Y se supondrá una tabla genérica de la siguiente forma:
+\[
+\begin{array}{c|cccccc|c}
+\beta & x_1 & x_2 & \cdots & h_i & \alpha_j & \cdots & B \\
+\hline
+\beta_1 & a_{11} & a_{12} & \cdots & a_{1i} & a_{1n} & \cdots & b_1 \\
+\beta_2 & a_{21} & a_{22} & \cdots & a_{2i} & a_{2n} & \cdots & b_2 \\
+\vdots & \vdots & \vdots & & \vdots & \vdots & & \vdots \\
+\beta_k & a_{k1} & a_{k2} & \cdots & a_{ki} & a_{kn} & \cdots & b_k \\
+\hline
+z & -\bar{c}_1 & -\bar{c}_2 & \cdots & -\bar{c}_i & -\bar{c}_n & \cdots & -\sum b_i \\
+\end{array}
+\]
+donde:
+\begin{itemize}
+  \item \(x_1, \, x_2, \, \cdots ~\) son todas las variables de decisión, \(h_i\) todas las variables de holgura o superfluas y \(\alpha_j\) todas las variables artificiales,
+  \item \(\beta_1, \, \beta_2, \, \cdots ~\) son todas las variables que pertenecen a la base \(\beta\),
+  \item \(a_{ij}; ~~ i,j \in \mathbb{N}\) son los coeficientes de la matriz de restricciones \(A\) asociados a cada variable \(x_i,\, h_i\) o \(\alpha_i\),
+  \item \(b_1,\, b_2,\, \cdots , \, b_k\) son los términos independientes de la matriz \(B\)
+  \item La última fila corresponde a los costos reducidos \(-\bar{c}_i\) asociados a cada variable, y por otro lado \(-\sum b_i\) es el opuesto de la suma de todos los términos independientes. 
+\end{itemize}
+
+\begin{tcolorbox}[danger_box, title=Atención]
+  Al principio, cuando tenemos por primera vez la tabla simplex armada, los coeficientes \(a_{ij}\) se corresponderán con los de la matriz \(A\), pero a medida que se realicen iteraciones, irá cambiando. Es importante que sepa que cuando nos referimos a \(a_{ij}\) en la tabla simplex estamos haciendo referencia a esa fila y columna específica de la matriz de coeficientes de \textbf{la tabla Simplex}. Lo mismo aplica para \(b_i\), al principio se corresponderá con \(B\), luego no necesariamente lo hará.
+\end{tcolorbox}
+Veamos cada paso del algoritmo.
 
 \paragraph{Paso 1: Verificar optimalidad}
 
-El objetivo de este paso es evaluar si la solución básica actual (correspondiente a la tabla del método Simplex que ya has construido) es óptima. Esto se hace observando la fila de los coeficientes reducidos (comúnmente llamada fila \(z\)) en la tabla.
+El objetivo de este paso es evaluar si la solución básica actual (correspondiente a la tabla del método Simplex que ya has construido) es óptima. Esto se hace observando la fila de los \textit{coeficientes reducidos} (comúnmente llamada fila \(z\)) en la tabla.
 
 En términos prácticos, debes observar los coeficientes de la fila \(z\), excluyendo la columna del término independiente \(B\):
 \begin{itemize}
-  \item Si todos los coeficientes son mayores o iguales a cero, es decir, \(\geq 0\), entonces ya no es posible mejorar más el valor de la función objetivo. Esto indica que la solución actual es \hl{óptima}.
-  \item Si algún coeficiente es negativo, significa que al aumentar el valor de la variable correspondiente, se podría mejorar (reducir, en caso de minimización) el valor de la función objetivo. Por tanto, aún no se ha alcanzado la solución óptima, y se debe continuar con la iteración (Paso 2).
+  \item Si todos los costos reducidos son mayores o iguales a cero, es decir, \(-c_i \geq 0\), entonces ya no es posible mejorar más el valor de la función objetivo. Esto indica que la solución actual es \hl{óptima}.
+  \item Si algún costo reducido es negativo (\(-\bar{c}_i<0\)), significa que al aumentar el valor de la variable correspondiente, se podría mejorar (reducir, en caso de minimización) el valor de la función objetivo. Por tanto, aún no se ha alcanzado la solución óptima, y se debe continuar con la iteración (Paso 2).
 \end{itemize}
 
-El fundamento teórico tras este paso es el siguiente: En el método Simplex, el valor de cada coeficiente en la fila \(z\) representa el costo reducido de introducir la variable correspondiente en la base. Estos coeficientes suelen expresarse como \(-\bar{c}_j\), donde:
-\begin{itemize}
-  \item \(-\bar{c}_j = c_j - c_B^T B^{-1} A_j\), el costo reducido asociado a la variable \(x_j\).
-  \item \(c_j\): coeficiente de \(x_j\) en la función objetivo.
-  \item \(c_\beta\): vector de costos de las variables básicas actuales.
-  \item \(A_\beta\): matriz de columnas básicas.
-  \item \(A_j\): columna de la matriz de restricciones correspondiente a la variable \(x_j\).
-\end{itemize}
+El fundamento teórico tras este paso lo vimos anteriormente, pero en resumen es el siguiente: En el método Simplex, el valor de cada coeficiente en la fila \(z\) representa el costo reducido de introducir la variable correspondiente en la base. Estos coeficientes suelen expresarse como \(-\bar{c}_j\), donde: \(\bar{c}_j = c_j - c_\beta^T A_\beta^{-1} A_j\), el costo reducido asociado a la variable \(x_j\).
 Entonces:
-\begin{itemize}
-  \item Si \(-\bar{c}_j \geq 0\) para todos los \(j\), eso significa que \(\bar{c}_j \leq 0\). En este caso, introducir cualquier variable no básica en la base no mejora el valor de la función objetivo, por lo tanto, la solución es óptima.
-  \item En cambio, si \(-\bar{c}_j < 0\) para algún \(j\), es decir, \(\bar{c}_j > 0\), entonces aumentar \(x_j\) mejoraría la función objetivo (en un problema de minimización), y se debe continuar iterando.
-\end{itemize}
+
+Si \(-\bar{c}_j \geq 0\) para todos los \(j\), eso significa que \(\bar{c}_j \leq 0\). En este caso, introducir cualquier variable no básica en la base no mejora el valor de la función objetivo, por lo tanto, la solución es óptima.
+
+En cambio, si \(-\bar{c}_j < 0\) para algún \(j\), es decir, \(\bar{c}_j > 0\), entonces aumentar \(x_j\) mejoraría la función objetivo (en un problema de minimización), y se debe continuar iterando.
 
 Este paso responde a la pregunta: ¿ya hemos optimizado la función objetivo con las variables básicas actuales?
 
@@ -67,9 +85,9 @@ El paso 2 del método Simplex, denominado ``Seleccionar variable entrante'', es 
 
 El objetivo es identificar cuál variable \textbf{no básica} debe ingresar a la base. Esta elección busca mejorar el valor de la función objetivo \(z\) de la manera más eficiente posible, dado el estado actual del sistema.
 
-Para hacer esta selección, se utiliza la fila \(z\) de la tabla simplex, donde están los costos reducidos \(-\bar{c}_j\) (es decir, la ganancia marginal de introducir cada variable no básica):
+Para hacer esta selección, se utiliza la fila \(z\) de la tabla simplex, donde están los costos reducidos \(-\bar{c}_j\):
 \begin{itemize}
-  \item Se identifica el coeficiente más negativo en la fila \(z\) (excluyendo el término independiente). Esto se debe a que un coeficiente más negativo implica que aumentar esa variable no básica reduce el valor de \(z\) (recordando que en un problema de minimización, buscamos reducir \(z\) al máximo).
+  \item Se identifica el coeficiente más negativo en la fila \(z\) (excluyendo el término independiente). Esto se debe a que un coeficiente más negativo implica que aumentar esa variable no básica reduce el valor de \(z\).
   \item Si hay empate entre varios coeficientes igualmente negativos, se puede:
   \begin{itemize}
     \item Elegir cualquiera (esto puede llevar a diferentes caminos, pero en teoría todos válidos), o
@@ -77,12 +95,9 @@ Para hacer esta selección, se utiliza la fila \(z\) de la tabla simplex, donde 
   \end{itemize}
 \end{itemize}
 
-Desde el punto de vista teórico:
-\begin{itemize}
-  \item Los coeficientes de la fila \(z\) están dados por \(-\bar{c}_j = c_j - c_\beta^T A_\beta^{-1} A_j\). Como explicamos antes, este valor representa cuánto cambiará la función objetivo si se introduce una unidad de la variable \(x_j\) a la solución (es decir, si se la incorpora a la base).
-  \item Cuanto más negativo sea \(-\bar{c}_j\), más positivo será \(\bar{c}_j\), y por tanto, mayor será la reducción de \(z\) si se introduce esa variable.
-  \item En otras palabras, estamos buscando la variable con el mayor potencial para reducir el valor de la función objetivo, que es precisamente aquella con el \(-\bar{c}_j\) más negativo.
-\end{itemize}
+Desde el punto de vista teórico los coeficientes de la fila \(z\) están dados por \(-\bar{c}_j = c_j - c_\beta^T A_\beta^{-1} A_j\). Como explicamos antes, este valor representa cuánto cambiará la función objetivo si se introduce una unidad de la variable \(x_j\) a la solución (es decir, si se la incorpora a la base). Cuanto más negativo sea \(-\bar{c}_j\), más positivo será \(\bar{c}_j\), y por tanto, mayor será la reducción de \(z\) si se introduce esa variable.
+
+En otras palabras, estamos buscando la variable con el mayor potencial para reducir el valor de la función objetivo, que es precisamente aquella con el \(-\bar{c}_j\) más negativo.
 
 Este paso responde a la pregunta: ¿cuál de las variables no básicas, si la incorporamos a la base, más mejora la función objetivo?
 
@@ -104,72 +119,38 @@ La respuesta es: aquella cuya columna en la fila \(z\) tiene el valor más negat
 
 El \textit{paso 3 del método Simplex}, denominado ``\textit{Seleccionar variable saliente (Ratio Test)}'', completa la decisión de qué variable debe entrar y cuál debe salir de la base en la iteración actual. Este paso asegura que el movimiento hacia una nueva solución básica \textbf{sea factible}, es decir, no viole las restricciones del problema.
 
-El objetivo es determinar \textit{cuál de las variables básicas actuales debe salir de la base} al incorporar la nueva variable entrante. Esto se hace asegurando que el nuevo punto al que se avanza permanezca dentro de la región factible (es decir, que todas las variables sigan siendo no negativas).
+El objetivo es determinar \textit{cuál de las variables básicas actuales \hl{debe salir de la base}} al incorporar la nueva variable entrante. Esto se hace asegurando que el nuevo punto al que se avanza permanezca dentro de la región factible (es decir, que todas las variables sigan siendo no negativas).
 
-Una vez que se ha elegido la variable entrante (la columna con el coeficiente más negativo en la fila \(z\)), se aplica el llamado \textbf{``Test del cociente''} o \emph{Ratio Test} para decidir la variable saliente:
+Una vez que se ha elegido la variable entrante (la columna con el coeficiente más negativo en la fila \(z\)), se aplica el llamado \textit{``Test del cociente''} o \emph{Ratio Test} para decidir la variable saliente. El ratio test trabaja \textbf{solo con las filas correspondientes a las restricciones}, es decir, las filas correspondientes a \(a_i\).
+
+El procedimiento consiste en los siguientes pasos:
 \begin{enumerate}
-  \item Trabajar \textbf{solo con las filas correspondientes a las restricciones},
-    es decir, las que representan variables básicas actuales.
-  \item Observar la \textbf{columna de la variable entrante}.
-  \item Considerar \textbf{únicamente los coeficientes positivos} de esa columna
-    (coeficientes \(>0\)). Esto es fundamental porque un coeficiente negativo
-    implicaría que al aumentar la variable entrante, la variable básica
-    correspondiente aumentaría también, lo cual puede violar la factibilidad.
-  \item Para cada fila con coeficiente positivo en la columna de la variable
-    entrante, calcular el \textbf{cociente}:
-    \[
-      \mathrm{Ratio}_i
-      = \frac{B_i}{A_{i,\mathrm{entrante}}}
-    \]
-    donde
-    \begin{itemize}
-      \item \(B_i\): el término independiente de la fila \(i\) (columna ``\textit{B}'').
-      \item \(A_{i,\mathrm{entrante}}\): el valor de la columna
-        de la variable entrante en la fila \(i\).
-    \end{itemize}
-  \item Elegir la fila con \textbf{el menor cociente positivo}: es la que
-    \emph{llega primero a cero} al aumentar la variable entrante, es decir,
-    la \emph{primera en volverse no factible} si seguimos avanzando en esa
-    dirección.
-  \item La \textbf{variable básica} correspondiente a esa fila es la que
-    \textbf{debe salir} de la base.
+  \item Se toma la columna de la variable entrante en la tabla actual. Llamaremos a esa columna entrante \(e\). De esa columna se consideran todas las filas menos \(z\).
+  \item De la columna anterior (\(e\)), se observa cada uno de los valores (o cada una de las filas). Solo se tendrá en cuenta aquellos valores que sean positivos. Llamemos a cada valor positivo \(p_i\) de la columna \(e\) de la siguiente manera: \(e_{pi}\)
+  \item Para cada uno de los valores positivos del paso anterior, se aplica la siguiente operación:
+  \[
+    \text{Ratio}_i = \frac{b_i}{e_{pi}}
+  \]
+  donde \(b_i\) es el término independiente correspondiente a la fila evaluada y \(e_{pi}\) su respectivo coeficiente. Si no ha quedado del todo claro, más adelante se verá un ejemplo.
+  \item El menor ratio positivo determina cuál variable básica se vuelve cero primero al aumentar la variable entrante. Esa variable será la saliente: es la que abandona la base. En otras palabras, se elige como saliente aquella fila que ha dado el ratio positivo más pequeño.
 \end{enumerate}
 
-Desde el punto de vista teórico, este paso garantiza que el movimiento en la
-dirección de la variable entrante:
+Desde el punto de vista teórico, este paso garantiza que el movimiento en la dirección de la variable entrante sea \textbf{factible}, es decir, que todas las variables básicas permanezcan no negativas y no viole ninguna restricción de desigualdad original.
 
-\begin{itemize}
-  \item Sea \textbf{factible}, es decir, que todas las variables básicas
-    permanezcan no negativas.
-  \item No viole ninguna restricción de desigualdad original.
-\end{itemize}
+Al elegir la cantidad máxima que puede incrementarse la variable entrante sin hacer negativa alguna variable básica, se asegura que el nuevo vértice factible es \emph{vecino del actual} y se mantiene dentro del \emph{poliedro de soluciones factibles}.
 
-Al elegir la \textbf{cantidad máxima que puede incrementarse la variable
-entrante} sin hacer negativa alguna variable básica, se asegura que el nuevo
-vértice factible es \emph{vecino del actual} y se mantiene dentro del
-\emph{poliedro de soluciones factibles}.
-
-Este paso refleja una transición a lo largo de una \emph{arista del poliedro
-factible} en la dirección que más mejora \(z\), deteniéndose justo en el
+Este paso refleja una transición a lo largo de una \emph{arista del poliedro factible} en la dirección que más mejora \(z\), deteniéndose justo en el
 siguiente vértice (nueva solución básica).
 
-\textbf{Caso especial (problema no acotado)}: Si \textbf{todos los coeficientes en la columna de la variable entrante son
-\(\leq 0\)}, entonces no se puede aplicar el Ratio Test, ya que aumentar la variable entrante haría que todas las variables básicas crezcan (o no se afecten), \emph{nunca decrezcan}, lo que implica que no hay ningún límite superior que detenga el crecimiento de la variable entrante.
+\begin{tcolorbox}[interesting_data, title=Caso especial: problema no acotado]
+  Si \textbf{todos los coeficientes} en la columna de la variable entrante son \(\leq 0\), entonces no se puede aplicar el Ratio Test, ya que aumentar la variable entrante haría que todas las variables básicas crezcan (o no se afecten), y \emph{nunca decrezcan}, lo que implica que no hay ningún límite superior que detenga el crecimiento de la variable entrante.
 
-Este escenario indica que el problema \textbf{no está acotado}, es decir, que la
-función objetivo \emph{puede seguir mejorando indefinidamente}, y por lo tanto
-\textbf{no existe una solución óptima finita}.
+  Este escenario indica que el problema \textbf{no está acotado}, es decir, que la función objetivo \emph{puede seguir mejorando indefinidamente}, y por lo tanto no existe una solución óptima finita.
+\end{tcolorbox}
 
-Este paso responde a la pregunta:
-\begin{quote}
-  \textbf{¿Qué variable debe salir de la base para mantener la factibilidad cuando
-  una nueva variable entra?}
-\end{quote}
+Este paso responde a la pregunta: ¿Qué variable debe salir de la base para mantener la factibilidad cuando una nueva variable entra?
 
-La respuesta se obtiene aplicando el Ratio Test: se calcula el cociente entre
-el término independiente y el coeficiente de la variable entrante en cada fila,
-y se elige el menor cociente positivo. La variable básica correspondiente a
-esa fila es la que sale.
+La respuesta se obtiene aplicando el Ratio Test.
 
 \begin{tcolorbox}[title=Resumen del paso 3]
   \noindent \textbf{Objetivo}: Determinar qué variable abandona la base.
@@ -177,87 +158,42 @@ esa fila es la que sale.
   \noindent \textbf{Regla}:
   \begin{enumerate}
     \item En la columna de la variable entrante, considerar solo coeficientes \(> 0\).
-    \item Calcular ratio para cada fila \(i\):
-     \[
+    \item Calcular ratio para cada fila \(i\): 
+     \(
      \text{Ratio}_i = \frac{B_i}{A_{i,\text{entrante}}}
-     \]
+     \)
     \item Seleccionar la fila con el menor ratio positivo.
     \item La variable básica de esa fila es la variable saliente.
   \end{enumerate}
-  
-  \noindent \textbf{Caso especial}: Si todos los coeficientes \(\leq 0\) \(\rightarrow\) Problema no acotado (no existe solución óptima finita).
 \end{tcolorbox}
 
 \paragraph{Paso 4: Realizar pivoteo}
 
-El \textit{Paso 4 del método Simplex}, frecuentemente llamado
-\textit{``Paso de pivoteo''}, es el proceso algebraico que actualiza toda la
-tabla del método Simplex luego de decidir qué variable entra y cuál sale de la
-base. Su objetivo es producir una \textbf{nueva solución básica factible}, en
-la que se espera que el valor de la función objetivo haya mejorado.
+El \textit{Paso 4 del método Simplex}, frecuentemente llamado \textit{``Paso de pivoteo''}, es el proceso algebraico que actualiza toda la tabla del método Simplex luego de decidir qué variable entra y cuál sale de la base. Su objetivo es producir una \hl{nueva solución básica factible}, en la que se espera que el valor de la función objetivo haya mejorado.
 
-El objetivo de este paso es \textbf{actualizar la tabla} del método Simplex de
-acuerdo con el cambio de base (variable entrante y saliente) que se determinó
-en el Paso 3. Esta actualización garantiza que la nueva tabla represente un
-sistema equivalente, pero con una \textbf{nueva base} que contiene la variable
-entrante.
+El objetivo de este paso es \textbf{actualizar la tabla} del método Simplex de acuerdo con el cambio de base (variable entrante y saliente) que se determinó en el Paso 3. Esta actualización garantiza que la nueva tabla represente un sistema equivalente, pero con una \textbf{nueva base} que contiene la variable entrante.
 
+Este paso consiste en:
 \begin{enumerate}
-  \item \textbf{Identificar el pivote}:\\
-    El \textbf{pivote} es el elemento ubicado en la \textbf{intersección} de
-    la columna de la \textbf{variable entrante} y la fila de la
-    \textbf{variable saliente}. Este valor será utilizado para transformar la
-    fila y la columna asociadas.
+  \item Identificar el pivote: El \textbf{pivote} es el elemento ubicado en la \textbf{intersección} de la columna de la \textbf{variable entrante} y la fila de la \textbf{variable saliente}. Este valor será utilizado para transformar la fila y la columna asociadas.
 
-  \item \textbf{Normalizar la fila pivote}:\\
-    Se transforma la fila pivote dividiendo cada uno de sus elementos
-    (incluyendo el término independiente y el coeficiente en la fila \(z\), si
-    corresponde) por el valor del pivote. El propósito es convertir el pivote
-    en 1, lo que permitirá más adelante convertir los demás elementos de su
-    columna en cero.\\
-    \emph{Ejemplo}: si el pivote es 3 y la fila pivote es \((3,\;6,\;9)\), después
-    de la normalización se convierte en \((1,\;2,\;3)\).
+  \item Normalizar la fila pivote: Se transforma la fila pivote dividiendo cada uno de sus elementos (incluyendo el término independiente y el coeficiente en la fila \(z\), si corresponde) por el valor del pivote. El propósito es convertir el pivote en 1, lo que permitirá más adelante convertir los demás elementos de su columna en cero.\\ \emph{Ejemplo}: si el pivote es 3 y la fila pivote es \((3,\;6,\;9)\), después de la normalización se convierte en \((1,\;2,\;3)\) (se ha dividido todo por 3).
 
-  \item \textbf{Hacer ceros en la columna pivote (excepto en fila pivote)}:\\
-    Se aplica \emph{eliminación gaussiana} para anular todos los demás
-    elementos de la \textbf{columna de la variable entrante}, excepto el 1 que
-    ahora ocupa la posición del pivote. Para cada fila \(i\) (incluyendo la fila
-    \(z\)), se realiza:
+  \item Hacer ceros en la columna pivote (excepto en fila pivote): Se aplica \emph{eliminación gaussiana}\footnote{operaciones elementales de filas y columnas} para anular todos los demás elementos de la \textbf{columna de la variable entrante}, excepto el 1 que ahora ocupa la posición del pivote. Para cada fila \(i\) (incluyendo la fila \(z\)), se realiza:
     \[
       \text{Nueva Fila}_i
       = \text{Fila}_i
       - \bigl(\text{Coeficiente}_{i,\mathrm{entrante}} \times \text{Fila Pivote}\bigr).
     \]
-    Esto asegura que en todas las demás filas, la columna correspondiente a la
-    variable entrante tenga valor 0, excepto en la fila pivote donde tiene 1,
-    convirtiendo la columna en parte de una matriz identidad.
+  Esto asegura que en todas las demás filas, la columna correspondiente a la variable entrante tenga valor 0, excepto en la fila pivote donde tiene 1, convirtiendo la columna en parte de una matriz identidad.
 
-  \item \textbf{Actualizar la base}:\\
-    En la columna de variables básicas (frecuentemente llamada ``Base''), se
-    reemplaza la variable que salió con la variable que entró. Esto formaliza
-    el cambio de base, reflejando la nueva estructura de la solución básica
-    factible.
+  \item Actualizar la base: En la columna de variables básicas (frecuentemente llamada ``Base''), se reemplaza la variable que salió con la variable que entró. Esto formaliza el cambio de base, reflejando la nueva estructura de la solución básica factible.
 \end{enumerate}
-Este paso es fundamental porque garantiza que:
-\begin{itemize}
-  \item La nueva tabla es \textbf{equivalente al sistema original}, pero
-    reescrita en función de una nueva base.
-  \item El sistema se mantiene en forma \textbf{canónica} (o forma estándar), es decir, la base
-    sigue representada por una submatriz identidad.
-  \item La nueva solución sigue siendo factible (todas las variables básicas
-    siguen siendo \(\ge 0\)) y, si el procedimiento se realizó correctamente,
-    \textbf{mejora o mantiene} el valor de la función objetivo.
-\end{itemize}
+Este paso es fundamental porque garantiza que la nueva tabla es equivalente al sistema original, pero reescrita en función de una nueva base, que e|l sistema se mantenga en forma \textbf{canónica} (o forma estándar) y que la nueva solución siga siendo factible (todas las variables básicas siguen siendo \(\ge 0\)) y, si el procedimiento se realizó correctamente, \textbf{mejora o mantiene} el valor de la función objetivo.
 
-Geométricamente, este paso corresponde a \textit{avanzar de un vértice del
-poliedro (o politopo) factible al siguiente vértice adyacente}, a lo largo de una arista
-que mejora el valor de la función objetivo.
+Geométricamente, este paso corresponde a \textit{avanzar de un vértice del poliedro (o politopo) factible al siguiente vértice adyacente}, a lo largo de una arista que mejora el valor de la función objetivo.
 
-Este paso responde a la pregunta:
-\begin{quote}
-  \textbf{¿Cómo actualizamos la tabla para reflejar el nuevo vértice factible
-  al que nos hemos movido?}
-\end{quote}
+Este paso responde a la pregunta: ¿Cómo actualizamos la tabla para reflejar el nuevo vértice factible al que nos hemos movido?
 
 La respuesta es aplicar el \textbf{proceso de pivoteo}, que consiste en:
 \begin{enumerate}
@@ -305,82 +241,217 @@ Continuando con el ejemplo de la sección anterior:
 
 \paragraph{Iteración 1}
 
-\textbf{Paso 1}: Coeficientes en \(z\): \([-2, 0, 1, 0, 0]\). Hay negativo (\(-2\)) \(\rightarrow\) No óptimo.
+\textbf{Paso 1}: Coeficientes en \(z\): \([-2, 0, 1, 0, 0]\). Hay un coeficiente negativo (\(-2\)) \(\rightarrow\) No estamos en la solución óptima.
 
 Tabla inicial:
-% Preguntar a chatgpt: 
-% Cómo puedo hacer para que nicematrix incluya el famoso {c|ccccc|c} de {array}? 
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & -2 & 0 & 1 & 0 & 0 & -6 \\
+  \end{NiceMatrix}
+\]
+  
+\textbf{Paso 2}: Variable entrante = \(x_1\) (coeficiente más negativo: \(-2\)).
+
 \[
   \begin{NiceMatrix}[code-before = 
-    \rectanglecolor{red!20}{4-2}{4-2}
-  ]
-  \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
-  \hline
-  a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
-  a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
-  \hline
-  z & -2 & 0 & 1 & 0 & 0 & -6 \\
+    \rectanglecolor{green!20}{2-2}{4-2}
+    ]
+    \beta & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_1\)};
+ & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & -2 & 0 & 1 & 0 & 0 & -6 \\
   \end{NiceMatrix}
 \]
 
-\textbf{Paso 2}: Variable entrante = \(x_1\) (coeficiente más negativo: \(-2\)).
+\textbf{Paso 3}: Realizamos el cálculo de Ratio Test para cada fila con coeficiente positivo:
+\begin{itemize}
+  \item Fila 1: tiene coeficiente 1, entonces calculamos: \\
+  \[\text{Ratio}_1 = \frac{4}{1}\]
+  \item Fila 2: tiene coeficiente 1, entonces calculamos: \\ 
+  \[\text{Ratio}_2 = \frac{2}{1}\]
+\end{itemize}
+La fila 2 presenta el menor Ratio, por lo tanto seleccionamos la fila 2, y la variable saliente es \(a_2\)
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-2}{4-2}
+    \rectanglecolor{red!20}{3-2}{3-7}
+    \rectanglecolor{yellow!50}{3-2}{3-2}
+    ]
+    \beta & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_1\)};
+ & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    \tikz[baseline=(X.base)] \node[draw=red, circle, inner sep=1pt, thick] (X) {\(a_2\)}; & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & -2 & 0 & 1 & 0 & 0 & -6 \\
+  \end{NiceMatrix}
+\]
+Con esto nos queda marcado el pivote en color amarillo para el paso 4.
 
-\begin{enumerate}
-  \item Paso 3 (Ratio Test):
-  \begin{itemize}
-    \item Columna \(x_1\): \([1, 1]^T\) (ambos \(> 0\)).
-    \item Ratios: \(\frac{4}{1} = 4\), \(\frac{2}{1} = 2\).
-    \item Menor ratio: \(2\) → Fila de \(a_2\) sale.
-  \end{itemize}
-  \item Paso 4 (Pivoteo):
-  \begin{itemize}
-    \item Pivote: \(1\) (intersección \(a_2\) y \(x_1\)).
-    \item Normalizar fila \(a_2\): Ya es 1.
-    \item Operaciones fila:
-      \begin{itemize}
-        \item Fila \(a_1\): \([1, 1, 0, 1, 0, 4] - (1 \times [1, -1, -1, 0, 1, 2]) = [0, 2, 1, 1, -1, 2]\)
-        \item Fila \(z\): \([-2, 0, 1, 0, 0, -6] - (-2 \times [1, -1, -1, 0, 1, 2]) = [0, -2, -1, 0, 2, -2]\)
-      \end{itemize}
-    \item Nueva base: \(\{a_1, x_1\}\).
-  \end{itemize}
-\end{enumerate}
+\textbf{Paso 4}: El pivote es el elemento de intersección entre la columna de la variable entrante y la fila de la saliente (\(x_1\) y \(a_2\)).
+Realizamos la normalización de cada fila:
 
-% Tabla actualizada:
-% | Base | \(x_1\) | \(x_2\) | \(s_2\) | \(a_1\) | \(a_2\) | RHS  |
-% |------|---------|---------|---------|---------|---------|------|
-% | \(a_1\) | 0       | 2       | 1       | 1       | -1      | 2    |
-% | \(x_1\) | 1       | -1      | -1      | 0       | 1       | 2    |
-% | \(z\)  | 0       | -2      | -1      | 0       | 2       | -2   |
+\begin{itemize}
+  \item Normalizar fila \(a_2\): Ya es 1, no hacemos nada.
+  \item Normalizar fila \(a_1\): No es 0, aplicamos operaciones fila:
+  \[[1, 1, 0, 1, 0, 4] - (1 \times [1, -1, -1, 0, 1, 2]) = [0, 2, 1, 1, -1, 2]\]
+  \item Fila \(z\): No es 0, aplicamos operaciones fila:
+  \[[-2, 0, 1, 0, 0, -6] - (-2 \times [1, -1, -1, 0, 1, 2]) = [0, -2, -1, 0, 2, -2]\]
+\end{itemize}
+Nueva base: \(\{a_1, x_1\}\). Tabla resultante:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & -2 & -1 & 0 & 2 & -2 \\
+  \end{NiceMatrix}
+\]
+  
+\paragraph{Iteración 2}
 
-% ---
+\textbf{Paso 1}: Aún hay valores negativos en la fila \(z\), continuamos iterando. 
 
-% #### Iteración 2:
-% 1. Paso 1: Coeficientes en \(z\): \([0, -2, -1, 0, 2]\). Hay negativo (\(-2\)) → No óptimo.
-% 2. Paso 2: Variable entrante = \(x_2\) (coeficiente más negativo: \(-2\)).
-% 3. Paso 3 (Ratio Test):
-%    - Columna \(x_2\): \([2, -1]^T\). Solo \(a_1\) tiene coeficiente \(> 0\) (2).
-%    - Ratio: \(\frac{2}{2} = 1\) → Fila de \(a_1\) sale.
-% 4. Paso 4 (Pivoteo):
-%    - Pivote: \(2\) (intersección \(a_1\) y \(x_2\)).
-%    - Normalizar fila \(a_1\): Dividir por 2 → \([0, 1, 0.5, 0.5, -0.5, 1]\).
-%    - Operaciones fila:
-%      - Fila \(x_1\): \([1, -1, -1, 0, 1, 2] - (-1 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [1, 0, -0.5, 0.5, 0.5, 3]\)
-%      - Fila \(z\): \([0, -2, -1, 0, 2, -2] - (-2 \times [0, 1, 0.5, 0.5, -0.5, 1]) = [0, 0, 0, 1, 1, 0]\)
+\textbf{Paso 2}: El valor más negativo es \(-2\) correspondiente a la columna asociada a \(x_2\). Entonces seleccionamos la columna 2.
 
-% Tabla actualizada:
-% | Base | \(x_1\) | \(x_2\) | \(s_2\)  | \(a_1\)  | \(a_2\)  | RHS  |
-% |------|---------|---------|----------|----------|----------|------|
-% | \(x_2\) | 0       | 1       | 0.5      | 0.5      | -0.5     | 1    |
-% | \(x_1\) | 1       | 0       | -0.5     | 0.5      | 0.5      | 3    |
-% | \(z\)  | 0       | 0       | 0        | 1        | 1        | 0    |
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-3}{4-3}
+    ]
+    \beta & x_1 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_2\)}; & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & -2 & -1 & 0 & 2 & -2 \\
+  \end{NiceMatrix}
+\]
 
-% ---
+\textbf{Paso 3}: Calculamos los Ratio test para todas las filas no negativas. En este caso hay solo una fila no negativa, la fila 1.
 
-% #### Final de Fase I:
-% - Paso 1: Coeficientes en \(z\): \([0, 0, 0, 1, 1] \geq 0\) → Solución óptima de Fase I.
-% - Valor de \(z = 0\) → Factible. Pasamos a Fase II.
+El Ratio test es:
+\[
+  \text{Ratio}_1 = \frac{2}{2} = 1
+\]
+Como no hay otro ratio para comparar y este cumple con ser no negativo, entonces seleccionamos la fila 1 como saliente:
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-3}{4-3}
+    \rectanglecolor{red!20}{2-2}{2-7}
+    \rectanglecolor{yellow!50}{2-3}{2-3}
+    ]
+    \beta & x_1 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_2\)}; & s_1 & a_1 & a_2 & B \\
+    \hline
+    \tikz[baseline=(X.base)] \node[draw=red, circle, inner sep=1pt, thick] (X) {\(a_1\)}; & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & -2 & -1 & 0 & 2 & -2 \\
+  \end{NiceMatrix}
+\]
 
-% ---
+\textbf{Paso 4}: Del paso anterior nos queda marcado el pivote (intersección \(a_1\) y \(x_2\)), entonces ahora normalizamos las filas:
+\begin{itemize}
+  \item Fila 1: El valor del pivote debe ser 1, en este caso no lo es, así que dividimos la fila por el valor del coeficiente. En este caso 2:
+  \[
+    \frac{1}{2}[0, 2, 1, 1, -1, 2] = \left[0, 1, \frac{1}{2}, \frac{1}{2}, -\frac{1}{2}, 1\right]
+  \]
+  \item Fila 2: No es cero, por lo tanto aplicamos la operación fila:
+  \[
+    [1, -1, -1, 0, 1, 2] - (-1)\left[0, 1, \frac{1}{2}, \frac{1}{2}, -\frac{1}{2}, 1\right] = \left[1, 0, -\frac{1}{2}, \frac{1}{2}, \frac{1}{2}, 3\right]
+  \]
+  \item Fila \(z\): No es cero, por lo tanto aplicamos la operación fila:
+  \[
+    [0, -2, -1, 0, 2, -2] - (-2)\left[0, 1, \frac{1}{2}, \frac{1}{2}, -\frac{1}{2}, 1\right] = \left[0, 0, 0, 1, 1, 0\right]
+  \]
+\end{itemize}
+Nueva base: \(\{x_1,x_2\}\). Tabla resultante:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    x_2 & 0 & 1 & 1/2 & 1/2 & -1/2 & 1 \\
+    x_1 & 1 & 0 & -1/2 & 1/2 & 1/2 & 3 \\
+    \hline
+    z & 0 & 0 & 0 & 1 & 1 & 0 \\
+  \end{NiceMatrix}
+\]
+
+\paragraph{Iteración 3}
+
+\textbf{Paso 1}: Todos los costos reducidos son positivos, se ha llegado a la solución óptima.
+
+En este caso, haber llegado a la solución óptima no significa haber resuelto el problema original, sino que se ha resuelto el problema auxiliar.
+
+Nuestra solución básica factible inicial es \(x_1=3\) y \(x_2=1\). En este caso, como el PPL inicial era (ejemplo \ref{ej:fase_1}):
+\begin{align*}
+  \text{maximizar} \quad  &z = 3x_1 + 2x_2\\[3pt]
+  \text{sujeto a:} \quad  &x_1 + x_2 = 4\\
+                          &x_1 - x_2 \geq 2\\
+                          &x_1, x_2 \geq 0
+\end{align*}
+Vemos que si realizamos el gráfico para analizar las soluciones factibles del PPL \(x_1=3\) y \(x_2=1\) será un punto esquina.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+  \begin{axis}[
+      xlabel={$x_1$},
+      ylabel={$x_2$},
+      xmin=0, xmax=6,
+      ymin=0, ymax=6,
+      grid=major,
+      axis lines=center,
+      legend pos=north east,
+      width=10cm,
+      height=8cm
+  ]
+
+  % Restricción 1: x1 + x2 = 4
+  \addplot[orange, thick, dashed, domain=0:5, name path=A] {-1*x + 4};
+  \addlegendentry{\(x_1 + x_2 = 4\)}
+
+  % Restricción 2: x1 - x2 >= 2
+  \addplot[blue, thick, dashed, domain=0:5, name path=B] {x-2};
+  \addlegendentry{\(x_1 - x_2 \geq 2\)}
+
+  % Función objetivo (para un valor de z=11): 11 = 3x1 + 2x2
+  \addplot[red, thick, domain=0:5, name path=C] {-(3/2)*x + (11/2)};
+  \addlegendentry{\(11 = 3x_1 + 2x_2\)}
+
+  % Región factible
+  \addplot[cyan, ultra thick , domain=3:5, name path=E] {-x + 4};
+  \addlegendentry{Región factible}
+
+  % Puntos vértices de la región factible
+  \addplot[only marks, mark=*, mark size=3pt, color=black] 
+  coordinates {(4,0) (3,1)};
+
+  % % Etiquetas de los vértices
+  \node at (axis cs:4,0) [above right] {B (4,0)};
+  \node at (axis cs:3,1) [above right] {A \(\left(3,1\right)\)};
+
+  \end{axis}
+  \end{tikzpicture}
+  \caption{Gráfico del PPL original}
+  \label{fig:ppl_simplex_grafico}
+\end{figure}
+Gráficamente puede detectarse de forma clara que la solución factible del problema original es \(x_1=4\) y \(x_2=0\), sin embargo, vemos que el punto que hemos obtenido es una SBFI. Esto es muy importante ya que, en el caso de este problema sencillo de pocas variables de decisión no tiene mucho sentido aplicar todo el algoritmo a mano, sin embargo para problemas con más restricciones y más variables de decisión es totalmente necesario.
+
+Ahora, tal vez digas: ``Ya tengo mi SBFI. Ahora ¿Cómo resuelvo el PPL original?''
+
+La respuesta está en la \textit{Fase II}. Esta fase es la que se aplica si ya hay una SBFI conocida. Vamos a ver en qué consiste esta fase en detalle a continuación.
+
+\subsubsection{Fase II: Resolución del PPL original}
 
 % ### Transición a Fase II
 % 1. Eliminar columnas de variables artificiales (\(a_1, a_2\)).
