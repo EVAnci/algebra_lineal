@@ -1,0 +1,37 @@
+\subsection{Resumen de contenidos}
+
+\subsubsection{Método simplex}
+
+El método simplex puede resumirse con un diagrama de flujo que muestra los pasos del algoritmo. Es importante que usted haya leído todo el capitulo para entender los detalles implícitos en cada parte.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{simplex.png}
+\end{figure}
+
+% Diagrama de flujo usando tikz (no me convence el resultado, por eso dejo la imagen)
+% \begin{tikzpicture}[node distance=1.5cm]
+%   \node (start) [startstop] {Inicio: problema en forma estándar};
+%   \node (base) [process, below of=start] {Seleccionar base inicial factible};
+%   \node (optimal) [decision, below of=base, yshift=-0.5cm] {¿Solución óptima?};
+%   \node (choose) [process, right of=optimal, xshift=5.5cm] {Elegir variable entrante};
+%   \node (pivot) [process, below of=choose] {Determinar variable saliente};
+%   \node (update) [process, below of=pivot] {Actualizar tabla (pivote)};
+%   \node (end) [startstop, below of=optimal, yshift=-2.3cm] {Fin: solución óptima alcanzada};
+
+%   % Coordenadas auxiliares
+%   \coordinate (optwest) at (optimal.west);
+%   \coordinate (endwest) at (end.west);
+%   \coordinate (mid1) at ($(optwest)+(-1.5,0)$);
+%   \coordinate (mid2) at ($(mid1 |- endwest)$);
+
+%   % Flechas
+%   \draw [arrow] (start) -- (base);
+%   \draw [arrow] (base) -- (optimal.north);
+%   \draw [arrow] (optimal.east) -- node[above] {No} (choose.west);
+%   \draw [arrow] (choose) -- (pivot);
+%   \draw [arrow] (pivot) -- (update);
+%   \draw [arrow] (update.west) -- ++(-3.5,0) -| (optimal.south);
+%   \draw [arrow] (optwest) -- (mid1) -- node[midway,left] {Sí} (mid2) -- (endwest);
+% \end{tikzpicture}
+

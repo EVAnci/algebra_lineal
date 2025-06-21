@@ -453,46 +453,207 @@ La respuesta está en la \textit{Fase II}. Esta fase es la que se aplica si ya h
 
 \subsubsection{Fase II: Resolución del PPL original}
 
-% ### Transición a Fase II
-% 1. Eliminar columnas de variables artificiales (\(a_1, a_2\)).
-% 2. Reemplazar fila \(z\) por la función objetivo original.
-% 3. Recalcular costos reducidos para la base actual.
+La Fase II del método Simplex es el procedimiento iterativo de optimización que busca mejorar el valor de la función objetivo (maximizar o minimizar) partiendo de una solución inicial factible. En esta fase, todas las restricciones ya están satisfechas y no hay variables artificiales (o estas valen cero), por lo tanto, se puede aplicar directamente el método Simplex clásico.
 
-% Supongamos objetivo original: Maximizar \(x_1 + x_2\).  
-% - Nueva fila \(z\): Coeficientes \([-1, -1, 0]\) (porque muestra \(-\bar{c}_j\)).
-% - Cálculo:
-%   - Base actual: \(\{x_1, x_2\}\), \(c_B = [1, 1]\).
-%   - \(\bar{c}_{s_2} = 0 - [1, 1] \cdot [-0.5, 0.5]^T = 0 - (0) = 0\).
-%   - Valor de \(z = [1, 1] \cdot [1, 3]^T = 4\).
+La buena noticia es que el algoritmo simplex es el mismo que vimos en la Fase I. En cada iteración se analiza la tabla simplex para:
+\begin{enumerate}
+  \item Verificar si la solución es óptima (paso 1).
+  \item Si no lo es, elegir una variable entrante (paso 2).
+  \item Determinar la variable saliente (paso 3).
+  \item Actualizar la tabla (paso 4).  
+\end{enumerate}
 
-% Tabla Fase II:
-% | Base | \(x_1\) | \(x_2\) | \(s_2\)  | RHS  |
-% |------|---------|---------|----------|------|
-% | \(x_2\) | 0       | 1       | 0.5      | 1    |
-% | \(x_1\) | 1       | 0       | -0.5     | 3    |
-% | \(z\)  | 0       | 0       | 0        | 4    |
+Ahora, que sabemos de que se trata, vamos a resolver el problema original: Resolución de la Fase II para \(\text{max}\, z = 3x_1 + 2x_2\):
 
-% - Solución óptima: \(x_1 = 3\), \(x_2 = 1\), \(z = 4\).
+\paragraph{Paso 0: Transición a la Fase II}
 
-% ---
+Si el PPL que se busca resolver no pasó por la Fase I (no se le agregaron variables artificiales) entonces, se parte ya desde esta Fase, ya que el único propósito de la Fase I es encontrar una SBFI. Cómo se parte de la Fase II, entonces no será necesario transformar el problema.
 
-% ### Diagrama de Flujo del Algoritmo Simplex
-% ```mermaid
-% graph TD
-%     A[Inicio con tabla inicial] --> B[Verificar optimalidad]
-%     B -->|Todos coeficientes ≥ 0| C[¡Solución óptima!]
-%     B -->|Hay coeficiente < 0| D[Seleccionar variable entrante]
-%     D --> E[Ratio Test]
-%     E -->|Todos coeficientes ≤ 0| F[¡Problema no acotado!]
-%     E -->|Encontrar pivote| G[Pivoteo]
-%     G --> H[Actualizar tabla]
-%     H --> B
-% ```
+Por otro lado, cuando tenemos un problema que ha tenido que pasar por la Fase I para obtener la SBFI debemos aplicar una transformación a la tabla para poder seguir con la Fase II. Esta transformación consiste en lo siguiente:
+\begin{enumerate}
+  \item Eliminar columnas de variables artificiales (\(a_1, a_2\)).
+  \item Reemplazar fila \(z\) por la función objetivo original. 
+  \item Recalcular costos reducidos para la base actual.
+\end{enumerate}
 
-% ### Consejos clave
-% 1. Fila \(z\) siempre muestra \(-\bar{c}_j\).
-% 2. Ratio Test ignora coeficientes \(\leq 0\).
-% 3. Variables artificiales:
-%    - Fase I: Minimizar \(\omega = \sum a_i\) (transformada a \(z = -\omega\)).
-%    - Si \(z_{\text{Fase I}} < 0\) → Problema infactible.
-% 4. Fase II: Usar solución de Fase I y función objetivo original.
+Partimos de la tabla final de la Fase I (con \(z = 0\) y solución factible), donde las variables artificiales (\(a_1, a_2\)) ya no son necesarias. Lo que nos sirve de la tabla final de la Fase I es:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & B \\
+    \hline
+    x_1 & 1 & 0 & -1/2 & 3 \\
+    x_2 & 0 & 1 & 1/2 & 1
+  \end{NiceMatrix}
+\]
+\begin{tcolorbox}[myconclusion]
+  Nota: se ha cambiado el orden de las filas \(x_1\) y \(x_2\). Esto no cambiará el resultado, solo es para que no se confunda con los subíndices en las explicaciones.
+\end{tcolorbox}
+Ahora debemos reemplazar la fila \(z\) anterior por la función objetivo original: \(\text{max}\, z=3x_1+2x_2\). En este caso, como a la función objetivo del problema auxiliar también le hemos llamado \(z\), entonces no notaremos una diferencia visual en la tabla respecto de la función objetivo. La única diferencia será el valor actual de \(z\):
+\[
+  z = 3 \cdot 3 + 2 \cdot 1 = 11
+\]
+Otra cosa que debemos hacer para poder introducir la fila \(z\) en la tabla es calcular de nuevo todos los costos reducidos. Entonces:
+\begin{itemize}
+  \item Costo para \(x_1\): \(\bar{c}_1 = c_1 - c_\beta ^T A_\beta^{-1}A_{i1}\)
+  \[
+    \bar{c}_1 = 3 - (3, 2)\begin{pmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      1 \\ 0
+    \end{pmatrix} = 0
+  \]
+  \item Costo para \(x_2\): \(\bar{c}_2 = c_2 - c_\beta ^T A_\beta^{-1}A_{i2}\)
+  \[
+    \bar{c}_2 = 2 - (3, 2)\begin{pmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      0 \\ 1
+    \end{pmatrix} = 0
+  \]
+  \item Costo para \(s_1\): \(\bar{c}_3 = c_3 - c_\beta ^T A_\beta^{-1}A_{i3}\)
+  \[
+    \bar{c}_3 = 0 - (3, 2)\begin{pmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      -1/2 \\ 1/2
+    \end{pmatrix} = 0.5
+  \]
+\end{itemize}
+Entonces la tabla luego de la transformación queda:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & B \\
+    \hline
+    x_1 & 1 & 0 & -1/2 & 3 \\
+    x_2 & 0 & 1 & 1/2 & 1 \\
+    \hline
+    z & 0 & 0 & -1/2 & 11
+  \end{NiceMatrix}
+\]
+A partir de ahora solo se repite el algoritmo ya visto previamente (los 4 pasos).
+
+\paragraph{Iteración 1}
+
+\textbf{Paso 1}: Hay costos reducidos negativos en la columna \(z\) \(\rightarrow\) no estamos en la solución óptima, vamos al paso 2.
+
+\textbf{Paso 2}: El coeficiente más negativo está en la columna 3 (no hay otro coeficiente negativo). Entonces seleccionamos la variable de la columna 3 como variable entrante (\(s_1\)):
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-4}{4-4}
+    ]
+    \beta & x_1 & x_2 &  \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(s_1\)}; & B \\
+    \hline
+    x_1 & 1 & 0 & -1/2 & 3 \\
+    x_2 & 0 & 1 & 1/2 & 1 \\
+    \hline
+    z & 0 & 0 & -1/2 & 11
+  \end{NiceMatrix}
+\]
+
+\textbf{Paso 3}: calculamos el Ratio test para cada fila no negativa. En este caso hay solo una, la fila 2:
+\[
+  \text{Ratio}_2 = \frac{1}{0.5} = 2
+\]
+Como es un valor positivo, podemos seleccionar la variable \(x_2\) como saliente. En la tabla:
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-4}{4-4}
+    \rectanglecolor{red!20}{3-2}{3-5}
+    \rectanglecolor{yellow!50}{3-4}{3-4}
+    ]
+    \beta & x_1 & x_2 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(s_1\)}; & B \\
+    \hline
+    x_1 & 1 & 0 & -1/2 & 3 \\
+    \tikz[baseline=(X.base)] \node[draw=red, circle, inner sep=1pt, thick] (X) {\(x_2\)}; & 0 & 1 & 1/2 & 1 \\
+    \hline
+    z & 0 & 0 & -1/2 & 11
+  \end{NiceMatrix}
+\]
+La nueva base es \(\{x_1,s_1\}\). El pivote queda marcado en amarillo para el siguiente paso.
+
+\textbf{Paso 4}: El pivote es \(1/2\), por lo que debemos multiplicar a toda la fila por \(2\):
+\[
+  (0, 1, 1/2, 1) \cdot 2 = (0, 2, 1, 2)
+\]
+Y por último aplicamos operaciones fila a todas las columnas:
+\begin{itemize}
+  \item Fila 1: No es cero, realizamos la operación:
+  \[
+    (1, 0, -1/2, 3) - (-1/2)(0, 2, 1, 2) = (1, 1, 0, 4)
+  \]
+  \item Fila \(z\): No es cero, realizamos la operación:
+  \[
+    (0, 0, -1/2, 11) - (-1/2)(0, 2, 1, 2) = (0, 1, 0, 12)
+  \]
+\end{itemize}
+Con esto la tabla resulta:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & B \\
+    \hline
+    x_1 & 1 & 1 & 0 & 4 \\
+    s_1 & 0 & 2 & 1 & 2 \\
+    \hline
+    z & 0 & 1 & 0 & 12
+  \end{NiceMatrix}
+\]
+
+\paragraph{Iteración 2}
+
+\textbf{Paso 1}: No hay coeficientes en la columna \(z\) negativos, se ha llegado a la solución óptima.
+
+\textbf{Resultado}: El resultado con el método simplex tiene una gran ventaja respecto del método gráfico, ya que en la tabla no solo se muestra que la solución óptima ha sido alcanzada. La tabla nos da mucha más información sobre el valor de la función objetivo (beneficio en este caso) y los valores de los excesos, que nos permiten separar lo que son recursos limitados (o escasos) y recursos sobrantes.
+
+Si hubiese un enunciado para el PPL dado, se podría construir una respuesta, sin embargo, como no formulamos un problema verbal primero, entonces no es posible dar una respuesta totalmente acertada. Un posible ejemplo puede ser:
+
+En el caso de este resultado podemos decir: La máxima ganancia (en caso de que el PPL sea económico) se obtiene con 4 unidades de \(x_1\), que es de \$12. Además se tienen \(2\) unidades de sobra respecto a la segunda restricción.
+
+Para dar buenas respuestas cuando se tienen PPLs verbales, la tabla permite interpretar los resultados muy intuitivamente.
+
+\subsubsection{Interpetación de los resultados}
+
+Las interpretaciones económicas o prácticas de los resultados de un problema de programación lineal (PPL) son tan importantes como su resolución matemática. Entender qué significan las variables, restricciones, valores óptimos y duales permite tomar decisiones fundamentadas en contextos reales.
+
+Después de resolver un PPL se pueden interpretar los resultados de diversas maneras:
+\begin{enumerate}
+  \item Valor óptimo de la función objetivo.
+  \item Valores óptimos de las variables de decisión.
+  \item Recursos utilizados y excedentes.
+  \item Variables de holgura/superávit.
+  \item Valores duales o precios sombra.
+  \item Análisis de sensibilidad (cambios en coeficientes y restricciones).
+\end{enumerate}
+
+Estas interpretaciones permiten transformar una solución matemática en una decisión estratégica en contextos reales.
+
+\subparagraph{¿Qué son los recursos limitados en un PPL?}
+
+En programación lineal, los recursos limitados son las restricciones del problema que reflejan cantidades máximas disponibles de insumos, tiempo, dinero, materiales, mano de obra, espacio, etc.
+
+\subparagraph{¿Qué interpretaciones de resultados se pueden hacer luego de resolver un PPL?}
+
+Después de resolver un PPL, además de obtener el valor óptimo de la función objetivo y los valores óptimos de las variables de decisión, hay varias interpretaciones valiosas:
+
+\begin{enumerate}
+  \item Valor óptimo (función objetivo): Es el mejor resultado alcanzable (máximo beneficio o mínimo costo) bajo las condiciones dadas. Tiene interpretación directa: por ejemplo, ``la empresa maximiza su ganancia en \$8400''.
+  
+  \item Solución óptima (valores de las variables): Los valores óptimos de las variables indican cuánto producir, transportar, comprar, invertir, etc. Por ejemplo: ``producir 120 unidades del producto A y 80 del B''.
+  
+  \item Recursos utilizados vs. recursos sobrantes: Comparando el lado izquierdo y derecho de cada restricción: Si se usa todo el recurso disponible \(\rightarrow\) el recurso está agotado o saturado. Si no se usa todo el recurso \(\rightarrow\) hay un excedente o recurso no limitante. Esto es útil para identificar aquellos recursos a los que se les debe prestar más atención al momento de tomar decisiones.
+  
+  \item Variables holgura/superávit: En restricciones \(\leq\), la holgura indica cuánto sobra del recurso. En restricciones \(\geq\), el superávit indica cuánto se excede el mínimo requerido. Su valor se calcula directamente en la tabla final y tiene interpretación física.
+  
+  \item Multiplicadores o precios sombra (dualidad): Cada restricción tiene asociado un valor dual (también llamado precio sombra o multiplicador de Lagrange). Este valor indica cuánto aumentaría el valor óptimo si se incrementara en una unidad el recurso correspondiente. Por ejemplo, si el precio sombra de una restricción es 5, entonces aumentar una unidad del recurso mejora la ganancia en 5 unidades monetarias. Esto es esencial para toma de decisiones marginales, especialmente en economía y gestión.
+  
+  \item Análisis de sensibilidad: en ámbitos reales se puede analizar:
+  \begin{itemize}
+    \item ¿Qué pasa si cambian los coeficientes de la función objetivo?
+    \item ¿Qué pasa si se cambia la disponibilidad de un recurso?
+    \item ¿Hasta qué punto puede cambiar un parámetro sin que se modifique la base óptima?
+  \end{itemize}
+  Esto ayuda a determinar la robustez de la solución y tomar decisiones ante incertidumbre.
+\end{enumerate}
+
