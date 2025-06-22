@@ -12,10 +12,8 @@
 
 \input{./chapters/1_PPL/6_iteraciones.tex}
 
-\input{./chapters/1_PPL/8_resumen.tex}
+\input{./chapters/1_PPL/7_gran_m.tex}
 
-\paragraph{Costos de Penalización}
+\input{./chapters/1_PPL/8_teoremas.tex}
 
-La introducción de variables de holgura y superfluas no altera ni la naturaleza de las restricciones ni al objetivo. Por consiguiente, estas variables se incorporan a la función objetivo con coeficientes cero. Las variables artificiales, sin embargo, cambian la naturaleza de als restricciones. Ya que se agregan a un solo lado de una desigualdad, el nuevo sistema es equivalente al sistema anterior de restricciones sólo si las variables artificiales son cero. Para garantizar estas condiciones en la solución óptima las variables artificiales se introducen a la función objetivo con coeficientes muy grandes (si hay que maximizar la ganancia, una ganancia muy pequeña o negativa implica una gran penalización, por el contrario si hay que minimizar costos, un costo grande implica una gran penalización para esa variable). Estos coeficientes se denotan generalmente como \(+M\) (para minimización) o \(-M\) (para maximización).
-
-Los coeficientes \(\pm M\) donde \(M\) se considera un número positivo muy grande, representan el severo costo de penalización que se impone a las variables artificiales cuando se activan en la solución óptima. 
+\input{./chapters/1_PPL/9_resumen.tex}

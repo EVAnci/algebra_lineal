@@ -1,0 +1,372 @@
+\subsection{El método de la Gran M: alternativa a Fase 1}
+
+El método de la Fase I no es el único método para encontrar una SBFI. El método de la Gran M tiene el mismo propósito.
+
+El motivo por el que se vió primero el método de la Fase I es porque el método de la Gran M presenta un pequeño riesgo cuando se elige el valor de M. Ahora que hemos visto cómo funciona el método de la Fase I, será más sencillo entender cómo hay que manipular este método. Además el método de la Fase I es preferido en ámbitos computacionales, ya que presenta mayor estabilidad. ¿Por qué? Bueno, estos detalles los veremos a continuación.
+
+\subsubsection{Los Costos de Penalización}
+
+Es una técnica utilizada en programación lineal para manejar problemas que no tienen una solución básica factible inicial (SBFI) evidente. Se emplea cuando aparecen restricciones de igualdad (\(=\)) o desigualdad (\(\geq\)) que impiden formar una base inicial con variables de holgura. Su objetivo es forzar a las variables artificiales a cero en la solución óptima, penalizando su inclusión en la función objetivo con un coeficiente muy grande (``M''), donde \(M\) es un valor positivo arbitrariamente grande (o negativo para problemas de maximización).
+
+\paragraph{Fundamento detrás de los costos de Penalización}
+
+La introducción de variables de holgura y superfluas no altera ni la naturaleza de las restricciones ni al objetivo. Por consiguiente, estas variables se incorporan a la función objetivo con coeficientes cero. Las variables artificiales, sin embargo, cambian la naturaleza de las restricciones. Ya que se agregan a un solo lado de una desigualdad, el nuevo sistema es equivalente al sistema anterior de restricciones sólo si las variables artificiales son cero. Para garantizar estas condiciones en la solución óptima las variables artificiales se introducen a la función objetivo con coeficientes muy grandes (si hay que maximizar la ganancia, una ganancia muy pequeña o negativa implica una gran penalización, por el contrario si hay que minimizar costos, un costo grande implica una gran penalización para esa variable). Estos coeficientes se denotan generalmente como \(+M\) (para minimización) o \(-M\) (para maximización).
+
+Los coeficientes \(\pm M\) donde \(M\) se considera un número positivo muy grande, representan el severo costo de penalización que se impone a las variables artificiales cuando se activan en la solución óptima. 
+
+\subsubsection{Pasos del método de costos de penalización}
+
+Para ver los pasos del método, es conveniente utilizar un ejemplo. Para ello, vamos a seguir con el ya conocido PPL del ejemplo \ref{ej:fase_1}
+\begin{align*}
+  \text{maximizar} \quad  &z = 3x_1 + 2x_2\\[3pt]
+  \text{sujeto a:} \quad  &x_1 + x_2 = 4\\
+                          &x_1 - x_2 \geq 2\\
+                          &x_1, x_2 \geq 0
+\end{align*}
+
+Este método consiste en los siguientes pasos:
+
+\noindent\textbf{0.} Es muy importante que el PPL esté en formato estándar. Si no lo está el mismo método llevará a que se transforme al formato estándar.
+
+\noindent\textbf{1.} Agregar variables artificiales: Este paso es muy similar a lo visto en el método de la Fase I. En restricciones de igualdad o \(\geq\), se añaden variables artificiales \(a_i \geq 0\) para formar una base inicial. Tomando el ejemplo:
+\begin{align*}
+  x_1 + x_2 \phantom{ - s_1 } + a_1 \phantom{ + a_2 } &= 4 \\
+  x_1 - x_2 - s_1 \phantom{ + a_1 } + a_2 &= 2
+\end{align*}
+
+\noindent\textbf{2.} Modificar la función objetivo:
+\begin{itemize}
+  \item Minimización: Se suma \(M \cdot a_i\) a la función objetivo.  
+  \[
+    \text{Min } z = c^T x + M(a_1 + a_2 + \cdots)
+  \]
+  \item Maximización: Se resta \(M \cdot a_i\) a la función objetivo.  
+  \[
+    \text{Max } z = c^T x - M(a_1 + a_2 + \cdots)
+  \]
+\end{itemize}  
+Aquí, como hemos dicho anteriormente, ``M'' representa una penalización arbitrariamente grande para que el algoritmo elimine \(a_i\) de la base (como si fuese una variable de decisión inconveniente). En el caso de nuestro ejemplo, la función objetivo queda:
+\[
+  \text{maximizar} \quad z = 3x_1 + 2x_2 - 0s_1 - \mathbf{M}a_1 - \mathbf{M}a_2
+\]
+
+\noindent\textbf{3.} Resolver con el método Simplex: Se aplica el Simplex estándar a este nuevo problema. Si en la solución óptima todas \(a_i = 0\) la solución es factible para el problema original. Por el contrario si alguna \(a_i > 0\) el problema original es infactible.
+
+A continuación resolveremos el ejemplo \ref{ej:fase_1} mediante el método simplex para ilustrar el comportamiento de ``M''.
+
+El problema aumentado (con coeficientes M) en formato estándar es:
+\begin{align*}
+  \text{maximizar} \quad  &z = 3x_1 + 2x_2 - 0s_1 - \mathbf{M}a_1 - \mathbf{M}a_2\\[3pt]
+  \text{sujeto a:} \quad  &x_1 + x_2 + a_1 &= 4 \\
+                          &x_1 - x_2 - s_2 + a_2 &= 2 \\
+                          &x_1, x_2, s_2, a_1, a_2 &\geq 0
+\end{align*}
+
+Primero, antes de armar la tabla, calculamos los costos reducidos para cada fila, sabiendo que la base es \(\beta = \{a_1,a_2\}\) (ya que los agregamos porque justamente no teníamos una SBFI).
+
+Teniendo la base, sabemos que para calcular los costos reducidos necesitamos \(c_\beta ^T\), \(A_\beta ^{-1}\):
+\begin{itemize}
+  \item \(c_\beta ^T = (-M,-M)\)
+  \item \(A_\beta ^{-1} = I_2\) es la matriz identidad de orden 2.
+\end{itemize}
+
+\begin{enumerate}
+  \item Costo reducido para \(x_1\): \(\bar{c}_1 = c_1 - c_\beta ^T A_\beta^{-1} A_{i1}\)
+  \[
+    \bar{c}_1 = 3 - (-M,-M) \begin{pmatrix}
+      1 & 0 \\ 0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      1 \\ 1
+    \end{pmatrix} = 3 + 2M
+  \]
+  \item Costo reducido para \(x_2\): \(\bar{c}_2 = c_2 - c_\beta ^T A_\beta^{-1} A_{i2}\)
+  \[
+    \bar{c}_1 = 2 - (-M,-M) \begin{pmatrix}
+      1 & 0 \\ 0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      1 \\ -1
+    \end{pmatrix} = 2
+  \]
+  \item Costo reducido para \(s_1\): \(\bar{c}_3 = c_3 - c_\beta ^T A_\beta^{-1} A_{i3}\)
+  \[
+    \bar{c}_3 = 0 - (-M,-M) \begin{pmatrix}
+      1 & 0 \\ 0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      0 \\ -1
+    \end{pmatrix} = -M
+  \]
+  \item Costo reducido para \(a_1\): \(\bar{c}_4 = c_4 - c_\beta ^T A_\beta^{-1} A_{i4}\)
+  \[
+    \bar{c}_1 = -M - (-M,-M) \begin{pmatrix}
+      1 & 0 \\ 0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      1 \\ 0
+    \end{pmatrix} = 0
+  \]
+  \item Costo reducido para \(a_2\): \(\bar{c}_5 = c_5 - c_\beta ^T A_\beta^{-1} A_{i5}\)
+  \[
+    \bar{c}_1 = -M - (-M,-M) \begin{pmatrix}
+      1 & 0 \\ 0 & 1
+    \end{pmatrix} \begin{pmatrix}
+      0 \\ 1
+    \end{pmatrix} = 0
+  \]
+\end{enumerate}
+Y por último calculamos el valor de \(z\) con \(\beta = \{a_1,a_2\}\) y el resto de variables fijas en cero:
+\[
+  z = -4M - 2M = -6M \quad \text{con} ~~ a_1 = 4 ~~\text{y}~~ a_2 = 2
+\]
+
+La tabla inicial es:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & -3-2M & -2 & M & 0 & 0 & -6M \\
+  \end{NiceMatrix}
+\]
+
+\paragraph{Iteración 1}
+
+\textbf{Paso 1}: Hay coeficientes negativos en la fila \(z\) \(\rightarrow\) No estamos en la solución óptima.
+
+\textbf{Paso 2}: Seleccionamos la variable cuyo coeficiente \(z\) es más negativo. En este caso es la columna 1, entonces seleccionamos \(x_1\) como variable entrante.
+
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-2}{4-2}
+    ]
+    \beta & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_1\)}; & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    a_2 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & -3-2M & -2 & M & 0 & 0 & -6M \\
+  \end{NiceMatrix}
+\]
+
+\textbf{Paso 3}: Calculamos el Ratio test para las dos filas (ya que ambas son positivas)
+\begin{itemize}
+  \item Fila 1: \(\text{Ratio}_1 = 4/1 = 4\)
+  \item Fila 2: \(\text{Ratio}_2 = 2/1 = 2\)
+\end{itemize}
+Seleccionamos como variable saliente \(a_2\), ya que es el menor ratio positivo.
+
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-2}{4-2}
+    \rectanglecolor{red!20}{3-2}{3-7}
+    \rectanglecolor{yellow!50}{3-2}{3-2}
+    ]
+    \beta & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_1\)};
+ & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    \tikz[baseline=(X.base)] \node[draw=red, circle, inner sep=1pt, thick] (X) {\(a_2\)}; & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & -3-2M & -2 & M & 0 & 0 & -6M \\
+  \end{NiceMatrix}
+\]
+La nueva base es \(\beta = \{a_1,x_1\}\)
+
+\textbf{Paso 4}: El elemento pivote quedó marcado en color amarillo en la tabla. Como su valor es 1, entonces no debemos realizar ninguna operación sobre esa fila.
+
+Ahora hay que hacer cero al resto de filas:
+\begin{itemize}
+  \item Fila 1: \[
+    (1,1,0,1,0,4)-1\cdot(1,-1,-1,0,1,2) = (0,2,1,1,-1,2)
+  \]
+  \item Fila \(z\): \((-3-2M,-2,M,0,0,-6M)-(-3-2M)(1,-1,-1,0,1,2)\)\\
+  \begin{align*}
+    -3-2M \, - \, (-3-2M) \cdot 1 &= 0 \\
+    -2 \, - \,  (-3-2M)\cdot(-1) &= -5-2M \\
+    M \, - \, (-3-2M)\cdot(-1) &= -3-M \\
+    0 \, - \, (-3-2M) \cdot 0 &= 0 \\
+    0 \, - \, (-3-2M) \cdot 1 &= 3+2M \\
+    -6M \, - \, (-3-2M)\cdot 2 &= 6-2M
+  \end{align*}
+  Entonces el vector resultante es \((0,-5-2M, -3-M, 0, 3 + 2M, 6 - 2M)\)
+\end{itemize}
+
+La tabla actualizada queda:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & -5-2M & -3-M & 0 & 3+2M & 6-2M
+  \end{NiceMatrix}
+\]
+
+\paragraph{Iteración 2}
+
+\textbf{Paso 1}: Hay coeficientes negativos en la fila \(z\) \(\rightarrow\) No es la solución óptima.
+
+\textbf{Paso 2}: Seleccionamos la variable asociada a la columna 2, que es \(x_2\), por tener el coeficiente más negativo.
+
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-3}{4-3}
+    ]
+    \beta & x_1 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_2\)}; & s_1 & a_1 & a_2 & B \\
+    \hline
+    a_1 & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & -5-2M & -3-M & 0 & 3+2M & 6-2M
+  \end{NiceMatrix}
+\]
+
+\textbf{Paso 3}: La única fila con coeficiente negativo es la fila 1, entonces calculamos el Ratio test:
+\(
+  \text{Ratio}_1 = 2/2 = 1
+\)
+
+Como es positivo podemos seleccionar la variable \(a_1\) como saliente.
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-3}{4-3}
+    \rectanglecolor{red!20}{2-2}{2-7}
+    \rectanglecolor{yellow!50}{2-3}{2-3}
+    ]
+    \beta & x_1 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(x_2\)}; & s_1 & a_1 & a_2 & B \\
+    \hline
+    \tikz[baseline=(X.base)] \node[draw=red, circle, inner sep=1pt, thick] (X) {\(a_1\)}; & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & -1 & -1 & 0 & 1 & 2 \\
+    \hline
+    z & 0 & -5-2M & -3-M & 0 & 3+2M & 6-2M
+  \end{NiceMatrix}
+\]
+La nueva base es: \(\beta = \{x_2,x_1\}\)
+
+\textbf{Paso 4}: El pivote no está normalizado, entonces para normalizarlo lo dividimos por 2, quedando la fila 1:
+\(
+  (0,1,1/2,1/2,-1/2,1)
+\)
+Y ahora hacemos cero la columna entrante en las demás filas:
+\begin{itemize}
+  \item Fila 2:\[
+    (1,-1,-1,0,1,2) - (-1) (0,1,1/2,1/2,-1/2,1) = (1,0,-1/2,1/2,1/2,3)
+  \]
+  \item Fila \(z\): \((0, 5-2M, -3-M, 0, 3+2M, 6-2M) - (5-2M)(0,1,1/2,1/2,-1/2,1) \) 
+  \begin{align*}
+    0 \, - \, (-5-2M) \cdot 0 = 0 \\
+    5-2M \, - \, (-5-2M) \cdot 1 = 0 \\
+    -3-M \, - \, (-5-2M) \cdot 1/2 = -1/2 \\
+    0 \, - \, (-5-2M) \cdot 1/2 = 5/2 + M\\
+    3+2M \, - \, (-5-2M) \cdot (-1/2) = 1/2 + M \\
+    6-2M \, - \, (-5-2M) \cdot 1 = 11
+  \end{align*}
+  Entonces, la fila queda: (0,0,-1/2,5/2+M,1/2 + M, 11)
+\end{itemize} 
+
+Entonces, la tabla actualizada queda:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    x_2 & 0 & 1 & 1/2 & 1/2 & -1/2 & 1 \\
+    x_1 & 1 & 0 & -1/2 & 1/2 & 1/2 & 3 \\
+    \hline
+    z & 0 & 0 & -1/2 & 5/2 + M & 1/2+M & 11 
+  \end{NiceMatrix}
+\]
+
+\paragraph{Iteración 3}
+
+\textbf{Paso 1}: Hay coeficientes negativos en la fila \(z\) \(\rightarrow\) No es la solución óptima.
+
+\textbf{Paso 2}: Seleccionamos la variable \(s_1\) en la columna 3 como entrante, por ser la variable con coeficiente más negativo.
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-4}{4-4}
+    ]
+    \beta & x_1 & x_2 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(s_1\)}; & a_1 & a_2 & B \\
+    \hline
+    x_2 & 0 & 1 & 1/2 & 1/2 & -1/2 & 1 \\
+    x_1 & 1 & 0 & -1/2 & 1/2 & 1/2 & 3 \\
+    \hline
+    z & 0 & 0 & -1/2 & 5/2 + M & 1/2+M & 11 
+  \end{NiceMatrix}
+\]
+
+\textbf{Paso 3}: La fila 1 es la única cuyo coeficiente no es negativo, calculamos el Ratio Test para esta columna:
+\[
+  \text{Ratio}_1 = \frac{1}{1/2} = 2
+\]
+Como es un valor positivo, podemos seleccionar la variable \(x_2\) como saliente.
+\[
+  \begin{NiceMatrix}[code-before = 
+    \rectanglecolor{green!20}{2-4}{4-4}
+    \rectanglecolor{red!20}{2-2}{2-7}
+    \rectanglecolor{yellow!50}{2-4}{2-4}
+    ]
+    \beta & x_1 & x_2 & \tikz[baseline=(X.base)] \node[draw=applegreen, circle, inner sep=1pt, thick] (X) {\(s_1\)}; & a_1 & a_2 & B \\
+    \hline
+    \tikz[baseline=(X.base)] \node[draw=red, circle, inner sep=1pt, thick] (X) {\(x_2\)}; & 0 & 1 & 1/2 & 1/2 & -1/2 & 1 \\
+    x_1 & 1 & 0 & -1/2 & 1/2 & 1/2 & 3 \\
+    \hline
+    z & 0 & 0 & -1/2 & 5/2 + M & 1/2+M & 11 
+  \end{NiceMatrix}
+\]
+Nueva base: \(\beta = \{s_1,x_1\}\)
+
+\textbf{Paso 4}: El pivote ha quedado marcado en amarillo en el paso previo. Su valor no es 1, así que hay que normalizarlo:
+\[
+  2(0,1,1/2,1/2,-1/2,1) = (0,2,1,1,-1,2)
+\]
+Con la fila 1 normalizada, hacemos el resto de filas cero en esta columna:
+\begin{itemize}
+  \item Fila 2: \[
+    (1,0,-1/2,1/2,1/2,3) - (-1/2)(0,2,1,1,-1,2) = (1,1,0,1,0,4)
+  \]
+  \item Fila \(z\): \((0,0,-1/2,5/2+M,1/2+M,11)-(-11/2)(0,2,1,1,-1,2)\)
+  \begin{align*}
+    0 \, - \, (-1/2)\cdot 0 = 0 \\
+    0 \, - \, (-1/2)\cdot 2 = 1 \\
+    -1/2 \, - \, (-1/2)\cdot 1 = 0 \\
+    5/2+M \, - \, (-1/2)\cdot 1 = 3+M \\
+    1/2+M \, - \, (-1/2)\cdot -1 = M\\
+    11 \, - \, (-1/2)\cdot 2 = 12
+  \end{align*}
+\end{itemize}
+
+Entonces la tabla actualizada queda:
+\[
+  \begin{NiceMatrix}
+    \beta & x_1 & x_2 & s_1 & a_1 & a_2 & B \\
+    \hline
+    s_1 & 0 & 2 & 1 & 1 & -1 & 2 \\
+    x_1 & 1 & 1 & 0 & 1 & 0 & 4 \\
+    \hline
+    z & 0 & 1 & 0 & 3+M & M & 12 
+  \end{NiceMatrix}
+\]
+
+\paragraph{Iteración 4}
+
+\textbf{Paso 1}: No hay valores negativos en la fila \(z\), esto indica que la solución ya es óptima.
+
+\textit{Respuesta}: Ya puede ver usted, que el resultado obtenido es el mismo que el que obtuvimos con la Fase I. El valor máximo de \(z = 12\) se obtiene con \(x_1 = 4\) y hay un exceso \(s_1 = 2\).
+
+\begin{tcolorbox}[mydanger]
+  \textbf{Cuidado:} Es importante que todas las variables artificiales (\(a_1, a_2, \cdots , a_n\)) no pertenezcan a la base. Si hay una variable artificial en la base, significa que la solución no es factible!
+\end{tcolorbox}
+
+\subsubsection{Tabla comparativa respecto de la Fase I}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{l|l}
+      \textbf{Ventajas} & \textbf{Desventajas} \\ \hline
+      Resolución en una sola fase (sin Fase I). & Inestabilidad numérica si \(M\) es muy grande. \\ 
+      Útil para problemas pequeños. & Dificultad para manejar \(M\) simbólicamente en software. \\ 
+      Fundamentos teóricos claros. & Si \(M\) no es suficientemente grande, puede dar soluciones incorrectas. \\ 
+    \end{tabular}
+    \caption{Ventajas y desventajas de costos de penalización sobre Fase I}
+\end{table}
