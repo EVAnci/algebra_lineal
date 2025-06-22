@@ -43,6 +43,14 @@
   \hspace{1.2em}%
 }
 
+\newcounter{teorema}[section]
+\renewcommand{\theteorema}{\thesection\Alph{teorema}}
+
+\newcommand{\teorema}{%
+    \refstepcounter{teorema}%
+    \textbf{Teorema \thesection.\Alph{teorema} }%
+}
+
 \newcounter{ejemplo}[section]
 \renewcommand{\theejemplo}{\thesection\Alph{ejemplo}}
 

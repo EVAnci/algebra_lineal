@@ -37,11 +37,7 @@ donde \(0\) es el vector nulo de \textit{m} dimensiones.
   \end{align*}
 \end{quote}
 
-\paragraph{Teorema}
-
-\begin{quote}
-  Cualquier conjunto de \(m+1\) o más vectores de \textit{m} dimensiones es linealmente dependiente.
-\end{quote}
+\teorema{Cualquier conjunto de \(m+1\) o más vectores de \textit{m} dimensiones es linealmente dependiente.}
 
 \noindent Es decir, si se tiene un conjunto de \textit{6} vectores de \textit{5} dimensiones, este conjunto es linealmente dependiente.
 
@@ -108,9 +104,8 @@ Un vector \textit{P} de \textit{m} dimensiones es una \hl{combinación convexa} 
       3 \\ 0
     \end{pmatrix} + \frac{1}{6}\begin{pmatrix}
       1 \\ 2
-    \end{pmatrix}
+    \end{pmatrix} \quad \text{y} \quad \frac{1}{2}+\frac{1}{3}+\frac{1}{6} = 1
   \]
-  y \(\frac{1}{2}+\frac{1}{3}+\frac{1}{6} = 1\)
 \end{quote}
 
 Dados dos vectores de \textit{m} dimensiones, \(P_1, P_2\), se denomina \textit{segmento linea} entre los dos vectores al conjunto de todas las combinaciones convexas de \(P_1\) y \(P_2\). El significado geométrico de este término resulta claro en el caso \(m=3\).
@@ -120,5 +115,30 @@ Dados dos vectores de \textit{m} dimensiones, \(P_1, P_2\), se denomina \textit{
 Un conjunto de vectores de \textit{m} dimensiones es convexo, siempre que dos vectores pertenezcan al conjunto, si el segmento linea entre los vectores también pertenece al conjunto.
 
 \begin{quote}
-  \ejemplo{ El disco sombreado en la figura }
+  \ejemplo{ El disco sombreado en la figura \ref{fig:conjuntos_convexos}a es un conjunto convexo, ya que el segmento linea entre cualquiera de sus puntos (vectores de \(\mathbb{R}^2\)) está completamente dentro del disco.} 
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{conjuntos_convexos.png}
+    \caption{}
+    \label{fig:conjuntos_convexos}
+  \end{figure}
+  La figura \ref{fig:conjuntos_convexos}b no es un conjunto convexo; aunque \textit{R} y \textit{S} pertenezcan al conjunto sombreado, existen puntos, como \textit{T}, que pertenecen al segmento de linea entre \textit{R} y \textit{S} y que no son parte de la estrella.
 \end{quote}
+
+Un vector \textit{P} es un \textit{punto extremo} de un conjunto, si no es posible expresarlo como una combinación convexa de otros dos vectores del conjunto; es decir, un punto extremo no descansa en el segmento linea entre cualquier otro par de vectores en el conjunto.
+
+\begin{quote}
+  \ejemplo{ Cualquier punto sobre la circunferencia del disco de la figura \ref{fig:conjuntos_convexos}a es un punto extremo del disco.}
+\end{quote}
+
+\teorema{Cualquier vector en un conjunto convexo cerrado y acotado que tenga un numero finito de puntos extremos, puede expresarse como una combinación convexa de los puntos extremos.}
+\label{teo:combinacion_convexa_de_puntos_extremos}
+
+\teorema{El espacio de solución de un conjunto de ecuaciones linales simultáneas es un conjunto convexo que tiene un número finito de puntos extremos.}
+\label{teo:solucion_convexa}
+
+\subsubsection{Soluciones de punto extremo}
+
+Se designa \(\vartheta\) al conjunto de todas las soluciones factibles al programa lineal en forma estándar. Es decir \(\vartheta\) es el conjunto de todos los vectores \textbf{X} que satisfacen \(AX = B\) y \(X\geq 0\). Del teorema \ref{teo:solucion_convexa}, y por el hecho de que los conjuntos convexos se intersectan en conjuntos convexos\footnote{es decir, la intersección de dos conjuntos convexos \textit{A} y \textit{B} es otro conjunto \textit{C} que también es convexo} se tiene que \(\vartheta\) es un conjunto convexo con un número finito de puntos extremos.
+
+\textbf{Nota:} La función objetivo logra su óptimo (ya sea máximo o mínimo) eun un punto extremo de \(\vartheta\), siempre y cuando dicho óptimo exista.
