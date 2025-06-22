@@ -1,0 +1,124 @@
+\subsection{Teoría de soluciones}
+
+En el método Simplex, la teoría de soluciones se refiere al conjunto de ideas matemáticas que justifican por qué este algoritmo puede encontrar una solución óptima a un problema de programación lineal (PPL), y por qué es suficiente evaluar los puntos extremos (vértices) de la región factible para encontrarla, en lugar de considerar todos los puntos del conjunto de soluciones.
+
+\subsubsection{Dependencia e independencia lineal}
+
+Un conjunto de vectores de \textit{m} dimensiones \(\left\{P_1,P_2,\cdots, P_n\right\}\), es \textbf{linealmente dependiente} si existen constantes, no todas cero, \(\alpha_1,\, \alpha_2,\, \cdots,\, \alpha_n\) tales que:
+\begin{equation}
+  \alpha_1 P_1 + \alpha_2 P_2 + \cdots + \alpha_n P_n = 0
+  \label{eq:dependencia_lineal}
+\end{equation}
+donde \(0\) es el vector nulo de \textit{m} dimensiones.
+
+\begin{quote}
+  \ejemplo{ El conjunto de 5 dimensiones}
+  \[
+    \left\{
+      \left[1,2,0,0,0\right];
+      \left[1,0,0,0,0\right];
+      \left[0,0,1,1,0\right];
+      \left[0,1,0,0,0\right]
+    \right\}
+  \]
+  es linealmente dependiente, ya que 
+  \begin{align*}
+    -1\begin{pmatrix}
+      1 \\ 2 \\ 0 \\ 0 \\ 0
+    \end{pmatrix} + 1 \begin{pmatrix}
+      1 \\ 0 \\ 0 \\ 0 \\ 0
+    \end{pmatrix} + 0 \begin{pmatrix}
+      0 \\ 0 \\ 1 \\ 1 \\ 0
+    \end{pmatrix} + 2 \begin{pmatrix}
+      0 \\ 1 \\ 0 \\ 0 \\ 0
+    \end{pmatrix} = \begin{pmatrix}
+      0 \\ 0 \\ 0 \\ 0 \\ 0
+    \end{pmatrix}
+  \end{align*}
+\end{quote}
+
+\paragraph{Teorema}
+
+\begin{quote}
+  Cualquier conjunto de \(m+1\) o más vectores de \textit{m} dimensiones es linealmente dependiente.
+\end{quote}
+
+\noindent Es decir, si se tiene un conjunto de \textit{6} vectores de \textit{5} dimensiones, este conjunto es linealmente dependiente.
+
+\vspace{5mm}
+
+Un conjunto de vectores de \textit{m} dimensiones \(\left[P_1, P_2, \cdots, P_n\right]\), es \textit{linealmente independiente} si las únicas constantes para las que la definición de dependencia lineal (\ref{eq:dependencia_lineal}) se cumple, son \(\alpha_1, \alpha_2, \cdots, \alpha_n = 0\). Es decir, todas las constantes deben ser igual a cero.
+
+A continuación veremos algunos ejemplos.
+\vspace{5mm}
+
+\begin{quote}
+  \ejemplo{ Determínese si el conjunto \(\{\left[1,2\right]; \left[2,4\right]\}\)} es linealmente independiente.
+  
+  Si se denomina \(P_1\) y \(P_2\) a los dos vectores es obvio que \(P_2 = 2P_1\), o bien:
+  \[
+    2P_1 + (-1)P_2 = 0
+  \]
+  Entonces, el conjunto dado de vectores es \textbf{linealmente dependiente}.
+  
+  \vspace{5mm}
+
+  \ejemplo{ ¿Es \(\left\{\left[1,1,3,1\right]; \left[1,2,1,1\right]; \left[1,0,0,0\right]\right\}\)} linealmente independiente?
+
+  Aplicando la definición de dependencia lineal (referencia \ref{eq:dependencia_lineal}):
+  \begin{align*}
+    \alpha_1 \begin{pmatrix}
+      1 \\ 1 \\ 3 \\ 1
+    \end{pmatrix} + \alpha_2 \begin{pmatrix}
+      1 \\ 2 \\ 1 \\ 1
+    \end{pmatrix} + \alpha \begin{pmatrix}
+      1 \\ 0 \\ 0 \\ 1
+    \end{pmatrix} = \begin{pmatrix}
+      0 \\ 0 \\ 0 \\ 0
+    \end{pmatrix}
+  \end{align*}
+  Esto podemos escribirlo como un SEL de la siguiente manera:
+  \[
+    \begin{cases}
+      \alpha_1 + \alpha_2 + \alpha_3 = 0 \\
+      \alpha_1 + 2\alpha_2 \phantom{+ a_3} = 0 \\
+      3\alpha_1 + \alpha_2 \phantom{+ a_3} = 0 \\
+      \alpha_1 + \alpha_2 + \alpha_3 = 0
+    \end{cases}
+  \]
+  Las primeras tres ecuaciones (la cuarta es redundante) tienen \(\alpha_1 = \alpha_2 = \alpha_3 = 0\) como única solución. Por lo tanto, el conjunto dado \textbf{es linealmente independiente}. 
+\end{quote}
+
+\subsubsection{Combinaciones convexas}
+
+Un vector \textit{P} de \textit{m} dimensiones es una \hl{combinación convexa} de los vectores \(P_1, P_2, \cdots, P_n\) de \textit{m} dimensiones, si existen constantes no negativas \(\beta_1, \beta_2, \cdots, \beta_n\) cuya suma es 1, como:
+\begin{equation}
+  P = \beta_1 P_1 + \beta_2 P_2 + \cdots + \beta_n P_n
+  \label{eq:def_convexo}
+\end{equation}
+
+\begin{quote}
+  \ejemplo{ El vector de 2 dimensiones \((5/3,5/6)\) es una combinación convexa de los vectores \((1,1); (3,0); (1,2)\) porque}
+  \[
+    \begin{pmatrix}
+      5/3 \\ 5/6
+    \end{pmatrix} = \frac{1}{2}\begin{pmatrix}
+      1 \\ 1
+    \end{pmatrix} + \frac{1}{3} \begin{pmatrix}
+      3 \\ 0
+    \end{pmatrix} + \frac{1}{6}\begin{pmatrix}
+      1 \\ 2
+    \end{pmatrix}
+  \]
+  y \(\frac{1}{2}+\frac{1}{3}+\frac{1}{6} = 1\)
+\end{quote}
+
+Dados dos vectores de \textit{m} dimensiones, \(P_1, P_2\), se denomina \textit{segmento linea} entre los dos vectores al conjunto de todas las combinaciones convexas de \(P_1\) y \(P_2\). El significado geométrico de este término resulta claro en el caso \(m=3\).
+
+\subsubsection{Conjuntos convexos}
+
+Un conjunto de vectores de \textit{m} dimensiones es convexo, siempre que dos vectores pertenezcan al conjunto, si el segmento linea entre los vectores también pertenece al conjunto.
+
+\begin{quote}
+  \ejemplo{ El disco sombreado en la figura }
+\end{quote}

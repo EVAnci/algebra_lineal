@@ -360,13 +360,14 @@ Entonces la tabla actualizada queda:
 
 \subsubsection{Tabla comparativa respecto de la Fase I}
 
-\begin{table}[h]
+\begin{table}[H]
     \centering
-    \begin{tabular}{l|l}
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X}
       \textbf{Ventajas} & \textbf{Desventajas} \\ \hline
-      Resolución en una sola fase (sin Fase I). & Inestabilidad numérica si \(M\) es muy grande. \\ 
+      Resolución en una sola fase (sin la Fase I). & Inestabilidad numérica si \(M\) es muy grande. \\ 
       Útil para problemas pequeños. & Dificultad para manejar \(M\) simbólicamente en software. \\ 
       Fundamentos teóricos claros. & Si \(M\) no es suficientemente grande, puede dar soluciones incorrectas. \\ 
-    \end{tabular}
+    \end{tabularx}
     \caption{Ventajas y desventajas de costos de penalización sobre Fase I}
 \end{table}
