@@ -176,7 +176,6 @@ Sea \(V(K)\) un espacio vectorial y \(F_1 = \left\{u_1, u_2\right\}\) y \(F_2 = 
   \end{pmatrix} \qquad u = \beta_1 v_1 + \beta_2 v_2 = \begin{pmatrix}
     \beta_1 \\ \beta_2
   \end{pmatrix} \\[3pt]
-
   u = \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2
 \end{gather*}
 Si se save que las componentes de los vectores de \(F_2\) en la base de \(F_1\) son:
@@ -228,5 +227,26 @@ Sea \(V(K)\) un espacio vectorial y \(S\) un subconjunto no vacío de \(V\), si 
 
 Un subconjunto \(S\) no vacío de \(V(K)\) es estable para las combinaciones lineales si se verifica que para cualesquier par de elementos \(u,v\) de \(V\) y para cualquier escalar \(k\) de \(K\), los vectores \(u+v\) y \(k\cdot u\) pertenecen también a \(S\). \(S\) recibe el nombre de parte estable.
 \[
-  S ~ \text{es parte estable} ~ \Longleftrightarrow ~ S \subset V \land 
+  S ~ \text{es parte estable} ~ \Longleftrightarrow ~ S \subset V \land S \neq \emptyset \land \begin{cases}
+    u + v \in S \quad \forall u \in S \land \forall v \in S\\
+    k \cdot u \in S \quad \forall k \in K \land \forall u \in S
+  \end{cases}
 \]
+Se puede demostrar que si ``\(S\) es parte estable de \(V(K)\) es un subespacio vectorial de \(V\)''.
+
+\subsubsection{Subespacios triviales}
+
+Sea \(V(K)\) un espacio vectorial, los siguientes reciben el nombre de \textit{subespacios triviales} o impropios: \(\left\{\vec{0}\right\} (K) ~~ \text{y} ~~ V(K)\), es decir el conjunto formado exclusivamente por el vector nulo y el mismo \(V\), cualquier otro subespacio de \(V\) recibe el nombre de subespacio propio.
+
+Todo espacio vectorial admite al menos los subespacios triviales.
+
+\subsubsection{Dimensión de los subespacios}
+
+Sea el espacio vectorial \(V(K)\), de dimensión finita \(n\), todo subespacio de \(V\) tiene dimensión finita \(m\) tal que \(m \leq n\).
+
+\begin{itemize}
+  \item Por convención el subespacio trivial \(U=\left\{\vec{0}\right\}\) como carece de base, entonces se dice que su dimensión es cero, \(\text{dim}\left\{\vec{0}\right\}=0\), en este caso el único subespacio es él mismo, por lo tanto mantiene la dimensión nula.
+  \item Si \(\text{dim }V=1\), admite subespacios de dimensión 0 y dimensión 1. Esto significa que sólo admite a los subespacios triviales, ya que no existe otro subespacio de la misma dimensión incluido él.
+  \item Si \(\text{dim }V = 2\), admite los subespacios triviales, de dimensión 0 y de dimensión 2, pero también admite subespacios de dimensión 1.
+  \item En general si \(\text{dim }V=n\) admite a los subespacios triviales de dimensión 0 y \textit{n} y además todos los de dimensión \(m\) tal que \(0 \leq m \leq n\)
+\end{itemize}
