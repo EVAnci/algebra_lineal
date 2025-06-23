@@ -1,0 +1,232 @@
+\section{Espacios vectoriales}
+
+\subsection{Espacio vectorial}
+
+Sea \textit{V} un conjunto no vacío, y \(\left(K, +, \cdot\right)\) un cuerpo (se trabajará con el cuerpo de los números reales y el cuerpo de los números complejos), se definen una operación binaria interna y una operación binaria externa en \textit{V} como sigue:
+\begin{align*}
+  &+: V \times V \rightarrow V \quad \text{tal que}~~ (u,v) \rightarrow u+v \\
+  &\cdot : K \times V \rightarrow V \quad \text{tal que}~~ (k,u) \rightarrow k\cdot u
+\end{align*}
+
+Se dice que \textit{V} con dichas operaciones es un \textit{K} espacio vectorial si se verifican los siguientes axiomas:
+\begin{itemize}
+  \item \textbf{A1} - Asociativa: Cualesquiera sean \(u,v\) y \(w\) de \(V\): \[
+    (u+v)+w = u + (v+w)
+  \]
+  \item \textbf{A2} - Existencia de elemento neutro: Existe \(\vec{0}\) en \(V\) para todo \(u\) de \(V\):\[
+    u+\vec{0}=\vec{0}+u = u
+  \]
+  \item \textbf{A3} - Existencia de elementos opuestos: Para todo \(u\) de \(V\) existe \(-u\) también en \(V\):\[
+    u + (-u) = (-u) + u = \vec{0}
+  \]
+  \item \textbf{A4} - Conmutativa: Cualesquiera sean \(u\) y \(v\) de \(V\): \[
+    u + v = v + u
+  \]
+  \item \textbf{A5} - Para todo \(k\) de \(K\), cualesquiera sean \(u\) y \(v\) de \(V\): \[
+    k\cdot (u+v)=k\cdot u+k\cdot v
+  \]
+  \item \textbf{A6} - Cualesquiera sean \(k\) y \(k'\) de \(K\), para todo \(u\) de \(V\):\[
+    (k + k')\cdot u = k \cdot u + k' \cdot u
+  \]
+  \item \textbf{A7} - Cuales quiera sean \(k\) y \(k'\) de \(K\), para todo \(u\) de \(V\):\[
+    (k\cdot k')\cdot u = k \cdot (k' \cdot u)
+  \]
+  \item \textbf{A8} - Para todo \(u\) de \(V\): \[
+    1 \cdot u = u \quad \text{(siendo 1 la unidad del cuerpo)}
+  \]
+\end{itemize}
+A los elementos del espacio vectorial se los llama \hl{vectores}.
+
+\paragraph{Consecuencias de la definición de espacio vectorial}
+
+La definición de espacio vectorial implica que se cumplan las siguientes propiedades:
+\begin{itemize}
+  \item \textbf{P1}: \(0\cdot u = \vec{0} \qquad \forall u \in V\)
+  \item \textbf{P2}: \(k \cdot \vec{0} = \vec{0} \qquad \forall k \in K\)
+  \item \textbf{P3}: \((-1) \cdot u = -u \qquad \forall u \in V\)
+\end{itemize}
+
+\subsection{Conjunto de vectores: familia libre y familia ligada}
+
+Un conjunto ordenado de vectores: \(F = \left\{u_1,u_2,\cdots,u_m\right\}\) de un espacio vectorial \(V(K)\) se denomina familia de vectores.
+
+\subsubsection{Combinación lineal}
+
+Una combinación lineal de los vectores de una familia con escalares \(a_1, a_2, \cdots, a_m\) es \textit{siempre} un vector del espacio vectorial \(V(K)\).
+\[
+  u = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m \qquad \forall u \in V
+\]
+Si el vector \(u\) de \(V\) es nulo, entonces la combinación lineal es:
+\[
+  \vec{0} = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m
+\]
+Esta combinación lineal es un sistema de ecuaciones lineales homogéneo, si al resolverlo resulta que los escalares son todos nulos \((a_1,a_2,\cdots,a_m = 0)\) entonces la familia de vectores \(F=\left\{u_1, u_2, \cdots, u_m \right\}\) recibe el nombre de \textbf{familia libre}.
+
+En el caso contrario, si al menos uno de los escalares es no nulo, la familia \(F\) se denomina \textbf{ligada}.
+
+Los vectores de una familia libre son linealmente independientes, esto significa que ninguno de ellos se puede expresar como combinación lineal de los demás de la familia. Los vectores de una familia ligada son linealmente dependientes.
+
+\subsubsection{Propiedades de una familia libre}
+
+Los vectores de una familia libre (linealmente independientes) presentan las siguientes propiedades:
+\begin{enumerate}
+  \item Si \(F\) es una familia libre, el vector nulo no pertenece a ella. \\ Demostración: Sea \(F=\left\{\vec{0},u_1, u_2, \cdots, u_m\right\}\) una familia de vectores \(V(K)\), en la combinación lineal: \[
+    \vec{0} = a_0 \vec{0} + a_1 u_1 + a_2 u_2 + \cdots + a_m u_m
+  \]
+  Si suponemos que \(a_1, a_2, \cdots, a_m = 0\) resulta entonces \(\vec{0}=a_0 \vec{0}\). Pero por la propiedad \textbf{P2} estamos admitiendo que \(a_0\) no es necesariamente nulo, lo que implica que la familia no es libre.
+  \item Si una familia de vectores de \(V\) consta de un solo vector no nulo, es una familia libre. \\ Demostración: Sea \(u_1 \neq \vec{0}\) y \(F=\left\{u_1\right\}\) una familia de vectores de \(V(K)\), la combinación lineal \(\vec{0} = a_1 u_1\) resulta que es verdadera si \(a_1 = 0\) o bien si \(u_1 = \vec{0}\). Sin embargo partimos de que \(u_1 \neq \vec{0}\), por lo que \(a_1 = 0\), lo que implica que \(F\) es una familia libre.
+\end{enumerate}
+
+\subsubsection{Propiedades de una familia ligada}
+
+Los vectores de una familia ligada (linealmente dependientes) presentan las siguientes propiedades:
+\begin{enumerate}
+  \item Si el vector nulo pertenece a una familia \(F\) de vectores de \(V\), \(F\) es una familia ligada. (La demostración es análoga a la propiedad 1 del encabezado anterior).
+  \item Si \(F\) es una familia ligada de vectores de \(V\), al menos uno de sus vectores se puede expresar como combinación lineal de los demás. \\ Demostración: Sea \(F=\left\{u_1, u_2, \cdots, u_m\right\}\) una familia ligada en \(V(K)\), y sea la combinación lineal del vector nulo:\[
+    \vec{0} = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m
+  \]
+  Por ser \(F\) ligada, al menos uno de los escalares \(a_i \neq 0\). Supongamos que \(a_1 \neq 0\), entonces: \[
+    \vec{0} = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m, ~~ a_1 \neq 0 \implies u_1 = -\frac{a_2}{a_1}u_2 - \cdots - \frac{a_m}{a_1}u_m
+  \]
+  Lo que nos está indicando que el vector \(u_1\) es combinación lineal de los demás vectores de la familia \(F\).
+\end{enumerate}
+
+\subsubsection{Familia generatriz}
+
+Una familia de vectores de \(V(K): F=\left\{u_1,u_2,\cdots,u_m\right\}\) recibe el nombre de familia generatriz o generadora si \textit{todo} vector del espacio vectorial \(V\) se puede expresar como combinación lineal de los vectores de \(F\). Los vectores de \(F\) reciben el nombre de \textit{vectores generadores}.
+
+Es decir, cualquiera sea \(u\) de \(V\), ess posible expresarlo de la siguiente manera:\[
+  u = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m
+\]
+
+\subsection{Base y dimensión}
+
+Una familia de vectores \(F = \left\{u_1, u_2, \cdots, u_m\right\}\) de \(V(K)\) se denomina \hl{base} de \(V\) si es a la vez familia \textbf{libre y generatriz}.
+
+Esto equivale a decir que todo \(u \in V\) se puede expresar como combinación lineal de los vectores de \(F\), o bien:
+\[
+  u = a_1 u_1 + a_2 u _2 + \cdots + a_m u_m
+\] 
+y además si \(u\) es el vector nulo entonces:
+\[
+  \vec{0} = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m \qquad a_i = 0; ~~ i=1,2,\cdots,m
+\]
+es decir, los vectores de \(F\) son L.I.
+
+\begin{itemize}
+  \item Todo vector de \(V\) se expresa de manera única en cada base.
+  \item El número de vectores de una base de \(V\) se denomina \hl{dimensión} del espacio vectorial.
+  \item Todas las bases de un espacio vectorial de dimensión finita \textit{n} tienen exactamente \textit{n} vectores.
+  \item Existen espacios vectoriales de dimensión infinita.
+  \item El espacio vectorial \(\left\{\vec{0}\right\}\) tiene dimensión cero por definición.
+  \item Si \textit{V} es un espacio vectorial de dimensión finita \textit{n}:
+  \begin{enumerate}
+    \item \(n+1\) vectores de \(V\) son linealmente dependientes, lo que equivale a decir que una familia libre tiene a lo más \(n\) elementos.
+    \item una familia generatriz tiene como mínimo \textit{n} elementos.
+    \item toda familia libre de \(V\) con \(n\) elementos es una base de \(V\).
+    \item Toda familia generatriz de \(V\) con \(n\) elementos es una base de \(V\).
+  \end{enumerate}
+\end{itemize}
+
+\subsubsection{Componentes de un vector en una base}
+
+Sea \(V(K)\) un espacio vectorial y \(F = \left\{u_1,u_2,\cdots,u_m\right\}\) una base de \(V\), un vector \(u\) cualquiera de \(V\) se expresa de manera única:
+\[
+  u = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m
+\]
+Los escalares que permiten esta combinación lineal reciben el nombre de componentes del vector \(u\) y se puede anotas asi:
+\[
+  u = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m = \begin{pmatrix}
+    a_1 \\ a_2 \\ \vdots \\ a_m
+  \end{pmatrix}
+\]
+Si \(v\) es otro vector de \(V\) se expresa en \(F\) de la siguiente manera:
+\[
+  v = b_1 u_1 + b_2 u_2 + \cdots + b_m u_m = \begin{pmatrix}
+    b_1 \\ b_2 \\ \vdots \\ b_m
+  \end{pmatrix}
+\]
+Las componentes del vector \(u+v\) son las suma de las componentes de \(u\) más las componentes de \(v\), y las componentes del vector \(k\cdot u\) son las que se obtienen de multiplicar \(k\) por cada una de las componentes de \(u\). De forma explícita:
+\begin{align*}
+  u + v &= (a_1 u_1 + a_2 u_2 + \cdots + a_m u_m) + (b_1 u_1 + b_2 u_2 + \cdots + b_m u_m) \\[3pt]
+  u + v &= \begin{pmatrix}
+    a_1 \\ a_2 \\ \vdots \\ a_m
+  \end{pmatrix} + \begin{pmatrix}
+    b_1 \\ b_2 \\ \vdots \\ b_m
+  \end{pmatrix} = \begin{pmatrix}
+    a_1 + b_1 \\ a_2 + b_2 \\ \vdots \\ a_m + b_m
+  \end{pmatrix} \\[10pt]
+  k\cdot u &= k \cdot \begin{pmatrix}
+    a_1 \\ a_2 \\ \vdots \\ a_m
+  \end{pmatrix} = \begin{pmatrix}
+    k \cdot a_1 \\ k \cdot a_2 \\ \vdots \\ k \cdot a_m
+  \end{pmatrix}
+\end{align*}
+
+\subsubsection{Cambio de base}
+
+Lo desarrollaremos para un espacio vectorial de dimensión 2 y luego lo generalizaremos a un espacio de dimensión finita \textit{n}.
+
+\paragraph{Cambio de base en \(\mathbb{R}^2\)}
+
+Sea \(V(K)\) un espacio vectorial y \(F_1 = \left\{u_1, u_2\right\}\) y \(F_2 = \left\{v_1, v_2\right\}\) dos bases de \(V\), un vector \(u\) de \(V\) se expresa de manera única en \(F_1\) y de manera única en \(F_2\):
+\begin{gather*}
+  u = \alpha_1 u_1 + \alpha_2 u_2 = \begin{pmatrix}
+    \alpha_1 \\ \alpha_2
+  \end{pmatrix} \qquad u = \beta_1 v_1 + \beta_2 v_2 = \begin{pmatrix}
+    \beta_1 \\ \beta_2
+  \end{pmatrix} \\[3pt]
+
+  u = \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2
+\end{gather*}
+Si se save que las componentes de los vectores de \(F_2\) en la base de \(F_1\) son:
+\[
+  v_1 = \begin{pmatrix}
+    a_{11} \\ a_{21}
+  \end{pmatrix} = a_{11} u_1 + a_{21} u_2 \qquad \text{y} \qquad v_2 = \begin{pmatrix}
+    a_{12} \\ a_{22}
+  \end{pmatrix} = a_{12} u_1 + a_{22} u_2
+\]
+Es posible relacionar ambas expresiones de \(u\):
+\begin{align*}
+  u &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2 = \beta_1 \begin{pmatrix}
+    a_{11} \\ a_{21}
+  \end{pmatrix} + \beta_2 \begin{pmatrix}
+    a_{12} \\ a_{22}
+  \end{pmatrix} \\
+  &= \beta_1 (a_{11} u_1 + a_{21}u_2) + \beta_2 (a_{12}u_1 + a_{22}u_2)\\[5pt]
+  u &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 a_{11} u_1 + \beta_1 a_{21} u_2 + \beta_2 a_{12}u_1 + \beta_2 a_{22}u_2\\
+  &= (a_{11}\beta_1 + \beta_2 a_{12}) u_1 + (\beta_1 a_{21} + \beta_2 a_{22}) u_2
+\end{align*}
+Por igualación podemos decir que:
+\begin{align*}
+  \alpha_1 &= \beta_1 a_{11} + \beta_2 a_{12} \\ 
+  \alpha_2 &= \beta_1 a_{21} + \beta_2 a_{22}
+\end{align*}
+Que es un sistema de dos ecuaciones con dos incógnitas, con solución única, ya que dijimos que cada vector se expresa de manera única en cada base. Resolver el sistema equivale a hallar las componentes de \(u\) en \(F_2\) a partir de \(F_1\) o viceversa.
+
+En forma matricial lo podemos expresar así:
+\begin{align*}
+  X = P \cdot X' ~ : ~ \begin{pmatrix}
+    \alpha_1 \\ \alpha_2
+  \end{pmatrix} = \begin{pmatrix}
+    a_{11} & a_{12} \\ 
+    a_{21} & a_{22}
+  \end{pmatrix} \cdot \begin{pmatrix}
+    \beta_1 \\ \beta_2
+  \end{pmatrix}
+\end{align*}
+Donde \(X\) contiene a las componentes de \(u\) en \(F_1\), \(P\) contiene en cada columna a las componentes de los vectores de \(F_2\), y se le denomina matriz de pasaje, y \(X'\) contiene a las componentes de \(u\) en \(F_2\).
+
+Lo visto se generaliza a un espacio vectorial de dimensión finita \(n\).
+
+\subsection{Subespacio vectorial}
+
+Sea \(V(K)\) un espacio vectorial y \(S\) un subconjunto no vacío de \(V\), si \(S\) es espacio vectorial sobre \(K\) respecto a las mismas operaciones definidas en \(V\), es un subespacio de \(V\). En otras palabras: \(S(K)\) subespacio de \(V(K)\)
+
+\paragraph{Parte estable (propiedad)}
+
+Un subconjunto \(S\) no vacío de \(V(K)\) es estable para las combinaciones lineales si se verifica que para cualesquier par de elementos \(u,v\) de \(V\) y para cualquier escalar \(k\) de \(K\), los vectores \(u+v\) y \(k\cdot u\) pertenecen también a \(S\). \(S\) recibe el nombre de parte estable.
+\[
+  S ~ \text{es parte estable} ~ \Longleftrightarrow ~ S \subset V \land 
+\]
