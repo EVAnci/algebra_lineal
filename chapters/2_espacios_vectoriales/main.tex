@@ -1,11 +1,51 @@
 \section{Espacios vectoriales}
 
+\subsection{Cuerpo matemático}
+
+Un cuerpo (o campo) \(K\) es, a grandes rasgos, un conjunto no vacío provisto de dos operaciones binarias, la suma \((+)\) y el producto \((\cdot)\), que satisfacen los siguientes requisitos:
+
+\noindent \textbf{1. Estructura aditiva}
+\begin{itemize}
+  \item La suma es asociativa y conmutativa.
+  \item Existe un elemento neutro aditivo, denotado \(0\), tal que \(a+0=0+a=a\) para todo \(a\in K\).
+  \item Cada elemento \(a\in K\) tiene un inverso aditivo \(-a\) tal que \(a+(-a)=0\).
+\end{itemize}
+
+\noindent \textbf{2. Estructura multiplicativa}
+\begin{itemize}
+  \item El producto es asociativo y conmutativo.
+  \item Existe un elemento neutro multiplicativo, denotado \(1\neq 0\), tal que \(a\cdot 1 = 1\cdot a = a\) para todo \(a\in K\).
+  \item Cada elemento distinto de cero, \(a\neq 0\), tiene un inverso multiplicativo \(a^{-1}\) tal que \(a\cdot a^{-1}=1\).
+\end{itemize}
+
+\noindent \textbf{3. Distributividad}
+
+El producto distribuye sobre la suma:
+\[
+  a\cdot(b+c) = a\cdot b + a\cdot c,\quad
+  (a+b)\cdot c = a\cdot c + b\cdot c
+  \quad\forall\,a,b,c\in K.
+\]
+
+En conjunto, estas propiedades garantizan que en \(K\) podemos manejar sumas, restas, productos y divisiones (salvo por cero) con la misma libertad aritmética que conocemos en \(\mathbb{R}\).
+
+\ejemplo{ Cuerpos matemáticos habituales}
+\begin{itemize}
+  \item El cuerpo de los números reales, \(\mathbb{R}\).
+  \item El cuerpo de los números complejos, \(\mathbb{C}\).
+  \item El cuerpo de los números racionales, \(\mathbb{Q}\).
+\end{itemize}
+
+Cuando definimos un espacio vectorial, escogemos uno de esos cuerpos como conjunto de escalares; de este modo, todas las multiplicaciones por escalares vienen ``heredadas'' de la estructura de \(K\). Por ejemplo: En un espacio vectorial sobre \(\mathbb{R}\), cualquier \(k\in\mathbb{R}\) puede multiplicar a los vectores. En un espacio vectorial sobre \(\mathbb{C}\), permitimos escalares complejos, lo cual es fundamental, por ejemplo, en espacios de funciones de variable compleja.
+
+Así, el cuerpo \(K\) proporciona el marco algebraico (con sus operaciones y axiomas) que garantiza que la multiplicación escalar en el espacio vectorial se comporte correctamente.
+
 \subsection{Espacio vectorial}
 
 Sea \textit{V} un conjunto no vacío, y \(\left(K, +, \cdot\right)\) un cuerpo (se trabajará con el cuerpo de los números reales y el cuerpo de los números complejos), se definen una operación binaria interna y una operación binaria externa en \textit{V} como sigue:
 \begin{align*}
-  &+: V \times V \rightarrow V \quad \text{tal que}~~ (u,v) \rightarrow u+v \\
-  &\cdot : K \times V \rightarrow V \quad \text{tal que}~~ (k,u) \rightarrow k\cdot u
+  +:& V \times V \rightarrow V \quad \text{tal que}~~ (u,v) \rightarrow u+v \\
+  \cdot ~ :& K \times V \rightarrow V \quad \text{tal que}~~ (k,u) \rightarrow k\cdot u
 \end{align*}
 
 Se dice que \textit{V} con dichas operaciones es un \textit{K} espacio vectorial si se verifican los siguientes axiomas:
@@ -36,6 +76,52 @@ Se dice que \textit{V} con dichas operaciones es un \textit{K} espacio vectorial
   \]
 \end{itemize}
 A los elementos del espacio vectorial se los llama \hl{vectores}.
+
+\begin{quote}
+  \ejemplo{ Defina un espacio vectorial de los polinomios de grado menor o igual a dos}
+
+  \textbf{Solución}: Para definir el espacio vectorial de polinomios de grado a lo sumo dos, procedemos del siguiente modo:
+
+  Sea \(K\) el cuerpo de los números reales (o complejos) y consideremos el conjunto
+  \[
+  V = \bigl\{\,p(x) = a_0 + a_1x + a_2x^2 \;\big|\; a_0,a_1,a_2 \in K\bigr\}.
+  \]
+  En otras palabras, \(V\) es el conjunto de todas las funciones polinómicas cuyo grado es menor o igual a dos.
+
+  A continuación, definimos en \(V\) las operaciones de suma y multiplicación por escalar exactamente como las de los polinomios:
+  \begin{itemize}
+    \item Para cualesquiera \(p(x),q(x)\in V\), la suma se define punto a punto:
+    \[
+      (p+q)(x) \;=\; p(x)+q(x) \;=\; \bigl(a_0+b_0\bigr) + \bigl(a_1+b_1\bigr)x + \bigl(a_2+b_2\bigr)x^2,
+    \]
+    donde \(p(x)=a_0+a_1x+a_2x^2\) y \(q(x)=b_0+b_1x+b_2x^2\).
+
+  \item Para cualquier escalar \(k\in K\) y \(p(x)\in V\):
+    \[
+      (k\cdot p)(x) \;=\; k\,p(x) \;=\; (k\,a_0) + (k\,a_1)x + (k\,a_2)x^2.
+    \]
+  \end{itemize}
+
+  Ahora bien, para ver que efectivamente \((V,+,\cdot)\) es un espacio vectorial sobre \(K\), basta observar que:
+  \begin{enumerate}
+    \item La suma de dos polinomios de grado \(\le2\) sigue siendo de grado \(\le2\) y lo mismo vale para la multiplicación por escalar.
+
+    \item Asociatividad y conmutatividad de la suma, existencia del elemento neutro (el polinomio \(0(x)=0\)) y de inversos aditivos (para \(p(x)\), su inverso es \(-p(x)\)) se heredan directamente de las propiedades algebraicas de los coeficientes en \(K\).
+
+    \item Distributividad de la multiplicación escalar respecto de la suma de polinomios y de escalares, compatibilidad de la multiplicación de escalares ( \((k\,k')p = k(k'p)\) ) y existencia del escalar unidad como operador neutro (\(1\cdot p = p\)) se verifican ecuación a ecuación, ya que se reducen a propiedades en el cuerpo \(K\).
+  \end{enumerate}
+
+  Por tanto, todos los axiomas A1 a A8 se cumplen en este caso concreto.
+  \begin{tcolorbox}[myconclusion]
+    Si no se está seguro de que todos los axiomas se cumplen (como en este caso), se puede demostrar cada uno de ellos para confirmarlo. Si los ocho axiomas se cumplen, entonces el conjunto es un espacio vectorial
+  \end{tcolorbox}
+\end{quote}
+
+\begin{tcolorbox}[interesting_data, title=¿Puedo crear un conjunto cualquiera y verificar si es un espacio vectorial?]
+  Exacto. El procedimiento general es precisamente ese: uno elige un conjunto \(V\) y un cuerpo de escalares \(K\) (por ejemplo \(\mathbb{R}\) o \(\mathbb{C}\)), define en \(V\) dos operaciones: la suma de dos elementos de \(V\) y la multiplicación de un escalar de \(K\) por un elemento de \(V\) y, si logra demostrar que estas operaciones satisfacen los ocho axiomas (A1-A8), entonces \((V,+,\cdot)\) es un espacio vectorial sobre \(K\). A partir de ese momento, cualquier objeto que pertenezca a \(V\) se denomina vector.
+
+  No hay más requisitos ocultos: lo importante es que la suma y el producto por escalar estén bien definidos (es decir, que siempre produzcan un elemento de \(V\)) y que cumplan las propiedades de asociatividad, conmutatividad, existencia de neutros e inversos aditivos, distributividad y compatibilidad con la estructura del cuerpo.
+\end{tcolorbox}
 
 \paragraph{Consecuencias de la definición de espacio vectorial}
 
@@ -225,14 +311,24 @@ Sea \(V(K)\) un espacio vectorial y \(S\) un subconjunto no vacío de \(V\), si 
 
 \paragraph{Parte estable (propiedad)}
 
-Un subconjunto \(S\) no vacío de \(V(K)\) es estable para las combinaciones lineales si se verifica que para cualesquier par de elementos \(u,v\) de \(V\) y para cualquier escalar \(k\) de \(K\), los vectores \(u+v\) y \(k\cdot u\) pertenecen también a \(S\). \(S\) recibe el nombre de parte estable.
+Un subconjunto \(S\) no vacío de \(V(K)\) es estable para las combinaciones lineales si se verifica que para cualesquier par de elementos \(u,v\) de \(S\) y para cualquier escalar \(k\) de \(K\), los vectores \(u+v\) y \(k\cdot u\) pertenecen también a \(S\). \(S\) recibe el nombre de parte estable.
 \[
   S ~ \text{es parte estable} ~ \Longleftrightarrow ~ S \subset V \land S \neq \emptyset \land \begin{cases}
-    u + v \in S \quad \forall u \in S \land \forall v \in S\\
+    u + v \in S \quad \forall u, v \in S\\
     k \cdot u \in S \quad \forall k \in K \land \forall u \in S
   \end{cases}
 \]
 Se puede demostrar que si ``\(S\) es parte estable de \(V(K)\) es un subespacio vectorial de \(V\)''.
+
+Por tanto, para comprobar que \(S\) es parte estable basta con verificar:
+\begin{enumerate}
+  \item \(S\neq\emptyset\) (o, mejor, que \(\mathbf{0}\in S\)).
+  \item Si \(u,v\in S\) entonces \(u+v\in S\).
+  \item Si \(u\in S\) y \(k\in K\) entonces \(k\cdot u\in S\).
+\end{enumerate}
+
+Con eso ya queda demostrado que \(S\) hereda todos los axiomas de espacio vectorial y es, en consecuencia, un subespacio de \(V\).
+
 
 \subsubsection{Subespacios triviales}
 
