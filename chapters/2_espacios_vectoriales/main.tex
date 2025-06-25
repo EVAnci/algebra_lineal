@@ -250,6 +250,8 @@ Hemos visto en el teorema \ref{teo:generador_li} que todo conjunto de \(n\) vect
   Todo conjunto de \(n\) vectores L.I. en \(K^n\), constituye una base de \(K^n\)
 \end{tcolorbox}
 
+Si el espacio vectorial \(V\) tiene una base finita, es decir, con finitos elementos, entonces la \textbf{dimensión} de \(V\) que se denota \(\text{dim}V\), es el número de vectores que tiene una base cualquiera de \(V\). Este último recibe el nombre de \textit{espacio vectorial de dimensión finita}. En cualquier otro caso, se dice que \(V\) es un espacio vectorial de dimensión infinita.
+
 \begin{itemize}
   \item Todo vector de \(V\) se expresa de manera única en cada base.
   \item El número de vectores de una base de \(V\) se denomina \hl{dimensión} del espacio vectorial.
@@ -258,26 +260,36 @@ Hemos visto en el teorema \ref{teo:generador_li} que todo conjunto de \(n\) vect
   \item El espacio vectorial \(\left\{\vec{0}\right\}\) tiene dimensión cero por definición.
   \item Si \textit{V} es un espacio vectorial de dimensión finita \textit{n}:
   \begin{enumerate}
-    \item \(n+1\) vectores de \(V\) son linealmente dependientes, lo que equivale a decir que una familia libre tiene a lo más \(n\) elementos.
-    \item una familia generatriz tiene como mínimo \textit{n} elementos.
+    \item \(n+1\) vectores de \(V\) son linealmente dependientes, lo que equivale a decir que una familia libre tiene a lo más \(n\) elementos (ver teorema \ref{teo:base_ld}).
+    \item una familia generatriz tiene como mínimo \textit{n} elementos (ver teorema \ref{teo:elementos_de_una_base}).
     \item toda familia libre de \(V\) con \(n\) elementos es una base de \(V\).
-    \item Toda familia generatriz de \(V\) con \(n\) elementos es una base de \(V\).
+    \item toda familia generatriz de \(V\) con \(n\) elementos es una base de \(V\).
   \end{enumerate}
 \end{itemize}
 
-\subsubsection{Componentes de un vector en una base}
+\teorema{Si \(\left\{v_1, v_2, \cdots, v_n\right\}\) es una base de un espacio vectorial \(V\), entonces todo conjunto con más de \(n\) vectores es linealmente dependiente (L.D.).}
+\label{teo:base_ld}
 
-Sea \(V(K)\) un espacio vectorial y \(F = \left\{u_1,u_2,\cdots,u_m\right\}\) una base de \(V\), un vector \(u\) cualquiera de \(V\) se expresa de manera única:
+\teorema{Si \(\left\{u_1, u_2, \cdots, u_m\right\}\) y \(\left\{v_1, v_2, \cdots, v_n\right\}\) son bases del espacio vectorial \(V\), entonces \(m=n\)}
+\label{teo:elementos_de_una_base}
+
+\subsubsection{Componentes de un vector relativas a una base}
+
+Sea \(V(K)\) un espacio vectorial de dimensión \(m\) y \(F = \left\{u_1,u_2,\cdots,u_m\right\}\) una base de \(V\), un vector \(u\) cualquiera de \(V\) se expresa de manera única:
 \[
   u = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m
 \]
-Los escalares que permiten esta combinación lineal reciben el nombre de componentes del vector \(u\) y se puede anotas asi:
+Los escalares que permiten esta combinación lineal reciben el nombre de componentes del vector \(u\) y se puede anotar asi:
 \[
   u = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m = \begin{pmatrix}
     a_1 \\ a_2 \\ \vdots \\ a_m
   \end{pmatrix}
 \]
-Si \(v\) es otro vector de \(V\) se expresa en \(F\) de la siguiente manera:
+El vector de coordenadas de \(u\) relativo a la base \(B\) se denota \((u)_B\):
+\[
+  (u)_B = (a_1, a_2, \cdots, a_m)
+\]
+Si \(v\) es otro vector de \(V\) se expresa en \(B\) de la siguiente manera:
 \[
   v = b_1 u_1 + b_2 u_2 + \cdots + b_m u_m = \begin{pmatrix}
     b_1 \\ b_2 \\ \vdots \\ b_m
@@ -306,16 +318,16 @@ Lo desarrollaremos para un espacio vectorial de dimensión 2 y luego lo generali
 
 \paragraph{Cambio de base en \(\mathbb{R}^2\)}
 
-Sea \(V(K)\) un espacio vectorial y \(F_1 = \left\{u_1, u_2\right\}\) y \(F_2 = \left\{v_1, v_2\right\}\) dos bases de \(V\), un vector \(u\) de \(V\) se expresa de manera única en \(F_1\) y de manera única en \(F_2\):
+Sea \(V(K)\) un espacio vectorial y \(F_1 = \left\{u_1, u_2\right\}\) y \(F_2 = \left\{v_1, v_2\right\}\) dos bases de \(V\), un vector \(w\) de \(V\) se expresa de manera única en \(F_1\) y de manera única en \(F_2\):
 \begin{gather*}
-  u = \alpha_1 u_1 + \alpha_2 u_2 = \begin{pmatrix}
+  (w)_{F1} = \alpha_1 u_1 + \alpha_2 u_2 = \begin{pmatrix}
     \alpha_1 \\ \alpha_2
-  \end{pmatrix} \qquad u = \beta_1 v_1 + \beta_2 v_2 = \begin{pmatrix}
+  \end{pmatrix} \qquad (w)_{F2} = \beta_1 v_1 + \beta_2 v_2 = \begin{pmatrix}
     \beta_1 \\ \beta_2
   \end{pmatrix} \\[3pt]
-  u = \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2
+  w = \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2
 \end{gather*}
-Si se save que las componentes de los vectores de \(F_2\) en la base de \(F_1\) son:
+Si se sabe que las componentes de los vectores de \(F_2\) en la base de \(F_1\) son: 
 \[
   v_1 = \begin{pmatrix}
     a_{11} \\ a_{21}
@@ -323,15 +335,15 @@ Si se save que las componentes de los vectores de \(F_2\) en la base de \(F_1\) 
     a_{12} \\ a_{22}
   \end{pmatrix} = a_{12} u_1 + a_{22} u_2
 \]
-Es posible relacionar ambas expresiones de \(u\):
+Es posible relacionar ambas expresiones de \(w\):
 \begin{align*}
-  u &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2 = \beta_1 \begin{pmatrix}
+  w &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2 = \beta_1 \begin{pmatrix}
     a_{11} \\ a_{21}
   \end{pmatrix} + \beta_2 \begin{pmatrix}
     a_{12} \\ a_{22}
   \end{pmatrix} \\
   &= \beta_1 (a_{11} u_1 + a_{21}u_2) + \beta_2 (a_{12}u_1 + a_{22}u_2)\\[5pt]
-  u &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 a_{11} u_1 + \beta_1 a_{21} u_2 + \beta_2 a_{12}u_1 + \beta_2 a_{22}u_2\\
+  w &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 a_{11} u_1 + \beta_1 a_{21} u_2 + \beta_2 a_{12}u_1 + \beta_2 a_{22}u_2\\
   &= (a_{11}\beta_1 + \beta_2 a_{12}) u_1 + (\beta_1 a_{21} + \beta_2 a_{22}) u_2
 \end{align*}
 Por igualación podemos decir que:
@@ -339,7 +351,7 @@ Por igualación podemos decir que:
   \alpha_1 &= \beta_1 a_{11} + \beta_2 a_{12} \\ 
   \alpha_2 &= \beta_1 a_{21} + \beta_2 a_{22}
 \end{align*}
-Que es un sistema de dos ecuaciones con dos incógnitas, con solución única, ya que dijimos que cada vector se expresa de manera única en cada base. Resolver el sistema equivale a hallar las componentes de \(u\) en \(F_2\) a partir de \(F_1\) o viceversa.
+Que es un sistema de dos ecuaciones con dos incógnitas, con solución única, ya que dijimos que cada vector se expresa de manera única en cada base. Resolver el sistema equivale a hallar las componentes de \(w\) en \(F_2\) a partir de \(F_1\) o viceversa.
 
 En forma matricial lo podemos expresar así:
 \begin{align*}
@@ -352,7 +364,7 @@ En forma matricial lo podemos expresar así:
     \beta_1 \\ \beta_2
   \end{pmatrix}
 \end{align*}
-Donde \(X\) contiene a las componentes de \(u\) en \(F_1\), \(P\) contiene en cada columna a las componentes de los vectores de \(F_2\), y se le denomina matriz de pasaje, y \(X'\) contiene a las componentes de \(u\) en \(F_2\).
+Donde \(X\) contiene a las componentes de \(w\) en \(F_1\), \(P\) contiene en cada columna a las componentes de los vectores de \(F_2\), y se le denomina matriz de pasaje, y \(X'\) contiene a las componentes de \(w\) en \(F_2\).
 
 Lo visto se generaliza a un espacio vectorial de dimensión finita \(n\).
 
