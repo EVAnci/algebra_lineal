@@ -1,0 +1,173 @@
+\subsection{Repaso de Matrices de Algebra y Geometría analítica}
+\label{sec:repaso_matrices}
+
+Una \textit{matriz} es una tabla rectangular de números organizados en filas y columnas. Formalmente, una matriz \(A\) de tamaño \(m \times n\) (con \(m\) filas y \(n\) columnas) se escribe como:
+\[
+A = \begin{bmatrix}
+a_{11} & a_{12} & \dots & a_{1n} \\
+a_{21} & a_{22} & \dots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \dots & a_{mn}
+\end{bmatrix}
+\]
+donde cada elemento \(a_{ij}\) pertenece a un cuerpo, generalmente \(\mathbb{R}\) o \(\mathbb{C}\).
+
+\subsubsection{Tipos de matrices}
+
+\textbf{Matriz cuadrada}: Una matriz es cuadrada si tiene el mismo número de filas y columnas, es decir, si \(m = n\). Estas matrices tienen propiedades especiales (por ejemplo, determinante y traza).
+
+\textbf{Matriz identidad}: Denotada por \(I_n\), es la matriz cuadrada de orden \(n\) que tiene unos en la diagonal principal y ceros en las demás posiciones:
+\[
+I_3 = \begin{bmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+\]
+Cumple que \(AI_n = I_nA = A\) para toda matriz \(A\) de orden compatible.
+
+\textbf{Matriz transpuesta}: Dada una matriz \(A \in \mathbb{R}^{m \times n}\), su transpuesta se denota por \(A^T\) y se define como la matriz \(n \times m\) tal que:
+\[
+(A^T)_{ij} = A_{ji}
+\]
+
+\textbf{Matriz simétrica}: Una matriz cuadrada \(A\) es simétrica si \(A^T = A\). Todos sus elementos están reflejados respecto de la diagonal principal.
+
+\textbf{Matriz antisimétrica}: Una matriz cuadrada \(A\) es antisimétrica si \(A^T = -A\). En particular, todos los elementos de la diagonal principal son cero.
+
+\textbf{Matriz diagonal}: Una matriz cuadrada donde todos los elementos fuera de la diagonal principal son cero. Es decir, \(a_{ij} = 0\) si \(i \neq j\).
+
+\textbf{Matriz escalar}: Es una matriz diagonal donde todos los elementos de la diagonal principal son iguales: \(a_{ii} = \lambda\). Es un múltiplo escalar de la identidad.
+
+\textbf{Matriz nula}: Todos sus elementos son cero. Se denota por \(0_{m \times n}\).
+
+\textbf{Matriz triangular superior/inferior}: Una matriz cuadrada es triangular superior si \(a_{ij} = 0\) para \(i > j\), y triangular inferior si \(a_{ij} = 0\) para \(i < j\).
+
+\subsubsection{Matrices singulares y no singulares}
+
+\textbf{Matriz no singular (o invertible)}: Una matriz cuadrada \(A \in \mathbb{R}^{n \times n}\) es no singular si existe una matriz \(A^{-1}\) tal que:
+\[
+AA^{-1} = A^{-1}A = I_n
+\]
+Esto sucede si y solo si \(\det(A) \neq 0\).
+
+\textbf{Matriz singular}: Una matriz cuadrada que no tiene inversa, es decir, \(\det(A) = 0\).
+
+\subsubsection{Operaciones fundamentales}
+
+\textbf{Suma y resta}: Dos matrices \(A, B \in \mathbb{R}^{m \times n}\) se pueden sumar o restar componente a componente:
+\[
+(A \pm B)_{ij} = A_{ij} \pm B_{ij}
+\]
+
+\textbf{Multiplicación escalar}: Dado \(\lambda \in \mathbb{R}\), la matriz \(\lambda A\) tiene todos los elementos multiplicados por \(\lambda\):
+\[
+(\lambda A)_{ij} = \lambda \cdot A_{ij}
+\]
+
+\textbf{Multiplicación de matrices}: Si \(A \in \mathbb{R}^{m \times n}\) y \(B \in \mathbb{R}^{n \times p}\), su producto \(AB \in \mathbb{R}^{m \times p}\) se define como:
+\[
+(AB)_{ij} = \sum_{k=1}^n A_{ik} B_{kj}
+\]
+
+\textbf{Inversa de una matriz}: Sólo definida para matrices cuadradas y no singulares. Si \(A^{-1}\) existe, se cumple \(AA^{-1} = I_n\).
+
+\paragraph{Propiedades importantes}
+\begin{enumerate}
+    \item \((A^T)^T = A\)
+    \item \((A + B)^T = A^T + B^T\)
+    \item \((AB)^T = B^T A^T\)
+    \item Si \(A\) es invertible, entonces \((A^{-1})^T = (A^T)^{-1}\)
+    \item La inversa de una matriz diagonal (no nula) es otra matriz diagonal con recíprocos en la diagonal: si \(D = \text{diag}(d_1, d_2, \dots, d_n)\), entonces
+    \[
+    D^{-1} = \text{diag}\left(\frac{1}{d_1}, \frac{1}{d_2}, \dots, \frac{1}{d_n}\right)
+    \]
+\end{enumerate}
+
+Perfecto, Elio. A continuación incluyo un apartado específico sobre determinantes y las formas de calcular la inversa de una matriz, tanto desde el punto de vista teórico como computacional.
+
+\subsubsection{Determinante de una matriz}
+
+El determinante es una función que asocia a cada matriz cuadrada \(A \in \mathbb{R}^{n \times n}\) un número real (o complejo), denotado por \(\det(A)\) o \(|A|\), y que tiene múltiples interpretaciones algebraicas y geométricas (por ejemplo, volumen orientado, existencia de soluciones de sistemas, etc.).
+
+\paragraph{Casos particulares}
+
+Para una matriz \(1 \times 1\):
+\[
+\det\begin{bmatrix} a \end{bmatrix} = a
+\]
+
+Para una matriz \(2 \times 2\):
+\[
+\det\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix} = ad - bc
+\]
+
+Para una matriz \(3 \times 3\):
+\[
+\det\begin{bmatrix}
+a & b & c \\
+d & e & f \\
+g & h & i
+\end{bmatrix} = aei + bfg + cdh - ceg - bdi - afh
+\]
+
+\subsubsection{Definición general (por cofactores)}
+
+Dada una matriz cuadrada \(A \in \mathbb{R}^{n \times n}\), su determinante puede calcularse por expansión de cofactores respecto de cualquier fila o columna. Si expandimos respecto de la fila \(i\):
+\[
+\det(A) = \sum_{j=1}^n (-1)^{i+j} a_{ij} \cdot \det(M_{ij})
+\]
+donde \(M_{ij}\) es la submatriz que se obtiene eliminando la fila \(i\) y la columna \(j\) de \(A\). El número \((-1)^{i+j} \cdot \det(M_{ij})\) se denomina cofactor de \(a_{ij}\).
+
+\paragraph{Propiedades del determinante}
+\begin{enumerate}
+    \item \(\det(I_n) = 1\)
+    \item \(\det(AB) = \det(A) \cdot \det(B)\)
+    \item \(\det(A^T) = \det(A)\)
+    \item Si una fila (o columna) es combinación lineal de otras, entonces \(\det(A) = 0\)
+    \item Si \(A\) tiene una fila o columna nula, entonces \(\det(A) = 0\)
+    \item El determinante cambia de signo si se intercambian dos filas (o columnas)
+    \item Si \(A\) es triangular (superior o inferior), entonces:
+    \[
+        \det(A) = \prod_{i=1}^n a_{ii}
+    \]
+\end{enumerate}
+
+\subsubsection{Inversa de una matriz}
+
+Una matriz cuadrada \(A \in \mathbb{R}^{n \times n}\) es invertible (o no singular) si existe una matriz \(A^{-1}\) tal que:
+\[
+AA^{-1} = A^{-1}A = I_n
+\]
+Esto es equivalente a que \(\det(A) \neq 0\). La matriz inversa puede calcularse de varias formas.
+
+\paragraph{Método de la matriz adjunta (teórico)}
+
+Sea \(A \in \mathbb{R}^{n \times n}\) una matriz invertible. Se define la matriz adjunta \(\text{adj}(A)\) como la transpuesta de la matriz de cofactores:
+\[
+\text{adj}(A) = \left[ C_{ij} \right]^T
+\]
+donde \(C_{ij} = (-1)^{i+j} \det(M_{ij})\) es el cofactor del elemento \(a_{ij}\). Entonces,
+\[
+A^{-1} = \frac{1}{\det(A)} \cdot \text{adj}(A)
+\]
+Este método es computacionalmente costoso para matrices grandes, pero útil teóricamente.
+
+\paragraph{Método de Gauss-Jordan (computacional)}
+
+Se construye la matriz aumentada \([A \,|\, I_n]\), y se aplican operaciones elementales por filas para reducir la parte izquierda a \(I_n\). La parte derecha se transforma en \(A^{-1}\):
+\[
+[A \,|\, I_n] \xrightarrow{\text{operaciones elementales}} [I_n \,|\, A^{-1}]
+\]
+Este método es eficiente para cálculos manuales y computacionales.
+
+\paragraph{Resolución de sistemas lineales}
+
+Otra forma es resolver el sistema:
+\[
+AX = I_n
+\]
+columna por columna, es decir, resolver \(Ax_i = e_i\) para \(i = 1, \dots, n\), donde \(e_i\) es la base canónica. El conjunto \(\{x_1, x_2, \dots, x_n\}\) forma las columnas de \(A^{-1}\).
