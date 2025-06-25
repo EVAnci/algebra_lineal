@@ -48,6 +48,37 @@ Sea \textit{V} un conjunto no vacío, y \(\left(K, +, \cdot\right)\) un cuerpo (
   \cdot ~ :& K \times V \rightarrow V \quad \text{tal que}~~ (k,u) \rightarrow k\cdot u
 \end{align*}
 
+La notación:
+\[
++\;:\;V\times V\longrightarrow V
+\]
+se interpreta de la manera siguiente:
+\begin{itemize}
+  \item \textbf{Dominio}: \(
+  V \times V
+  \) es el \textbf{producto cartesiano} de \(V\) consigo mismo. Un elemento de \(V \times V\) es un \textbf{par ordenado} donde \(u \in V\) y \(v \in V\). Decimos ``relación de \(V\) consigo mismo'' porque la suma toma dos vectores de \(V\).
+  \item \textbf{Imagen o codominio}: \(V\) indica que el resultado de aplicar la operación ``\(+\)'' a cualquier par \((u,v)\) debe ser otro elemento de \(V\). Es la condición de \textit{clausura}: sumar dos vectores nos vuelve a dar un vector \hl{del mismo espacio}.
+\end{itemize}
+
+En términos coloquiales: ``\(+\) es una regla que, a cada par de vectores \((u,v)\), le asigna un único vector \(u+v\), y este resultado siempre pertenece a \(V\).''
+
+De modo análogo, la multiplicación por escalar se escribe
+\[
+  \cdot\;:\;K\times V\;\longrightarrow\;V,
+\]
+donde:
+\begin{itemize}
+  \item El dominio \(K\times V\) agrupa un escalar \(k\in K\) y un vector \(u\in V\).
+  \item El codominio \(V\) exige que el producto \(k\cdot u\) tenga como resultado siempre un vector en \(V\).
+\end{itemize}
+Así quedan definidas de manera precisa las dos operaciones básicas de cualquier espacio vectorial:
+\begin{itemize}
+  \item La suma toma dos vectores y los combina en uno solo.
+  \item El producto escalar toma un escalar y un vector, y produce un vector.
+\end{itemize}
+
+Definir explícitamente estos mapeos te permite luego verificar los axiomas (asociatividad, conmutatividad, distributividad, existencia de neutros e inversos, etc.), pues todos ellos se expresan como igualdades entre resultados de estas dos funciones.
+
 Se dice que \textit{V} con dichas operaciones es un \textit{K} espacio vectorial si se verifican los siguientes axiomas:
 \begin{itemize}
   \item \textbf{A1} - Asociativa: Cualesquiera sean \(u,v\) y \(w\) de \(V\): \[
@@ -68,7 +99,7 @@ Se dice que \textit{V} con dichas operaciones es un \textit{K} espacio vectorial
   \item \textbf{A6} - Cualesquiera sean \(k\) y \(k'\) de \(K\), para todo \(u\) de \(V\):\[
     (k + k')\cdot u = k \cdot u + k' \cdot u
   \]
-  \item \textbf{A7} - Cuales quiera sean \(k\) y \(k'\) de \(K\), para todo \(u\) de \(V\):\[
+  \item \textbf{A7} - Cualesquiera sean \(k\) y \(k'\) de \(K\), para todo \(u\) de \(V\):\[
     (k\cdot k')\cdot u = k \cdot (k' \cdot u)
   \]
   \item \textbf{A8} - Para todo \(u\) de \(V\): \[
@@ -132,6 +163,13 @@ La definición de espacio vectorial implica que se cumplan las siguientes propie
   \item \textbf{P3}: \((-1) \cdot u = -u \qquad \forall u \in V\)
 \end{itemize}
 
+\begin{tcolorbox}[mydanger]
+  Cuidado: Es muy importante tener en cuenta que \[
+  \text{Axiomas A1-A8} \quad \implies \quad \text{Propiedades P1-P3}
+  \]
+  Si solo se te dan P1, P2 y P3 sin garantizar que las operaciones están bien definidas, que la suma sea asociativa, que haya un neutro, o que se cumplan las reglas de distribución y compatibilidad, entonces no puedes concluir que estás en un espacio vectorial.
+\end{tcolorbox}
+
 \subsection{Conjunto de vectores: familia libre y familia ligada}
 
 Un conjunto ordenado de vectores: \(F = \left\{u_1,u_2,\cdots,u_m\right\}\) de un espacio vectorial \(V(K)\) se denomina familia de vectores.
@@ -187,7 +225,10 @@ Es decir, cualquiera sea \(u\) de \(V\), ess posible expresarlo de la siguiente 
 
 \teorema{Dos vectores de un espacio vectorial \(V\) son linealmente dependientes (L.D.) si y sólo si uno de ellos es un múltiplo escalar del otro.}
 
-\teorema{Todo conjunto de \(n\) vectores linealmente independientes (L.I.) en \(\mathbb{R}^n\) genera \(\mathbb{R}^n\)}
+\teorema{Sea \(K\) un cuerpo, y \(K^n\) el espacio vectorial de dimensión \(n\) sobre \(K\). Entonces, todo conjunto de \(n\) vectores linealmente independientes en \(K^n\) forma una base y, en consecuencia, genera todo \(K^n\).}
+\label{teo:generador_li}
+
+Por ejemplo, si \(K=\mathbb{R}\) (cuerpo de los números reales), el teorema se aplica como sigue: Todo conjunto de \(n\) vectores linealmente independientes (L.I.) en \(\mathbb{R}^n\) genera \(\mathbb{R}^n\)
 
 \subsection{Base y dimensión}
 
@@ -202,6 +243,12 @@ y además si \(u\) es el vector nulo entonces:
   \vec{0} = a_1 u_1 + a_2 u_2 + \cdots + a_m u_m \qquad a_i = 0; ~~ i=1,2,\cdots,m
 \]
 es decir, los vectores de \(F\) son L.I.
+
+Hemos visto en el teorema \ref{teo:generador_li} que todo conjunto de \(n\) vectores linealmente independientes (L.I.) en \(\mathbb{R}^n\) genera a \(\mathbb{R}^n\). Entonces, de acuerdo a la definición de base, se tiene que:
+\begin{tcolorbox}
+  \centering
+  Todo conjunto de \(n\) vectores L.I. en \(K^n\), constituye una base de \(K^n\)
+\end{tcolorbox}
 
 \begin{itemize}
   \item Todo vector de \(V\) se expresa de manera única en cada base.
