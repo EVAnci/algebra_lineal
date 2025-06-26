@@ -1,3 +1,213 @@
 \section{Matrices}
 
 Si desea repasar la unidad de matrices, de forma resumida, puede ver la sección \ref{sec:repaso_matrices}.
+
+\subsection{Submatrices}
+
+Habitualmente se simboliza a una matriz como hemos estudiado así
+\[
+A = \begin{bmatrix}
+  a_{11} & a_{12} & \cdots & a_{1n}\\
+  a_{21} & a_{22} & \cdots & a_{2n}\\
+  \vdots & \vdots & \ddots & \vdots \\
+  a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}
+\]
+
+\textbf{Definición}: Se denomina submatriz o bloque de una matriz \(A\), a cualquier matriz obtenida suprimiendo alguna o algunas filas o columnas de \(A\).
+
+\ejemplo{ Si tomamos la matriz \(A\), una submatriz puede ser:}
+\[
+B = \begin{bmatrix}
+  a_{11} & a_{12}\\
+  a_{21} & a_{22}
+\end{bmatrix}
+\]
+
+\paragraph{Submatriz principal}
+
+Una submatriz de una matriz cuadrada \(A\) se duce submatriz principal si es obtenida de \(A\) eliminando los mismos renglones que columnas. 
+
+\ejemplo{ Si tenemos una matríz A:}
+\[
+A = \begin{bmatrix}
+  2 & 3 & -2 & 1\\
+  1 & 3 & 10 & 2\\
+  0 & -3 & 1 & 5\\
+  -2 & 0 & -2 & 5\\
+\end{bmatrix}
+\]
+Algunas submatrices principales son:
+\[
+  A_1 =\begin{bmatrix}
+    2 & 1 \\
+    -2 & 5
+  \end{bmatrix},\quad A_2 = \begin{bmatrix}
+    2 & 3 & -2 \\
+    1 & 3 & 10 \\
+    0 & -3 & 1 
+  \end{bmatrix}, \quad A_3 = \begin{bmatrix}
+    3 & 2\\
+    0 & 5 
+  \end{bmatrix}
+\]
+donde en \(A_1\) se han eliminado las columnas \(c_2\) y \(c_3\) y la filas \(f_2\) y \(f_3\). En \(A_2\) la columna \(c_4\) y la fila \(f_4\). Y por último en \(A_3\) las columnas \(c_1\) y \(c_3\) y las filas \(f_1\) y \(f_3\).
+
+\paragraph{Submatriz principal primera}
+
+Una submatriz de una matriz cuadrada \(A\) de orden \(n \times n\) se dice submatriz principal primera si es obtenida de \(A\) eliminando las últimas \(n-r\) filas y las últimas \(n-r\) columnas.
+
+\ejemplo{ Si se tiene la matriz \(A\):}
+\[
+A = \begin{bmatrix}
+  2 & 3 & -2 & 1\\
+  1 & 3 & 10 & 2\\
+  0 & -3 & 1 & 5\\
+  -2 & 0 & -2& 5
+\end{bmatrix}
+\]
+Algunas submatrices principales primera son:
+\[
+A_1 = \begin{bmatrix}
+  2 & 3 & -2 \\
+  1 & 3 & 10\\
+  0 & -3 & 1
+\end{bmatrix}, \quad A_2 = \begin{bmatrix}
+  2 & 3\\
+  1 & 3\\
+\end{bmatrix}
+\]
+En forma genérica si \(M\) es de orden \(n\times n\):
+\[
+M = \begin{bmatrix}
+  a_{11} & a_{12} & a_{13} & \cdots & a_{1n}\\
+  a_{21} & a_{22} & a_{23} & \cdots & a_{2n}\\
+  a_{31} & a_{32} & a_{33} & \cdots & a_{3n}\\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  a_{n1} & a_{n2} & a_{n3} & \cdots & a_{nn}
+\end{bmatrix} \quad \text{buscamos la submatriz} \quad M^{2,3,5}_{1,2,4}= \begin{bmatrix}
+  a_{12} & a_{13} & a_{15}\\
+  a_{22} & a_{23} & a_{25}\\
+  a_{42} & a_{43} & a_{45}\\  
+\end{bmatrix}
+\]
+donde \(M^{j_1,j_2,\cdots,j_p}_{i_1,i_2,\cdots,i_p}\) es la que contiene a los elementos \(a_{i_p j_p}\) cuando \(p\) varía \(1,2,\cdots,p\), y es una matriz de orden \(p\times p\).
+
+El supraíndice me indica el número de columnas involucradas y el subíndice el número de filas.
+
+\ejemplo{ Dada la siguiente matriz \(A\):}
+\[
+  A = \begin{bmatrix}
+  a_{11} & a_{12} & a_{13} & a_{14} & a_{15}\\
+  a_{21} & a_{22} & a_{23} & a_{24} & a_{25}\\
+  a_{31} & a_{32} & a_{33} & a_{34} & a_{35}\\
+  a_{41} & a_{42} & a_{43} & a_{44} & a_{45}\\
+  a_{51} & a_{52} & a_{53} & a_{54} & a_{55}
+\end{bmatrix}_{5 \times 5}
+\]
+buscamos la submatriz \(M^{2,3,5}_{1,2,4}\): 
+\[
+M^{2,3,5}_{1,2,4} = \begin{bmatrix}
+  a_{12} & a_{13} & a_{15} \\
+  a_{22} & a_{23} & a_{25} \\
+  a_{42} & a_{43} & a_{45} 
+\end{bmatrix} 
+\]
+Recibe el nombre de \textbf{menor} el determinante de la submatriz, en el ejemplo sería:
+\[
+  \text{Menor}: \det \left(M^{2,3,5}_{1,2,4}\right) = \begin{vmatrix}
+    a_{12} & a_{13} & a_{15}\\
+    a_{22} & a_{23} & a_{25}\\
+    a_{42} & a_{43} & a_{45}
+  \end{vmatrix}
+\]
+
+Y se llama \textbf{menor con signo} aquel que además antepone una potencia de \(-1\) a la suma de los subíndices y supraíndices. En el ejemplo:
+\[
+  \text{Menor con signo}: (-1)^{2+3+5+1+2+4}\cdot \det\left(M^{2,3,5}_{1,2,4}\right)=(-1)^{16}\cdot \det \left(M^{2,3,5}_{1,2,4}\right)
+\]
+
+Se llama \textbf{menor complementario} al determinante de la submatriz que considera las filas y las columnas restantes, en el ejemplo anterior sería:
+\[\text{Menor complementario}:\det\left(M^{1,4}_{3,5}\right) = \begin{vmatrix}
+  a_{31} & a_{34}\\
+  a_{51} & a_{54}
+\end{vmatrix}\]
+
+En ocasiones es útil pensar en una matriz por partes, separada o por bloques, es decir pensar en una matriz \(A\) como formada por varias matrices más pequeñas de diferentes formas.
+\begin{quote}
+  \ejemplo{}
+  
+  \(A=\begin{bmatrix}
+  2 & 0 & -1\\
+  1 & 3 & 2
+\end{bmatrix}\) se puede pensar en término de sus columnas: 
+\[
+  C_1 = \begin{bmatrix}
+    2 \\ 1
+  \end{bmatrix} \qquad C_2 = \begin{bmatrix}
+    0 \\ 3
+  \end{bmatrix} \qquad C_3 = \begin{bmatrix}
+    -1 \\ 2
+  \end{bmatrix} 
+\]
+escribiendo \(A=\left[C_1, C_2, C_3\right]\) o en término de sus filas:
+\[
+  F_1 = \left(2,0,-1\right) \qquad F_2 = \left(1,3,2\right)
+\]
+escribiendo la matriz \(A = \begin{bmatrix}
+  F_1 \\ F_2
+\end{bmatrix}\)
+
+Inclusive se podría escribir \(A= \begin{bmatrix}
+  A_{11} & A_{12}\\
+  A_{21} & A_{22}
+\end{bmatrix}\) donde \(A_{11}=(2 \, 0)\), \(A_{21}=(1 \, 3)\), \(A_{12}=(-1) y \(A_{22}=(2)\)\)
+\end{quote}
+Así consideramos la matriz \(A\) separada del siguiente modo con una línea punteada que atraviesa completamente la matriz entre la primera y la segunda fila y otra línea punteada que la atraviesa entre la segunda y tercera columna. Se dice que una matriz está separada cuando se dibujan líneas punteadas que atraviesan completamente la matriz. Las matrices que se forman con estas líneas se llaman submatrices.
+
+\subsubsection{Matrices por bloques}
+
+La manipulación de matrices con gran número de filas y de columnas conlleva grandes problemas, incluso cuando se trabajan en una computadora. Por eso, suele ser interesante saber descomponer un problema que usa matrices de orden muy grande, utilizando matrices más pequeñas. La posibilidad de descomponer una matriz en matrices más pequeñas tiene muchas aplicaciones en las comunicaciones, en electrónica, en la resolución de sistemas de ecuaciones, etc. Y, sobre todo, da la posibilidad de escribir una matriz en forma más compacta. Otra posibilidad que presenta es que pueden simplificar cálculos de operaciones entre matrices y el cálculo de su determinante como desarrollaremos
+
+\textbf{Definición}: Dada una matriz A de orden mxn, se dice que la matriz A esta descompuesta o particionada propiamente en bloques si se puede organizar como una matriz de bloques o submatrices en la forma:
+\[
+  A = \begin{bmatrix}
+    A_{11} & A_{12} & \cdots & A_{1p}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    A_{q1} & A_{q2} & \cdots & A_{qp}
+  \end{bmatrix}
+\]
+En consecuencia, los bloques se obtienen trazando imaginariamente rectas verticales y horizontales entre los elementos de la matriz \(A\). Los bloques o submatrices se designaran en la forma \(A_{ij}\). El número de filas en el bloque \(A_{ij}\) depende solo de \(j\), siendo el mismo para todos los \(i\); en modo similar para las columnas.
+
+\ejemplo{ Consideramos la siguiente matriz \(A\) separada en bloques:}
+\[
+\]
+está descompuesta propiamente en bloques y tiene dos filas y tres columnas de bloques, es decir, es una matriz de \(2 \times 3\) por bloques.
+
+\paragraph{Suma de matrices por bloques}
+
+\textbf{Definición}: Se define la suma de dos matrices descompuestas en bloques como la matriz por bloques que tiene en la posición \((i, j)\) la suma de los bloques que ocupan esa posición, es decir:
+\[
+ (A+B)_{ij} = A_{ij} + B_{ij}
+\]
+Para que la suma por bloques pueda realizarse, las dos matrices deben ser del mismo tamaño y han de estar descompuestas en el mismo número de bloques fila y columna, y los bloques que ocupan la misma posición han de ser a su vez del mismo tamaño.
+
+\ejemplo{Sean las matrices \(A\) y \(B\) como sigue:}
+\[
+  A= \left[\begin{array}{c|cc|cc}
+    1 & 2 & 3 & 4 & 5 \\
+    2 & 3 & 4 & 5 & 6 \\
+    3 & 4 & 5 & 6 & 7 \\
+    \hline
+    4 & 5 & 6 & 7 & 8
+  \end{array}\right] \qquad 
+  B= \left[\begin{array}{c|cc|cc}
+    0 & 1 & 3 & 1 & 2 \\
+    1 & 2 & 4 & 3 & 0 \\
+    2 & 4 & 2 & 0 & 2 \\
+    \hline
+    0 & 1 & 0 & 2 & 1
+  \end{array}\right]
+  \end{bmatrix}
+\]
+la suma \(A+B\) será igual a:
