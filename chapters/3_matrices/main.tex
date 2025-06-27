@@ -161,7 +161,7 @@ escribiendo la matriz \(A = \begin{bmatrix}
 Inclusive se podría escribir \(A= \begin{bmatrix}
   A_{11} & A_{12}\\
   A_{21} & A_{22}
-\end{bmatrix}\) donde \(A_{11}=(2 \, 0)\), \(A_{21}=(1 \, 3)\), \(A_{12}=(-1) y \(A_{22}=(2)\)\)
+\end{bmatrix}\) donde \(A_{11}=(2 ~~ 0)\), \(A_{21}=(1 ~~ 3)\), \(A_{12}=(-1)\) y \(A_{22}=(2)\)
 \end{quote}
 Así consideramos la matriz \(A\) separada del siguiente modo con una línea punteada que atraviesa completamente la matriz entre la primera y la segunda fila y otra línea punteada que la atraviesa entre la segunda y tercera columna. Se dice que una matriz está separada cuando se dibujan líneas punteadas que atraviesan completamente la matriz. Las matrices que se forman con estas líneas se llaman submatrices.
 
@@ -181,6 +181,16 @@ En consecuencia, los bloques se obtienen trazando imaginariamente rectas vertica
 
 \ejemplo{ Consideramos la siguiente matriz \(A\) separada en bloques:}
 \[
+A = \left[\begin{array}{c|cc|cc}
+  1 & 2 & 3 & 4 & 5 \\
+  2 & 3 & 4 & 5 & 6 \\
+  3 & 4 & 5 & 6 & 7 \\
+  \hline
+  4 & 5 & 6 & 7 & 8
+\end{array}\right] = \begin{bmatrix}
+  A_{11} & A_{12} & A_{13}\\
+  A_{21} & A_{22} & A_{23}
+\end{bmatrix}
 \]
 está descompuesta propiamente en bloques y tiene dos filas y tres columnas de bloques, es decir, es una matriz de \(2 \times 3\) por bloques.
 
@@ -192,7 +202,7 @@ está descompuesta propiamente en bloques y tiene dos filas y tres columnas de b
 \]
 Para que la suma por bloques pueda realizarse, las dos matrices deben ser del mismo tamaño y han de estar descompuestas en el mismo número de bloques fila y columna, y los bloques que ocupan la misma posición han de ser a su vez del mismo tamaño.
 
-\ejemplo{Sean las matrices \(A\) y \(B\) como sigue:}
+\ejemplo{ Sean las matrices \(A\) y \(B\) como sigue:}
 \[
   A= \left[\begin{array}{c|cc|cc}
     1 & 2 & 3 & 4 & 5 \\
@@ -208,6 +218,758 @@ Para que la suma por bloques pueda realizarse, las dos matrices deben ser del mi
     \hline
     0 & 1 & 0 & 2 & 1
   \end{array}\right]
+\]
+la suma \(A+B\) será igual a: 
+\[
+A + B = \left[\begin{array}{c|cc|cc}
+  1 & 3 & 6 & 5 & 7 \\
+  3 & 5 & 8 & 8 & 6 \\
+  5 & 8 & 7 & 6 & 9 \\
+  \hline
+  4 & 6 & 6 & 9 & 9
+\end{array}\right]
+\]
+
+\paragraph{Producto de matrices por bloques}
+
+El producto de matrices por bloques se realiza, formalmente, igual que si fuera por elementos.
+
+\textbf{Definición}: Se define el producto de dos matrices \(A\) y \(B\) descompuestas en bloques como la matriz por bloques \(C\) que tiene en la posición \((i,j)\) el bloque:
+\[
+  C_{ij} = \sum_{k=1}^r A_{ik} \cdot A_{kj}
+\]
+
+Para que el producto por bloques pueda realizarse, las dos matrices \(A\) y \(B\) deben estar descompuestas en bloques de forma conforme, es decir, el número de bloques columna de la matriz \(A\) debe ser igual que el de bloques fila de la matriz \(B\), y los bloques involucrados en la suma anterior han de ser de tamaño adecuado para que se puedan multiplicar por elementos.
+
+\ejemplo{ Sean las matrices \(A_{2\times 3}\) y \(B_{3 \times 2}\) como sigue:}
+\[
+A = \left[\begin{array}{c|cc|cc}
+1 & 2 & 3 & 4 & 5 \\
+2 & 3 & 4 & 5 & 6 \\
+3 & 4 & 5 & 6 & 7 \\
+\hline
+4 & 5 & 6 & 7 & 8  
+\end{array}\right] = \begin{bmatrix}
+  A_{11} & A_{12} & A_{13}\\
+  A_{21} & A_{22} & A_{23}
+\end{bmatrix}\qquad B = \left[\begin{array}{c|cc}
+1 & 2 & 3 \\
+\hline
+2 & 3 & 4 \\
+3 & 4 & 5 \\
+\hline
+4 & 5 & 6 \\
+5 & 6 & 7
+\end{array}\right] = \begin{bmatrix}
+  B_{11} & B_{12} \\
+  B_{21} & B_{22} \\
+  B_{31} & B_{32}
+\end{bmatrix}
+\]
+la matriz \(A \cdot B = C\) será de orden \(2 \times 2\) bloques y se calcula de la siguiente forma:
+\[
+C = \begin{bmatrix}
+  \left(A_{11} \cdot B_{11} + A_{12} \cdot B_{21} + A_{13} \cdot B_{31}\right) & \left(A_{11} \cdot B_{12} + A_{12} \cdot B_{22} + A_{13} \cdot B_{32}\right)\\
+  \left(A_{21} \cdot B_{11} + A_{22} \cdot B_{21} + A_{23} \cdot B_{31}\right) & \left(A_{21} \cdot B_{12} + A_{222} \cdot B_{22} + A_{23} \cdot B_{32}\right)
+\end{bmatrix}
+\]
+Y ahora calculamos el resultado de cada elemento \(C_{ij}\) de la matriz:
+\begin{itemize}
+  \item \(C_{11} = \begin{bmatrix}
+    1 \\ 2 \\ 3
+  \end{bmatrix} \cdot \left[1\right] + \begin{bmatrix}
+    2 & 3 \\
+    3 & 4 \\
+    4 & 5
+  \end{bmatrix} \cdot \begin{bmatrix}
+    2 \\ 3
+  \end{bmatrix} + \begin{bmatrix}
+    4 & 5 \\
+    5 & 6 \\
+    6 & 7
+  \end{bmatrix} + \begin{bmatrix}
+    4 & 5
+  \end{bmatrix} = \begin{bmatrix}
+    55 \\ 75 \\ 85
+  \end{bmatrix}\)
+  \item \(C_{12} = \begin{bmatrix}
+    1 \\ 2 \\ 3 
+  \end{bmatrix}\cdot \begin{bmatrix}
+    2 & 3
+  \end{bmatrix} + \begin{bmatrix}
+    2 & 3 \\
+    3 & 4 \\
+    4 & 5
+  \end{bmatrix} \cdot \begin{bmatrix}
+    3 & 4 \\
+    4 & 5
+  \end{bmatrix} + \begin{bmatrix}
+    4 & 5 \\
+    5 & 6 \\
+    6 & 7
+  \end{bmatrix} \cdot \begin{bmatrix}
+    5 & 6 \\
+    5 & 7
+  \end{bmatrix} = \begin{bmatrix}
+    70 & 85 \\
+    80 & 115 \\
+    121 & 135
+  \end{bmatrix}\)
+  \item \(C_{21} = \left[4\right] \cdot \left[1\right] + \begin{bmatrix}
+    5 & 6
+  \end{bmatrix} \cdot \begin{bmatrix}
+    2 \\ 3
+  \end{bmatrix} + \begin{bmatrix}
+    7 & 8 
+  \end{bmatrix} \cdot \begin{bmatrix}
+    4 & 5
+  \end{bmatrix} = [100]\)
+  \item \(C_{22} = [4] \cdot \begin{bmatrix}
+    2 & 3
+  \end{bmatrix} + \begin{bmatrix}
+    5 & 6
+  \end{bmatrix} \cdot \begin{bmatrix}
+    3 & 4 \\ 
+    4 & 5
+  \end{bmatrix} + \begin{bmatrix}
+    7 & 8
+  \end{bmatrix} \cdot \begin{bmatrix}
+    5 & 6 \\ 
+    6 & 7
+  \end{bmatrix}= \begin{bmatrix}
+    138 & 160
+  \end{bmatrix}\)
+\end{itemize}
+Resultando entonces:
+\[
+A \cdot B = C = \left[\begin{array}{c|cc}
+  55 & 70 & 85\\
+  75 & 60 & 115 \\
+  85 & 121 & 135 \\
+  \hline
+  100 & 138 & 160
+\end{array}\right]
+\]
+
+La ventaja de esta forma de proceder es que para obtener cada bloque del producto solo se manipulan matrices más pequeñas.
+
+La idea de las matrices por bloques conduce a entender una matriz \(A\) de orden \(q \times p\) como un conjunto de \(q\) columnas cada una de las cuales es un vector de \(p\) componentes; o bien, un conjunto de \(p\) filas, cada una de las cuales es un vector de \(q\) componentes, \[
+A \cdot B = \begin{bmatrix}
+  a_{1} \\ a_{2} \\ \vdots \\ a_p 
+\end{bmatrix} \cdot \begin{bmatrix}
+  b_1 & b_2 & \cdots & b_q
+\end{bmatrix}
+\]
+de manera que \((A \cdot B)_{ij} = a_i \cdot b_j\), es decir, en el lenguaje del algebra elemental, cada elemento del producto es el producto escalar de la fila i-ésima por la columna j-ésima.
+
+\paragraph{Transpuesta de matrices por bloques}
+
+\textbf{Definición}: Sea la matriz por bloques \(A\):
+\[
+  A= \begin{bmatrix}
+    A_{11} & A_{12} & A_{13} \\
+    A_{21} & A_{22} & A_{23}
   \end{bmatrix}
 \]
-la suma \(A+B\) será igual a:
+su matriz transpuesta \(A^T\) por bloques se determina transponiendo cada bloque como si fueran escalares y luego se transpone cada uno de los bloques de la siguiente forma:
+\[
+A = \begin{bmatrix}
+  A_{11}^T & A_{21}^T \\
+  A_{12}^T & A_{22}^T \\
+  A_{13}^T & A_{23}^T
+\end{bmatrix}
+\]
+
+\ejemplo{ Dada la matriz \(A\), obtener la matriz transpuesta}
+
+\[
+  A = \left[\begin{array}{ccc|cc}
+    2 & -3 & 1 & 0 & -4 \\
+    1 & 5 & -2 & 3 & -1 \\
+    \hline
+    0 & -4 & -2 & 7 & -1
+  \end{array}\right] \quad \rightarrow \quad A^T = \left[\begin{array}{cc|c}
+    2 & 1 & 0 \\
+    -3 & 5 & -4 \\
+    1 & -2 & -2 \\
+    \hline
+    0 & 3 & 7 \\
+    -4 & -1 & -1
+  \end{array}\right] 
+\]
+
+\subsubsection{Matrices cuadradas por bloques y cálculo del determinante}
+
+Una matriz \(A\) se llama cuadrada por bloques si:
+\begin{itemize}
+  \item \(A\) es una matriz cuadrada
+  \item Si los bloques diagonales son matrices cuadradas
+\end{itemize}
+
+\ejemplo{ Obsérvense las siguientes matrices:}
+
+\[
+  A = \left[\begin{array}{cc|cc|c}
+    1 & 2 & 3 & 4 & 5 \\
+    1 & 1 & 1 & 1 & 1 \\
+    \hline
+    9 & 8 & 7 & 6 & 5 \\
+    \hline
+    4 & 4 & 4 & 4 & 4 \\
+    3 & 5 & 3 & 5 & 3
+  \end{array}\right] \qquad B = \left[\begin{array}{cc|cc|c}
+        1 & 2 & 3 & 4 & 5 \\
+    1 & 1 & 1 & 1 & 1 \\
+    \hline
+    9 & 8 & 7 & 6 & 5 \\
+    4 & 4 & 4 & 4 & 4 \\
+    \hline
+    3 & 5 & 3 & 5 & 3
+  \end{array}\right]
+\]
+\(A\) no es cuadrada por bloques, ya que los bloques diagonales \(A_{22}\) y \(A_{33}\) no son matrices cuadradas. \(B\) si es una matriz cuadrada por bloques.
+
+Una matriz cuadrada \(A\) dada en bloques en la que todos los bloques que no están en la diagonal principal son iguales a cero se denomina matriz diagonal por bloques. Es decir, \(A_{ij} = 0\) para todo \(i \neq j\):\[
+A = \begin{bmatrix}
+  A_{11} & 0 & \cdots & 0 \\
+  0 & A_{22} & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & A_{mn}
+\end{bmatrix}
+\]
+Una matriz \(A\) cuadrada dada en bloques en la que los bloques por encima de su diagonal principal son cero se llama matriz triangular inferior por bloques. Es decir, \(A_{ij} = 0\) para todo \(j > i\).
+\[
+A = \begin{bmatrix}
+  A_{11} & 0 & \cdots & 0 \\
+  A_{21} & A_{22} & \cdots & 0 \\
+  \vdots & \vdots & \ddots & \vdots \\
+  A_{n1} & A_{n2} & \cdots & A_{mn}
+\end{bmatrix}
+\]
+Una matriz cuadrada \(B\) descompuesta en bloques en la que los bloques por debajo de su diagonal principal son cero se llama matriz triangular superior por bloques. Es decir, \(B_{ij} = 0\) para todo \(j < i\).
+\[
+B = \begin{bmatrix}
+  B_{11} & B_{12} & \cdots & B_{1m} \\
+  0 & B_{22} & \cdots & B_{2m} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & \cdots & B_{mn}
+\end{bmatrix}
+\]
+
+Para las matrices triangulares (superior e inferior) por bloques \(A\), así como para todas las matrices diagonales por bloques, se cumple que:
+\[
+  \det(A) = \prod_{k=1}^{r}\det(A_{kk})
+\]
+\teorema{Si \(A\) es una matriz triangular superior (o inferior) por bloques, con bloques diagonales \(A_{11}, A_{22}, \cdots, A_{pp}\), entonces el determinante de \(A\) es el producto de los determinantes de los bloques diagonales}
+\[
+\det(A) = \det(A_{11}) \cdot \det(A_{22}) \cdot ~~ \cdots ~~ \cdot \det(A_{pp})
+\]
+
+\ejemplo{ Veamos un ejemplo de determinantes por bloques:}
+\[
+A = \left[\begin{array}{cc|ccc}
+  2 & 3 & 4 & 7 & 8 \\
+  -1 & 5 & 3 & 2 & 1 \\
+  \hline
+  0 & 0 & 2 & 1 & 5 \\
+  0 & 0 & 3 & -1 & 4 \\
+  0 & 0 & 5 & 2 & 6 
+\end{array}\right]
+\]
+\(A\) es una matriz triangular superior por bloques. Los bloques diagonales son dos, calculamos el determinante de \(A\) usando el teorema:
+\[
+\det(A) = \det(A_{11}) \cdot \det(A_{22}) = \begin{vmatrix}
+  2 & 3 \\ 
+  -1 & 5
+\end{vmatrix} \cdot \begin{vmatrix}
+  2 & 1 & 5 \\
+  3 & -1 & 4 \\
+  5 & 2 & 6
+\end{vmatrix} = 13 \cdot 29 = 377
+\]
+
+\subsection{Matrices complejas}
+
+\textbf{Definición}: Una matriz se denomina compleja si alguno de sus elementos es un número complejo.
+
+\ejemplo{ La matriz \(A\) es una matriz compleja de orden \(2\):}
+\[
+A = \begin{bmatrix}
+  2+3i & 5i \\
+  4-3i & 7+8i
+\end{bmatrix}
+\]
+
+\subsubsection{Matrices Hermíticas}
+
+\textbf{Definición}: Una matriz compleja \(A\) cuadrada de orden \(n\) se denomina hermítica si y solo si \(A = (\bar{A})^T\)
+
+Toda matriz simétrica es una matriz hermítica. Para encontrar la forma general de las matrices hermíticas, consideramos una una matriz compleja de orden \(3\):
+\[
+  A = \begin{bmatrix}
+    a_{11} + ib_{11} & a_{12} + ib_{12} & a_{13} + ib_{13} \\
+    a_{21} + ib_{21} & a_{22} + ib_{22} & a_{23} + ib_{23} \\
+    a_{31} + ib_{31} & a_{32} + ib_{32} & a_{33} + ib_{33}
+  \end{bmatrix}
+\]
+Para que sea hermítica debe cumplir la definición: \(A = (\bar{A})^T\), entonces al igualar ambas matrices resulta:
+\[
+  \begin{bmatrix}
+    a_{11} + ib_{11} & a_{12} + ib_{12} & a_{13} + ib_{13} \\
+    a_{21} + ib_{21} & a_{22} + ib_{22} & a_{23} + ib_{23} \\
+    a_{31} + ib_{31} & a_{32} + ib_{32} & a_{33} + ib_{33}
+  \end{bmatrix} - \begin{bmatrix}
+    a_{11} - ib_{11} & a_{21} - ib_{21} & a_{31} - ib_{31} \\
+    a_{12} - ib_{12} & a_{22} - ib_{22} & a_{32} - ib_{32} \\
+    a_{13} - ib_{13} & a_{23} - ib_{23} & a_{33} - ib_{33}
+  \end{bmatrix} = 0_{3 \times 3}
+\]
+Operando tenemos que:
+\begin{align*}
+  a_{11} + ib_{11} - a_{11} + ib_{11} = 0 ~~ &\implies ~~ b_{11} = 0 \\
+  a_{22} + ib_{22} - a_{22} + ib_{22} = 0 ~~ &\implies ~~ b_{22} = 0 \\
+  a_{33} + ib_{33} - a_{33} + ib_{33} = 0 ~~ &\implies ~~ b_{33} = 0 
+\end{align*}
+Y de forma genérica para cualquier elemento j-ésimo de la diagonal principal:
+\[
+  a_{jj} + ib_{jj} - a_{jj} + ib_{jj} = 0 ~~ \implies ~~ b_{jj} = 0
+\]
+
+Luego para el resto de elementos:
+\begin{align*}
+  a_{12} + ib_{12} - a_{21} + ib_{21} = 0 ~~ &\implies ~~ a_{12} = a_{21} \land b_{12} = - b_{21} \\ 
+  a_{13} + ib_{13} - a_{31} + ib_{31} = 0 ~~ &\implies ~~ a_{13} = a_{31} \land b_{13} = - b_{31} \\ 
+  a_{23} + ib_{23} - a_{32} + ib_{32} = 0 ~~ &\implies ~~ a_{23} = a_{32} \land b_{23} = - b_{32}
+\end{align*}
+Y en general para cualquier elemento \(ij\) fuera de la diagonal (es decir \(i\neq j\)) es:
+\[
+  a_{ij} + ib_{ij} - a_{ji} + ib_{ji} = 0 ~~ \implies ~~ a_{ij} = a_{ji} \land b_{ij} = - b_{ji} 
+\]
+Al reemplazar en la matriz \(A\) resulta la forma genérica de una matriz hermítica de orden 3:
+\[
+A = \begin{bmatrix}
+  a_{11} & a_{12} + ib_{12} & a_{13} + ib_{13} \\
+  a_{12} - ib_{12} & a_{22} & a_{23} + ib_{23} \\
+  a_{13} - ib_{13} & a_{23} - ib_{23} & a_{33}
+\end{bmatrix}
+\]
+y se puede generalizar a una matriz compleja de orden \(n\).
+
+\textbf{Definición}: Una matriz compleja \(A\) cuadrada de orden \(n\) se denomina \textit{antihermitiana} si y solo si \(A = -(\bar{A})^T\), es decir, si la matriz \(A\) es igual a la opuesta de su transpuesta de su matriz conjugada.
+
+La forma genérica de una matriz hermítica de orden \(2\) es la siguiente:
+\[
+A = \begin{bmatrix}
+  ai & b + ci \\
+  -b+ci & di
+\end{bmatrix}
+\]
+Propiedades:
+\begin{itemize}
+  \item Una matriz de números reales, es decir, que ningún elemento tiene parte imaginaria, es hermítica si, y solo si, es una matriz simétrica. Como por ejemplo la matriz identidad de orden \(2 \times 2\).
+  \item Una matriz hermitiana se puede expresar como la suma de una matriz simétrica real más una matriz antisimétrica imaginaria. En símbolos: si \(A\) es hermitiana, \(A_\mathbb{R}\) es su parte real y \(A_\mathbb{I}\) su parte imaginaria, entonces \(A=A_\mathbb{R} + A_\mathbb{I}\), donde \(A_\mathbb{R} = A_\mathbb{R}^T\) (por ser simétrica) y \(A_\mathbb{I} = - A_\mathbb{I}^T\) (por ser antisimétrica).
+  \item La suma (o resta) de dos matrices hermitianas es igual a otra matriz hermitiana.
+  \item El resultado del producto de una matriz hermitiana por un escalar es otra matriz hermitiana si el escalar se trata de un número real.
+  \item El producto de dos matrices hermitianas generalmente no es hermítico de nuevo.
+  \item Si una matriz hermitiana es invertible, la inversa de esta también resulta ser una matriz hermitiana.
+  \item El determinante de una matriz hermitiana siempre es equivalente a un número real.
+  \item La suma de una matriz compleja cuadrada más su conjugada traspuesta da como resultado una matriz hermitiana.
+  \item La diferencia entre una matriz compleja cuadrada y su conjugada traspuesta da como resultado una matriz antihermitiana.
+\end{itemize}
+
+\subsubsection{Matrices unitarias}
+
+\textbf{Definición}: una matriz unitaria es una matriz cuadrada compleja \(A \in \mathbb{C}^{n \times n}\) que verifica:
+\[
+A^\dagger A = A A^\dagger = I
+\]
+donde \(A^\dagger = (\bar{A})^T\) es la conjugada transpuesta de \(A\).
+
+Esto significa que, toda matriz unitaria es \textbf{no} singular, es decir, tiene inversa.
+
+\begin{tcolorbox}[remember, title=Recordatorio]
+  Una matriz singular es aquella que no posee inversa. Contrariamente una matriz \textbf{no} singular es aquella que si tiene inversa.
+\end{tcolorbox}
+\ejemplo{ La siguiente matriz es unitaria:}
+\[
+  A = \frac{1}{3} \begin{bmatrix}
+    2 & -2+i \\
+    2+i & 2
+  \end{bmatrix}
+\]
+ya que:
+\[
+A \cdot (\bar{A})^T = \frac{1}{3} \begin{bmatrix}
+    2 & -2+i \\
+    2+i & 2
+  \end{bmatrix} \cdot \frac{1}{3} \begin{bmatrix}
+    2 & -2-i \\
+    -2-i & 2
+  \end{bmatrix} = I
+\]
+
+Propiedades:
+\begin{itemize}
+  \item El valor absoluto del determinante de una matriz unitaria es siempre igual a 1.
+  \item La matriz identidad es una matriz unitaria.
+  \item El producto de dos matrices unitarias del mismo orden da como resultado otra matriz unitaria.
+\end{itemize}
+
+\subsubsection{Matrices normales}
+
+Una matriz normal es una matriz cuadrada compleja que conmuta con su conjugada transpuesta, es decir:
+\[
+  A^\dagger A = A A^\dagger ~~ \text{ o equivalentemente } ~~ (\bar{A})^T A = A (\bar{A})^T
+\]
+
+\ejemplo{ La matriz \(A\) es normal, ya que cumple con la definición}
+\[
+  A = \begin{bmatrix}
+    i & i \\ i & -i
+  \end{bmatrix}
+\]
+Algunas de las propiedades de las matrices normales son:
+\begin{itemize}
+  \item Toda matriz unitaria es también una matriz normal.
+  \item Del mismo modo, una matriz hermitiana es una matriz normal.
+  \item Igualmente, una matriz antihermitiana es una matriz normal.
+  \item Si una matriz está compuesta únicamente por números reales y es simétrica, también es una matriz normal.
+  \item De igual modo, una matriz real antisimétrica también es una matriz normal.
+  \item Toda matriz hermítica es una matriz normal. Aunque no todas las matrices normales son matrices hermíticas.
+\end{itemize}
+
+\subsection{Factorización Lower Upper de matrices}
+
+Tanto el método de Doolittle como el método de Crout son variantes del mismo procedimiento: la descomposición LU de una matriz. Ambos métodos buscan descomponer una matriz cuadrada \(A\) en el producto de dos matrices:
+\[
+A = LU
+\]
+donde:
+\begin{itemize}
+  \item \(L\) es una matriz triangular inferior (con ceros arriba de la diagonal),
+  \item \(U\) es una matriz triangular superior (con ceros debajo de la diagonal),
+\end{itemize}
+pero se diferencian en cómo se normaliza la descomposición, es decir, en qué matriz se colocan los unos de la diagonal.
+
+\subsubsection{Método de Doolittle}
+
+En este método la matriz \(L\) será triangular inferior con unos en la diagonal.
+
+La matriz \(U\) es triangular superior sin restricciones especiales.
+\[
+L = \begin{bmatrix}
+1 & 0 & 0 & \dots \\
+\ell_{21} & 1 & 0 & \dots \\
+\ell_{31} & \ell_{32} & 1 & \dots \\
+\vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix},
+\quad
+U = \begin{bmatrix}
+u_{11} & u_{12} & u_{13} & \dots \\
+0 & u_{22} & u_{23} & \dots \\
+0 & 0 & u_{33} & \dots \\
+\vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix}
+\]
+
+Es útil para resolver sistemas de ecuaciones lineales \(A\vec{x} = \vec{b}\).
+Primero se resuelve:
+\[
+LU\vec{x} = \vec{b}
+\Rightarrow
+\begin{cases}
+L\vec{y} = \vec{b} \quad \text{(sustitución hacia adelante)} \\
+U\vec{x} = \vec{y} \quad \text{(sustitución hacia atrás)}
+\end{cases}
+\]
+
+\subsubsection{Método de Crout}
+
+La matriz \(U\) será triangular superior con unos en la diagonal.
+La matriz \(L\) es triangular inferior sin restricciones.
+\[
+L = \begin{bmatrix}
+\ell_{11} & 0 & 0 & \dots \\
+\ell_{21} & \ell_{22} & 0 & \dots \\
+\ell_{31} & \ell_{32} & \ell_{33} & \dots \\
+\vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix},
+\quad
+U = \begin{bmatrix}
+1 & u_{12} & u_{13} & \dots \\
+0 & 1 & u_{23} & \dots \\
+0 & 0 & 1 & \dots \\
+\vdots & \vdots & \vdots & \ddots \\
+\end{bmatrix}
+\]
+
+Ambos métodos requieren que la matriz \(A\) sea cuadrada y no singular (invertible).
+
+\subsubsection{Descomposición de matrices: LU}
+
+El método de Doolittle consiste en encontrar los valores de los elementos de la matriz \(L\) y \(U\) a partir de la matriz \(A\), para después resolver el sistema \(A\vec{x} = \vec{b}\)
+
+Se efectúan las siguientes sustituciones:
+\begin{align*}
+  LUx &= b \\
+  Lz &= b \quad \text{donde} \quad z=Ux
+\end{align*}
+De tal manera que:
+\begin{enumerate}
+  \item Se calcula \(z\) a partir de \(Lz=b\)
+  \item Se calcula \(x\) a partir de \(Ux=z\)
+\end{enumerate}
+
+\begin{quote}
+  \ejemplo{ Veamos el siguiente ejercicio}
+  Resolver el siguiente sistema de ecuaciones:
+  \begin{align*}
+    \begin{cases}
+      1x_1 + 2x_2 + 4x_3 + 1x_4 = 21 \\
+      2x_1 + 8x_2 + 6x_3 + 4x_4 = 52 \\
+      3x_1 + 10x_2 + 8x_3 + 8x_4 = 79 \\
+      4x_1 + 12x_2 + 10x_3 + 6x_4 = 82
+    \end{cases}
+  \end{align*}
+  Las matrices asociadas a el SEL son:
+  \[
+  A = \begin{bmatrix}
+    1 & 2 & 4 & 1 \\
+    2 & 8 & 6 & 4 \\
+    3 & 10 & 8 & 8 \\
+    4 & 12 & 10 & 6
+  \end{bmatrix} = \begin{bmatrix}
+    1 & 0 & 0 & 0 \\
+    2 & 1 & 0 & 0 \\
+    3 & 1 & 1 & 0 \\ 
+    4 & 1 & 2 & 1
+  \end{bmatrix} \cdot \begin{bmatrix}
+    1 & 2 & 4 & 1 \\
+    0 & 4 & -2 & 2 \\
+    0 & 0 & -2 & 3 \\
+    0 & 0 & 0 & -6
+  \end{bmatrix}
+  \]
+  Primero resolvemos el sistema de ecuaciones correspondiente al sistema triangular inferior:
+  \begin{align*}
+    \begin{cases}
+      \phantom{1}y_1 \phantom{ + y_2 + y_3 + y_4 00} = 21 \\
+      2y_1 +y_2 \phantom{+ 0y_3 + y_4 0} = 52 \\
+      3y_1 +y_2 + y_3 \phantom{+ y_4 00} = 79 \\
+      4y_1 +y_2 + 2y_3 + y_4 = 82
+    \end{cases}
+  \end{align*}
+  Resultando:
+  \[y_1 = 21 \qquad y_2 = 10 \qquad y_3 = 6 \qquad y_4 = -24\]
+  y posteriormente solucionamos:
+    \begin{align*}
+    \begin{cases}
+      x_1 +2x_2 + 4x_3 + \phantom{0}x_4 = 21 \\
+      \phantom{0x_1 +} 4 x_2 - 2x_3 + 2x_4 = 10 \\
+      \phantom{x_1 + 0x_2} - 2x_3 + 3x_4 = 6 \\
+      \phantom{x_1 + x_2 + 0x_30}-6x_4 = -24
+    \end{cases}
+  \end{align*}
+  Resolviendo igual que antes, usando sustitución hacia atrás tenemos:
+  \[x_1 = 1 \qquad x_2 = 2 \qquad x_3 = 3 \qquad x_4 = 4\]
+\end{quote}
+
+\paragraph{Implementación}
+
+Como vimos una matriz factorizada, fácilmente puede ser resuelta utilizando los métodos de sustitución hacia adelante y sustitución hacia atrás. Veremos a continuación cómo efectuar la factorización en una matriz de orden 3.
+
+Teniendo en cuenta que \(A=LU\)
+\[
+\begin{bmatrix}
+  a_{11} & a_{12} & a_{13} \\
+  a_{21} & a_{22} & a_{23} \\
+  a_{31} & a_{32} & a_{33}
+\end{bmatrix} = \begin{bmatrix}
+  1 & 0 & 0 \\
+  l_{21} & 1 & 0 \\
+  l_{31} & l_{32} & 1
+\end{bmatrix} \cdot \begin{bmatrix}
+  u_{11} & u_{12} & u_{13} \\
+  0 & u_{22} & u_{23} \\
+  0 & 0 & u_{33}
+\end{bmatrix}
+\]
+Si multiplicamos el primer renglón de \(L\) por la primera columna de \(U\) tenemos:
+\begin{align*}
+  u_{11} = a_{11} \qquad u_{12} = u_{12} \qquad u_{13} = a_{13}
+\end{align*}
+Ahora hacemos lo mismo para el segundo renglón de \(L\) con \(U\)
+\begin{align*}
+  l_{21} ~ u_{11} = a_{21} \phantom{000} \quad &\implies l_{21} = \frac{a_{21}}{u_{11}}= \frac{a_{21}}{a_{11}}\\
+  l_{21} ~ u_{12} + u_{22} = a_{22} \quad &\implies u_{22} = a_{22} - l_{21} ~ u_{12} = a_{22} - a_{21} \frac{a_{12}}{a_{11}} \\
+  l_{21} ~ u_{13} + u_{23} = a_{23} \quad &\implies u_{23} = a_{23} - l_{21} ~ u_{13} = a_{23} - a_{21} \frac{a_{13}}{a_{11}}
+\end{align*}
+Multiplicando el tercer renglón de \(L\) por \(U\) tenemos:
+\begin{align*}
+  l_{31} ~ u_{11} = a_{31} \phantom{000} \quad &\implies l_{31} = \frac{a_{31}}{u_{11}}= \frac{a_{31}}{a_{11}}\\
+  l_{31} ~ u_{12} + l_{32} ~ u_{22} = a_{32} \quad &\implies l_{32} = \frac{a_{22} - l_{31} ~ u_{12}}{a_{22}} \\
+  l_{31} ~ u_{13} + l_{32} ~ u_{23} = a_{32} \quad &\implies u_{33} = a_{33} - l_{31} ~ u_{13} - l_{32} ~ u_{23}
+\end{align*}
+Dada una matriz cuadrada \(A\), es posible descomponer \(A\) en el producto de dos matrices denominadas \(L\) y \(U\), es decir que \(A=L\cdot U\). La matriz \(L\) representa una matriz triangular inferior (con ceros por encima de la diagonal) y la matriz \(U\) representa una matriz triangular superior (con ceros por debajo de la diagonal).
+
+Existen varios métodos para descomponer a una matriz en esta factorización. Veremos el método de Doolittle con un ejemplo:
+
+\ejemplo Dada la siguiente matriz:
+\[
+  A = \begin{bmatrix}
+    6 & 2 & 1 & -1 \\
+    2 & 4 & 1 & 0 \\
+    1 & 1 & 4 & -1 \\
+    -1 & 0 & -1 & 3
+  \end{bmatrix}
+\]
+por el método de Doolittle se consideran las matrices \(L\) y \(U\) de la siguiente forma:
+\[
+L = \begin{bmatrix}
+  1 & 0 & 0 & 0 \\
+  l_{21} & 1 & 0 & 0 \\
+  l_{31} & l_{32} & 1 & 0 \\
+  l_{41} & l_{42} & l_{43} & 1
+\end{bmatrix} \qquad \text{y} \qquad U = \begin{bmatrix}
+  u_{11} & u_{12} & u_{13} & u_{14} \\
+  0 & u_{22} & u_{23} & u_{24} \\
+  0 & 0 & u_{33} & u_{34} \\
+  0 & 0 & 0 & u_{44}
+\end{bmatrix}
+\]
+Para hallar sus elementos se resuelve el sistema que resulta del producto \(L\cdot U = A\)
+\[
+\begin{bmatrix}
+  1 & 0 & 0 & 0 \\
+  l_{21} & 1 & 0 & 0 \\
+  l_{31} & l_{32} & 1 & 0 \\
+  l_{41} & l_{42} & l_{43} & 1
+\end{bmatrix} \cdot \begin{bmatrix}
+  u_{11} & u_{12} & u_{13} & u_{14} \\
+  0 & u_{22} & u_{23} & u_{24} \\
+  0 & 0 & u_{33} & u_{34} \\
+  0 & 0 & 0 & u_{44}
+\end{bmatrix} = \begin{bmatrix}
+    6 & 2 & 1 & -1 \\
+    2 & 4 & 1 & 0 \\
+    1 & 1 & 4 & -1 \\
+    -1 & 0 & -1 & 3
+  \end{bmatrix}
+\]
+Empezando con la primera fila:
+\[
+\begin{cases}
+  u_{11} = 6 \\
+  u_{12} = 4 \\ 
+  u_{13} = 1 \\
+\end{cases} \qquad \text{de aquí resulta que} \quad u_{ij} = \frac{a_{1j}}{l_{11}}
+\]
+Para la segunda fila:
+\[
+\begin{cases}
+  l_{21} ~ u_{11} = 2 \\
+  l_{21} ~ u_{12} + u_{22} = 4 \\
+  l_{21} ~ u_{13} + u_{23} = 1 \\
+  l_{21} ~ u_{14} + u_{24} = 0
+\end{cases} \qquad \text{resulta que} \quad l_{j1}=\frac{a_{j1}}{u_{11}}
+\]
+Luego \(l_{21} = \frac{1}{3}, ~~ l_{31} = \frac{1}{6} ~~ \text{y} ~~ l_{41} = -\frac{1}{6}\)
+
+Para la tercer fila:
+\[
+\begin{cases}
+  l_{31} ~ u_{11} = 1 \\
+  l_{31} ~ u_{12} + l_{32} ~ u_{22} = 1 \\
+  l_{31} ~ u_{13} + l_{32} ~ u_{23} + u_{33} = 4 \\
+  l_{31} ~ u_{14} + l_{32} ~ u_{24} + u_{34} = -1 
+\end{cases}
+\]
+
+Entonces, para una fila i-ésima de \(U\) serviría la fórmula:
+\begin{tcolorbox}[myconclusion]
+  \[u_{ij} = \frac{1}{l_{ii}}\left(a_{ij}-\sum_{k=1}^{i-1}l_{ik}~u_{kj}\right)\]
+\end{tcolorbox}
+
+Para la cuarta fila tenemos:
+\[
+\begin{cases}
+  l_{41}~u_{11} = -1 \\
+  l_{41}~u_{12} + l_{42}~u_{22} = 0 \\
+  l_{41}~u_{13} + l_{42}~u_{23} + l_{43}~u_{33} = -1 \\
+  l_{41}~u_{14} + l_{42}~u_{24} + l_{43}~u_{34} + u_{44} = 3
+\end{cases}
+\]
+De una manera análoga, la columna i-ésima de \(L\) se calcula por la fórmula:
+\begin{tcolorbox}[myconclusion]
+  \[l_{ji} = \frac{1}{u_{ii}}\left(a_{ji}-\sum_{k=1}^{i-1}l_{jk}~u_{ki}\right)\]
+\end{tcolorbox}
+Y resultan las matrices \(L\) y \(U\):
+\[
+L = \begin{bmatrix}
+  1 & 0 & 0 & 0 \\
+  \frac{1}{3} & 1 & 0 & 0 \\
+  \frac{1}{6} & \frac{1}{5} & 1 & 0 \\
+  -\frac{1}{6} & \frac{1}{10} & -\frac{9}{37} & 1
+\end{bmatrix} \qquad \text{y} \qquad U = \begin{bmatrix}
+  6 & 2 & 1 & -1 \\
+  0 & \frac{10}{3} & \frac{2}{3} & \frac{1}{3} \\
+  0 & 0 & \frac{37}{10} & -\frac{9}{10} \\
+  0 & 0 & 0 & \frac{191}{74}
+\end{bmatrix}
+\]
+Un procedimiento práctico para encontrar la factorización LU de una matriz \(A\) es el siguiente:
+\[
+  A = \begin{bmatrix}
+    2 & 3 & 0 & 1 \\
+    4 & 5 & 3 & 3 \\
+    -2 & -6 & 7 & 7 \\
+    8 & 9 & 5 & 21
+  \end{bmatrix}
+\]
+Primero convertimos en cero todos los elementos debajo del primer elemento diagonal de \(A\). Para esto, sumamos \((-2)\) veces la primera fila de \(A\) a la segunda fila de \(A\). Luego sumamos la primera fila de \(A\) a la tercera fila de \(A\), y por último sumamos \((-4)\) veces la primera fila de \(A\) a la cuarta fila de \(A\), obteniendo la siguiente matriz.
+\[ U=
+\begin{bmatrix}
+  2 & 3 & 0 & 1 \\
+  0 & -1 & 3 & 1 \\
+  0 & -3 & 7 & 8 \\
+  0 & -3 & 5 & 17
+\end{bmatrix}
+\]
+Mientras tanto, comenzamos la construcción de una matriz triangular inferior, \(L_1\), con 1's en la diagonal principal. Para hacer esto, colocamos los opuestos de los multiplicadores utilizados en las operaciones de fila en la primera columna de \(L_1\) debajo del primer elemento diagonal de \(L_1\) y obtenemos la siguiente matriz:
+\[
+L_1 = \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+2 & 1 & 0 & 0 \\
+-1 & * & 1 & 0 \\
+4 & * & * & 1
+\end{bmatrix}
+\]
+Ahora sumamos \((-3)\) veces la segunda fila de \(U_1\) a la tercera fila de \(U_1\) y sumamos \((-1)\) veces la tercera fila de \(U_1\) a la cuarta fila de \(U_1\). Colocamos los opuestos de los multiplicadores debajo del segundo elemento diagonal de \(L_1\) y obtenemos:
+\[
+U_2 = \begin{bmatrix}
+  2 & 3 & 0 & 1 \\
+  0 & -1 & 3 & 1 \\
+  0 & 0 & -2 & 5 \\
+  0 & 0 & -2 & 9
+\end{bmatrix} \qquad \text{y} \qquad L_2 = \begin{bmatrix}
+  1 & 0 & 0 & 0 \\
+  2 & 1 & 0 & 0 \\
+  -1 & 3 & 1 & 0 \\
+  4 & 1 & * & 1
+\end{bmatrix}
+\]
+Ahora sumamos \((-1)\) veces la tercer fila de \(U_2\) a la cuarta fila de \(U_2\). Luego colocamos el opuesto de este multiplicador debajo del tercer elemento diagonal de \(L_2\) y obtenemos las matrices:
+\[
+U_3 = \begin{bmatrix}
+  2 & 3 & 0 & 1 \\
+  0 & -1 & 3 & 1 \\
+  0 & 0 & -2 & 5 \\
+  0 & 0 & 0 & 4
+\end{bmatrix} \qquad \text{y} \qquad L_3 = \begin{bmatrix}
+  1 & 0 & 0 & 0 \\
+  2 & 1 & 0 & 0 \\
+  -1 & 3 & 1 & 0 \\
+  4 & 1 & 1 & 1
+\end{bmatrix}
+\]
+Las matrices \(U_3\) y \(L_3\) componen una factorización LU para la matriz \(A\).
