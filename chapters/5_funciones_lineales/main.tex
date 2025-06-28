@@ -1,0 +1,82 @@
+\section{Funciones Lineales}
+
+Una función lineal (también llamada transformación lineal o aplicación lineal) es una función entre dos espacios vectoriales que preserva la estructura algebraica de los vectores, es decir, respeta la suma de vectores y la multiplicación por escalares.
+
+\textbf{Definición}: Sea \(f: V \to U\) una función entre espacios vectoriales sobre el mismo cuerpo \(K\). 
+\begin{align*}
+  f: V &\rightarrow U\\
+  v &\rightarrow u
+\end{align*}
+que a cada vector \(v\) de \(V\) le hace corresponder un único vector \(f(v)\) de \(U\).
+
+Diremos que \(f\) es una aplicación lineal si para todo \(v, w \in V\) y todo escalar \(t \in K\), se cumple:
+\begin{itemize}
+  \item \(f(v + w) = f(v) + f(w)\)
+  \item \(f(t \cdot v) = t \cdot f(v)\)
+\end{itemize}
+
+La primera condición se la conoce como \textit{aditividad}, indica que la función respeta las operaciones internas definidas en los espacios vectoriales involucrados, la segunda se denomina \textit{homogeneidad} y está indicando que la función también respeta las operaciones externas. 
+
+\begin{tcolorbox}[remember, title=Aclaración]
+  \(V(K)\) y \(U(K)\) son dos espacios vectoriales definidos sobre un mismo cuerpo \(K\) (por ejemplo, \(\mathbb{R}\) o \(\mathbb{C}\)).
+  
+  La función \(f: V \rightarrow U\) toma un vector \(v \in V\) y lo lleva a un vector \(f(v) \in U\).
+  
+  Es importante entender que tanto el dominio como el codominio son espacios vectoriales, por lo tanto, en ambos hay operaciones de suma y producto por escalar.
+\end{tcolorbox}
+
+En otras palabras, una función \(f: V \rightarrow U\) es lineal si cumple dos condiciones fundamentales para todo \(v, w \in V\) y \(t \in K\):
+\begin{enumerate}
+  \item Aditividad (respeta la suma):
+    \[
+     f(v + w) = f(v) + f(w)
+    \]
+  \item Homogeneidad (respeta el producto por escalares):
+    \[
+      f(t \cdot v) = t \cdot f(v)
+    \]
+\end{enumerate}
+
+Estas dos propiedades garantizan que la función ``conserva'' la estructura lineal. En otras palabras, las combinaciones lineales en el espacio de partida se transforman en combinaciones lineales en el espacio de llegada, de la misma forma.
+
+\paragraph{Propiedades de una función lineal}
+
+Si \(f\) es una función lineal de \(V(K)\) en \(U(K)\) entonces:
+\begin{enumerate}
+  \item \(f\left(\vec{0}\right) = \vec{0}, \qquad \left(\vec{0} \in V,\vec{0} \in U\right)\)
+
+  Demostración:\[
+    f\left(\vec{0}\right) = f\left(0 \cdot v\right) = 0 \cdot f(v) = \vec{0}
+  \]
+  \item \(f(-v)=-f(v), \quad \forall v \in V\)
+  
+  Demostración: \[
+    f(-v) = f(-1 \cdot v) = -1 \cdot f(v) = -f(v)
+  \]
+  \item \(f(v-w)=f(v) - f(w) \quad \forall v,w \in V\)
+  
+  Demostración: \[
+    f(v-w) = f(v) + f(-w) = f(v) + (-f(w)) = f(v) - f(w)
+  \]
+\end{enumerate}
+
+\begin{tcolorbox}[interesting_data, title=Nota conceptual]
+  Las propiedades desarrolladas son sumamente importantes. Por ejemplo la primer propiedad distingue claramente las funciones lineales de otras funciones. Por ejemplo, si una función \(f\) no cumple que \(f\left(\vec{0}\right) = \vec{0}\), entonces automáticamente no es lineal.
+\end{tcolorbox}
+
+Ahora para todo par de escalares \(a,b \in K\) y para todo par de vectores \(v,w \in V\), obtenemos imponiendo ambas condiciones de linealidad:
+\[
+  F(av + bw) = a\cdot f(v) + b\cdot f(w) \qquad \text{se utiliza para definirlas}
+\]
+Con mayor generalidad, para escalares \(a_i \in K\) y vectores \(v_i \in V\), llegamos:
+\[
+  F(a_1 v_1 + a_2 v_2 + \cdots + a_n v_n) = a_1 f(v_1) + a_2 f(v_2) + \cdots + a_n f(v_n)
+\]
+\begin{tcolorbox}[myconclusion]
+  Expresión utilizada para demostrar los teoremas.
+\end{tcolorbox}
+
+\ejemplo{ Veamos algunos ejemplos}
+\begin{enumerate}[label=\alph*.]
+  \item test
+\end{enumerate}
