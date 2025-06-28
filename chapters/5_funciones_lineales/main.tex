@@ -76,7 +76,210 @@ Con mayor generalidad, para escalares \(a_i \in K\) y vectores \(v_i \in V\), ll
   Expresión utilizada para demostrar los teoremas.
 \end{tcolorbox}
 
-\ejemplo{ Veamos algunos ejemplos}
-\begin{enumerate}[label=\alph*.]
-  \item test
-\end{enumerate}
+\begin{quote}
+  \ejemplo{ Veamos algunos ejemplos}
+  \begin{enumerate}[label=\alph*.]
+    \item Sea \(A\) cualquier matriz \(m \times n\) sobre un cuerpo \(K\). Como se señaló previamente, \(A\) determina una aplicación \(F:K^n \rightarrow K^m\) mediante la asignación \(v \rightarrow Av\) (aquí los vectores de \(K^n\) y \(K^m\) se escriben como columnas). Afirmamos que \(F\) es lineal. Esto es debido a que, por propiedades de las matrices:
+    \begin{align*}
+      F(v + w) &= A(v+w) = Av + Aw = F(v) + F(w) \\
+      F(kv) &= A(kv) = kAv = kF(v)
+    \end{align*}
+    donde \(v, w \in K^n\) y \(k \in K\).
+    \item Sea \(F:\mathbb{R}^3 \rightarrow \mathbb{R}^3\) la aplicación <<proyección>> en el plano \(xy: F(x,y,z)= (x,y,0)\). Probemos que \(F\) es lineal. Sean \(v=(a,b,c)\) y \(w=(a',b',c')\). Entonces:
+    \begin{align*}
+      F(v+w) &= F(a+a', b+b', c+c') = (a+a', b+b',0) = \\
+            &= (a,b,0) + (a',b',0) = F(v) + F(w)
+    \end{align*}
+    y para todo \(k \in \mathbb{R}\):
+    \[
+      F(kv) = F(ka,kb,kc) = (ka,kb,0) = k(a,b,0) = kF(v)
+    \]
+    O sea, \(F\) es lineal.
+    \item Sea \(F: \mathbb{R}^2 \rightarrow \mathbb{R}^2\) la aplicación de <<traslación>> definida según \(F(x,y) = (x+1,y+2)\). Obsérvese que \(F(0)=(0,0)=(1,2)\neq 0\). Es decir, el vector cero no se aplica sobre el vector cero. Por consiguiente \(F\) no es lineal.
+    \item Sea \(F:V\rightarrow U\) la aplicación que asigna \(0 \in U\) a todo \(v \in V\). Para todo par ded vectores \(v,w \in V\) y todo \(k \in K\) tenemos:
+    \[
+      F(v+w) = 0 = 0+0 = F(v) + F(w) \qquad \text{y} \qquad F(kv) = 0 = k0 = kF(v)
+    \]
+    Así \(F\) es lineal. Llamamos a \(F\) la \textit{aplicación cero} y la denotaremos normalmente por \(0\).
+    \item Consideremos la aplicación identidad \(I:V\rightarrow V\) que aplica cada \(v\in V\) en si mismo. Para todo par de vectores \(v, w \in V\) y todo par de escalares \(a,b \in K\):
+    \[
+      I(av+bw)= av + bw = aI(v) + bI(w)
+    \]
+    Así \(I\) es lineal.
+    \item Sea \(V\) el espacio vectorial de los polinomios en la variable \(t\) sobre el cuerpo real \(\mathbb{R}\). La aplicación derivada \(\mathbf{D}:V\rightarrow V\) y la aplicación integral \(\mathbf{J}:V\rightarrow \mathbb{R}\), son lineales. La razón es que, según se demuestra en el cálculo, para todo par de vectores \(u,v \in V\) y todo \(k\in \mathbb{R}\):
+    \[
+      \frac{d(u+v)}{dt} = \frac{du}{dt} + \frac{dv}{dt} \qquad \text{y} \qquad \frac{ku}{dt} = k\frac{du}{dt}
+    \]
+  \end{enumerate}
+ \end{quote}
+
+\subsubsection{Clasificación de las funciones lineales}
+
+Se tiene una función lineal \(f\) de \(V(K)\) en \(W(K)\):
+\begin{itemize}
+  \item Si \(f\) es inyectiva recibe el nombre de \textit{monomorfismo}
+  \item Si \(f\) es suryectiva recibe el nombre de \textit{epimorfismo}
+  \item Si \(f\) es biyectiva recibe el nombre de \textit{isomorfismo}
+  \item Si en \(f \quad V=W\) recibe el nombre de \textit{endomorfismo}
+  \item Si \(f\) es un endomorfismo y es biyectiva recibe el nombre de \textit{automorfismo} 
+\end{itemize}
+
+\subsubsection{Núcleo e imagen de una función lineal}
+
+Sea \(f\) una función lineal de \(V(K)\) en \(U(K)\) \(\left(f:V\rightarrow U\right)\), asociados a esta función existen dos subconjuntos, uno del conjunto de partida y otro del conjunto de llegada, que reciben el nombre de \textit{núcleo} (o \textit{Ker}) de la función e imagen de la función, los definimos:
+\[
+\text{Ker } f = N(f) = \left\{ v \in V \mid f(v) = \vec{0}_U \right\}
+\]
+\begin{center}
+  son todos los vectores de \(V\) que tienen como imagen al vector nulo de \(U\)
+\end{center}
+\[
+\text{Im } f = \left\{u\in U \mid \exists v \in V ~\text{ tal que }~ f(v) = u \right\}
+\]
+o también en una forma más abreviada:
+\[
+\text{Im } f = \left\{f(v) \mid v \in V\right\}
+\]
+\begin{center}
+  son todos los vectores de \(U\) que son imagen de algún vector \(v \in V\)
+\end{center}
+
+Los subconjuntos \(N(f)\) e \(\text{Im } f\) son subespacios de \(V\) y de \(U\) respectivamente.
+
+\begin{quote}
+  \ejemplo{ Consideremos la siguiente función lineal:}
+  \[
+    f(x) = 3x
+  \]
+  Esta es una función lineal \(f:\mathbb{R} \rightarrow \mathbb{R}\).
+  \begin{itemize}
+    \item \textbf{Núcleo:}
+    \[
+      \text{Ker } f = \left\{x \in \mathbb{R} \mid f(x) = 0\right\} = \{0\}
+    \]
+    \item \textbf{Imagen:}
+    \[
+      \text{Im } f = \left\{f(x) \mid x \in \mathbb{R}\right\} = \left\{3x \mid x \in \mathbb{R}\right\} = \mathbb{R}
+    \]
+  \end{itemize}
+  Aquí el \textit{único} elemento que se anula es el \(0\), pero la imagen es \textit{todo} \(\mathbb{R}\).
+
+  \vspace{5mm}
+
+  \ejemplo{ Ahora consideremos la función trivial de \(\mathbb{R}\) a \(\mathbb{R}\):}
+  \[
+    f(x) = 0
+  \]
+  Esta función también es lineal, y \(f:\mathbb{R} \rightarrow \mathbb{R}\)
+  \begin{itemize}
+    \item \textbf{Núcleo:}
+    \[
+      \text{Ker } f = \left\{x \in \mathbb{R} \mid f(x) = 0\right\} = \mathbb{R}
+    \]
+    \item \textbf{Imagen:}
+    \[
+      \text{Im } f = \{0\}
+    \]
+  \end{itemize}
+  En este caso, \textit{todo} el dominio se anula y la imagen es el conjunto reducido que contiene solo al cero.
+\end{quote}
+
+\begin{tcolorbox}[title=Resumen para fijar la idea]
+  \begin{itemize}
+    \item El \textbf{núcleo} es un subconjunto del \textbf{dominio} \(V\): son los vectores que van a parar al cero del codominio.
+    \item La \textbf{imagen} es un subconjunto del codominio \(U\): son todos los valores posibles que puede tomar \(f(v)\)
+  \end{itemize}
+
+  \vspace{5mm}
+
+  El núcleo responde a la pregunta: ``¿Qué vectores se anulan bajo \(f\)?''
+
+  La imagen responde a: ``¿Qué vectores pueden obtenerse como salida de \(f\)''
+\end{tcolorbox}
+
+\subsubsection{Los subespacios Núcleo y Imagen de \(f\)}
+
+\paragraph{El conjunto núcleo de \(f\) es un subespacio del dominio}
+
+\textbf{Proposición}: Sea \(f: V \to U\) una aplicación lineal entre espacios vectoriales. Entonces, el conjunto núcleo de \(f\),
+\[
+\text{Ker } f = \{ v \in V \mid f(v) = 0 \}
+\]
+es un subespacio vectorial de \(V\).
+
+\textit{Demostración}
+\begin{quote}
+  \begin{enumerate}
+    \item \textbf{No vacío}:
+    
+    El vector nulo del dominio \(\vec{0}_V \in V\) cumple que:
+      \[
+      f(\vec{0}_V) = \vec{0}_U
+      \]
+    por lo tanto, \(\vec{0}_V \in \text{Ker } f\), y así \(\text{Ker } f \ne \emptyset\).
+  
+    \item \textbf{Cerrado bajo la suma}:
+    
+      Sean \(v_1, v_2 \in \text{Ker } f\). Entonces:
+     \[
+     f(v_1) = 0 \quad \text{y} \quad f(v_2) = 0
+     \]
+     Como \(f\) es lineal:
+     \[
+     f(v_1 + v_2) = f(v_1) + f(v_2) = 0 + 0 = 0
+     \]
+     Entonces \(v_1 + v_2 \in \text{Ker } f\).
+  
+    \item \textbf{Cerrado bajo el producto por escalares}:
+     
+      Sea \(t \in K\) y \(v \in \text{Ker } f\), es decir, \(f(v) = 0\). Entonces:
+     \[
+     f(t \cdot v) = t \cdot f(v) = t \cdot 0 = 0
+     \]
+     Por lo tanto, \(t \cdot v \in \text{Ker } f\).
+  \end{enumerate}
+  
+  Conclusión: Se cumplen las tres condiciones necesarias para que \(\text{Ker } f\) sea un subespacio de \(V\).
+  \(\blacksquare\)
+\end{quote}
+
+\paragraph{El conjunto imagen de \(f\) es un subespacio del codominio}
+
+
+\textbf{Proposición}: Sea \(f: V \to U\) una aplicación lineal entre espacios vectoriales sobre un mismo cuerpo \(K\). Entonces el conjunto
+\[
+\text{Im } f = \{ u \in U \mid \exists v \in V \text{ tal que } f(v) = u \}
+\]
+es un subespacio vectorial de \(U\).
+
+\textit{Demostración:}
+\begin{quote}
+  \begin{enumerate}
+    \item \textbf{No vacío}:
+      Como \(f\) es lineal, se cumple que:
+      \[
+      f(\vec{0}_V) = \vec{0}_U
+      \]
+      Entonces, \(\vec{0}_U \in \text{Im } f\), por lo tanto \(\text{Im } f \ne \emptyset\).
+
+    \item \textbf{Cerrado bajo suma y producto por escalares} (en una sola propiedad):
+
+      Sean \(u_1, u_2 \in \text{Im } f\).
+      Por definición, existen \(v_1, v_2 \in V\) tales que:
+      \[
+      f(v_1) = u_1 \quad \text{y} \quad f(v_2) = u_2
+      \]
+      Sean \(a, b \in K\) escalares arbitrarios. Como \(f\) es lineal:
+      \[
+      f(a v_1 + b v_2) = a f(v_1) + b f(v_2) = a u_1 + b u_2
+      \]
+      Esto significa que \(a u_1 + b u_2 \in \text{Im } f\).
+  \end{enumerate}
+
+  Conclusión: La imagen de \(f\) cumple las condiciones necesarias para ser subespacio de \(U\): no es vacía, y es cerrada bajo combinaciones lineales.
+  \(\blacksquare\)
+\end{quote}
+
+\begin{tcolorbox}[title=Observaciones]
+  Note que no necesitamos comprobar ``cerrado bajo suma'' y ``cerrado bajo producto escalar'' por separado, ya que probar cerrado bajo combinaciones lineales es más general y suficiente.
+\end{tcolorbox}
