@@ -155,7 +155,7 @@ Dada una matriz cuadrada \(A\) asociada a un endomorfismo \(f\) en \(V\):
 \]
 \paragraph{Procedimiento para diagonalizar una matriz a partir de los vectores propios}
 
-\begin{enumerate}[label=\arabic{*}^\circ]
+\begin{enumerate}[label=\(\arabic{*}^\circ\)]
   \item se buscan los vectores propios del endomorfismo \(f\)
   \item se forma con ellos una matriz \(P\)
   \item se analiza si \(P\) es invertible, en caso afirmativo se determina \(P^{-1}\)
@@ -224,7 +224,7 @@ Una matriz cuadrada y simétrica \(A\), asociada a un endomorfismo \(f\) en \(V\
 
 \paragraph{Procedimiento para diagonalizar ortogonalmente una matriz simétrica a partir de los vectores propios}
 
-\begin{enumerate}[label=\arabic{*}^\circ]
+\begin{enumerate}[label=\(\arabic{*}^\circ\)]
   \item Se hallan los valores propios relativos al endomorfismo \(f\)
   \item Se determinan vectores propios correspondientes a los valores propios
   \item Se ortonormalizan dichos vectores propios
@@ -268,4 +268,226 @@ Buscamos vectores propios a relativos a esos valores propios:
 \end{align*}
 Resolviendo el sistema para \(\lambda_1 = 4\) resulta que un vector propio puede ser \(u_1 = (1 ~~~ 1)^T\) y para el valor \(\lambda_2 = 2\) un vector propio sería por ejemplo \(u_2 = (-1 ~~~ 1)^T\)
 
-Tenemos que normalizar a estos vectores, 
+Tenemos que normalizar a estos vectores, que ya son ortogonales:
+\begin{align*}
+  \left\langle u_1, u_2\right\rangle = 0 \qquad \text{por lo cual son ortogonales} \\  
+  \left\lVert u_1\right\rVert = \sqrt{2} ~~~ \text{y} ~~~ \left\lVert u_2\right\rVert = \sqrt{2} \quad \text{por lo tanto no son normados}  
+\end{align*}
+Entonces normalizamos \(u_1\) y \(u_2\)
+\[
+u'_1 = \frac{u_1}{\left\lVert u_1\right\rVert } = \begin{pmatrix}
+  \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}
+\end{pmatrix} \qquad \text{y} \qquad u'_2 = \frac{u_2}{\left\lVert u_2\right\rVert } = \begin{pmatrix}
+  -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}
+\end{pmatrix}
+\]
+Armamos una nueva matriz con ellos:
+\[
+  P = \begin{pmatrix}
+    \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\
+    \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}
+  \end{pmatrix}
+\]
+Esta matriz es ortogonal, las matrices ortogonales verifican que su inversa es igual a su transpuesta.
+
+Si hacemos:
+\[
+  P^T \cdot A \cdot P = \begin{pmatrix}
+    4 & 0 \\
+    0 & 2
+  \end{pmatrix} \qquad \text{que es una matriz diagonal}
+\]
+En conclusión \(A\) es ortogonalmente diagonalizable.
+
+\(P\) es una matriz ortogonal ya que \(P^T = P^{-1}\) (la inversa coincide con la transpuesta)
+
+\subsection{Diagonalización y formas cuadráticas}
+
+Las \textbf{Formas Cuadráticas} surgen de una diversidad de problemas relativos a distintos contextos y áreas del conocimiento.
+
+Por ejemplo, una ecuación de la forma \(Ax^2+2Bxy+Cy^2+Dx+Ey+F = 0\) en la cual los coeficientes \(A,B,C\) no son nulos a la vez, se denomina \textbf{ecuación cuadrática}.
+
+En ese ejemplo a la expresión \(F(x,y) = Ax^2 + 2Bxy + Cy^2\) se denomina \hl{forma cuadrática} asociada.
+
+\ejemplo{ \(2x^2 + y^2 - 12x - 4y+18 =0\) es una \textbf{ecuación cuadrática} y tiene asociada la \textbf{forma cuadrática} \(F(x,y)=2x^2 + y^2\)}
+
+Es decir, en la forma cuadrática se tienen \textbf{solamente} los términos de grado dos.
+
+En este otro caso: \(Ax^2 + By^2+Cz^2+2Dxy+2Exz+2Fyz+Gx+Hy+Iz+J=0\), siendo al menos uno de los coeficientes \(A,B,C,D,E\) o \(F\) no nulo, la ecuación cuadrática tiene asociada una forma cuadrática:
+\[
+F(x,y,z) = Ax^2 + By^2 + C^2 + 2Dxy + Exz + 2Fyz
+\]
+\begin{tcolorbox}[myconclusion]
+  \textbf{Observemos algo}: todos los términos son de grado dos, pero hay varios términos cruzados, es decir, hay términos donde hay un producto entre dos variables diferentes \((xy,xz,yz)\)
+\end{tcolorbox}
+
+\paragraph{Generalizando a \(n\) variables}
+
+En general una forma cuadrática en las variables \(x_1,x_2,\cdots,x_n\) con las constantes \(C_{ij}\), no todas nulas, es un polinomio, donde cada término es de grado dos y lo podemos expresar:
+\[
+  F(x_1,x_2,\cdots,x_n) = \sum C_{ij} ~ x_i ~ x_j
+\]
+La forma cuadrática está diagonalizada si se puede expresar como sigue:
+\[
+  F(x_1,x_2,\cdots,x_n) = C_{11} x_1^2 + C_{22} x_2^2 + \cdots + C_{nn} x_n^2
+\]
+Es decir, que cada término de la forma cuadrática diagonalizada es de grado dos, pero \textbf{no hay ningún término cruzado}.
+
+\paragraph{Representación matricial}
+
+La forma cuadrática puede expresarse en forma matricial, para cierto \(X=(x_1,x_2,\cdots,x_n)^T\)
+\[
+  F(X) = X^T \cdot A \cdot X
+\]
+\begin{tcolorbox}[remember, title=Aclaración tipográfica]
+  En este caso se usa \(X^T\) para representar la matriz transpuesta. Algunos textos optan por \(X^t\), que representa lo mismo.
+\end{tcolorbox}
+En un ejemplo dado anteriormente \(F(X) = F(x,y) = 2x^2 + y^2\) es:
+\[
+  \begin{pmatrix}
+    x & y
+  \end{pmatrix} \cdot \begin{pmatrix}
+    2 & 0 \\
+    0 & 1
+  \end{pmatrix} \cdot \begin{pmatrix}
+    x \\ y
+  \end{pmatrix}
+\]
+Si consideramos la forma cuadrática:
+\[
+  F(x,y,z) = Ax^2 + By^2 + Cz^2 + 2Dxy + 2Exz + 2Fyz
+\]
+Se puede expresar en forma matricial \(F(X) = X^T \cdot A \cdot X \), en donde:
+\[
+X = \begin{pmatrix}
+  x \\ y \\z
+\end{pmatrix} \qquad A = \begin{pmatrix}
+  A & D & E\\
+  D & B & F\\
+  E & F & C
+\end{pmatrix}
+\]
+La matriz \(A\) es simétrica tal como la hemos definido y contiene los coeficientes de cada término de la forma cuadrática en cierto orden.
+
+En la diagonal principal se pueden observar los coeficientes de aquellos términos que no son cruzados. Los demás elementos de la matriz resultan la mitad de los que corresponden a los términos cruzados.
+
+Es importante establecer que la matriz \(A\) que representa a la forma cuadrática, tal como la acabamos de definir es siempre simétrica, sin embargo, pueden existir otras matrices no simétricas que también representan a la misma forma cuadrática, pero que no son de interés en este apartado.
+
+\ejemplo{La forma cuadrática}
+\[
+F(x,y,z) = x^2 - 6 x y + 8 y^2 - 4 x z + 10 y z + 7 z^2
+\]
+puede representarse a través de la matriz 
+\[
+A = \begin{pmatrix}
+  1 & -3 & -2 \\
+  -3 & 8 & 5 \\
+  -2 & 5 & 7
+\end{pmatrix}
+\]
+o bien la matriz:
+\[
+M = \begin{pmatrix}
+  1 & -6 & -4 \\
+  0 & 8 & 10 \\
+  0 & 0 & 7
+\end{pmatrix}
+\]
+en ambos casos el  producto \(X^T \cdot A \cdot X\) resultará en la forma cuadrática dada.
+
+\begin{tcolorbox}[myconclusion]
+  Nos interesan las matrices simétricas que representan a las formas cuadráticas, ya que son las que podremos diagonalizar.
+\end{tcolorbox}
+
+\subsubsection{Diagonalización de una forma cuadrática}
+
+Se tiene una forma cuadrática en las variables \(x_1,x_2,\cdots, x_n\), representada matricialmente
+\[
+  F(X) = X^T \cdot A \cdot X
+\]
+Es posible realizar un cambio de variables de tal forma que se considere \(X=P\cdot Y\) para \(y_1,y_2,\cdots,y_n\), y de este modo obtener
+\[
+  F(Y) = (P\cdot Y)^T \cdot A \cdot (P\cdot Y)
+\]
+Trabajando algebraicamente resulta
+\[
+  F(Y) = Y^T\cdot (P^T \cdot A \cdot P) \cdot Y
+\]
+Como \(A\) es una matriz simétrica tal que \(B = P^T \cdot A \cdot P\) donde \(B\) es una matriz diagonal congruente con \(A\) bajo congruencia, resulta ser la representación matricial de la forma cuadrática diagonalizada en las nuevas variables \(y_1,y_2,\cdot, y_n\)
+\[
+  F(Y) = Y^T \cdot B \cdot Y
+\]
+En conclusión, se dice que  la sustitución lineal \(X=P\cdot Y\) diagonaliza la forma cuadrática \(F(X)\) si la matriz representativa de \(F(Y)\) es una matriz diagonal.
+
+
+La matriz \(B=P^T \cdot A \cdot P\) es congruente a la matriz \(A\) quien es la matriz simétrica, por lo cual hay un teorema que se puede demostrar que dice:
+\begin{quote}
+  \teorema{``Sea \(F(X) = X^T\cdot A \cdot X\) una forma cuadrática real, con \(A\) simétrica, entonces siempre existe una sustitución lineal \(X=P\cdot Y\) que diagonaliza a \(F\)''}
+\end{quote}
+
+\ejemplo{ \(F(x,y,z) = 6x^2-4xy-2xz+6y^2-2yz+5z^2\)}
+
+La matriz \(A\) que la representa es
+\[
+  A = \begin{pmatrix}
+    6 & -2 & -1 \\
+    -2 & 6 & -1 \\
+    1 & 1 & 5
+  \end{pmatrix}
+\]
+La diagonalizamos, para ello buscamos los valores y vectores propios a partir de 
+\[
+\det(A-\lambda I) = 0 \quad \rightarrow \quad \begin{vmatrix}
+  6-\lambda & -2 & -1 \\
+  -2 & 6-\lambda & -1 \\
+  -1 & -1 & 5-\lambda
+\end{vmatrix}= 0 \quad \rightarrow \quad \begin{array}{c}
+  \lambda_1 = 8 \\
+  \lambda_2 = 6 \\
+  \lambda_3 = 3  
+\end{array}
+\]
+Resolviendo los respectivos sistemas de ecuaciones homogéneos se obtienen los vectores propios:
+\[
+  v_1 = \begin{pmatrix}
+    -1 \\ 1 \\ 0
+  \end{pmatrix} \qquad v_2 = \begin{pmatrix}
+    -1 \\ -1 \\ 2
+  \end{pmatrix} \qquad v_3 = \begin{pmatrix}
+    1 \\ 1 \\ 1
+  \end{pmatrix}
+\]
+Podemos calcular los productos escalares y comprobar que son ortogonales entre sí, pero no son normados, entonces los normalizamos:
+\[
+  v_1 = \begin{pmatrix}
+    -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \\ 0
+  \end{pmatrix} \qquad v_2 = \begin{pmatrix}
+    -\frac{1}{\sqrt{6}} \\ -\frac{1}{\sqrt{6}} \\ \frac{2}{\sqrt{6}}
+  \end{pmatrix} \qquad v_3 = \begin{pmatrix}
+    \frac{1}{\sqrt{3}} \\ \frac{1}{\sqrt{3}} \\ \frac{1}{\sqrt{3}}
+  \end{pmatrix}
+\]
+Ahora armamos la matriz \(P\):
+\[
+  P = \begin{pmatrix}
+    -\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{6}} & \frac{1}{\sqrt{3}}\\ 
+    \frac{1}{\sqrt{2}}  & -\frac{1}{\sqrt{6}} & \frac{1}{\sqrt{3}} \\ 
+    0 & \frac{2}{\sqrt{6}} & \frac{1}{\sqrt{3}}
+  \end{pmatrix}
+\]
+Realizando el producto matricial se obtiene la matriz diagonal congruente con \(A\):
+\[
+  P^T \cdot A \cdot P = D = \begin{pmatrix}
+    8 & 0 & 0 \\
+    0 & 6 & 0 \\
+    0 & 0 & 3
+  \end{pmatrix}
+\]
+que diagonaliza a la cuadrática dada tal que haciendo una sustitución lineal para variables \(a,b,c\) resulta:
+\[
+  F(a,b,c) = 8a^2 + 6b^2 + 3c^2
+\]
+\begin{tcolorbox}[mydanger]
+  \textbf{Importante}: No siempre al diagonalizar una matriz simétrica se obtienen vectores ortogonales por lo que es suficiente con normalizarlos para obtener la cuadrática diagonalizada.
+\end{tcolorbox}
+Entonces si los vectores no fueran ortogonales hay que ortonormalizarlos. Existe un método que se denomina de \textit{Gran Schmidt} que permite ortonormalizar vectores, pero que no es objeto de estudio en esta materia.
