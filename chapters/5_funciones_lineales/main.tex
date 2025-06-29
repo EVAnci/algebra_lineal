@@ -283,3 +283,275 @@ es un subespacio vectorial de \(U\).
 \begin{tcolorbox}[title=Observaciones]
   Note que no necesitamos comprobar ``cerrado bajo suma'' y ``cerrado bajo producto escalar'' por separado, ya que probar cerrado bajo combinaciones lineales es más general y suficiente.
 \end{tcolorbox}
+
+
+%%%% A partir de aquí he copiado todo tal y como sale en el apunte de artal. Luego lo modificaré.
+
+Ejemplos
+\label{ej:ejemplos_a_revisar}
+\begin{enumerate}[label=\alph*.]
+  \item Sea \(F:\mathbb{R}^3 \rightarrow \mathbb{R}^3\) la aplicación proyección sobre el plano \(xy\). Esto es,
+  \[
+    F(x,y,z)=(x,y,0)
+  \]
+  (Véase la figura {insertar figura aquí}) Claramente la imagen de \(F\) es todo el plano \(xy\). Es decir, 
+  \[
+    \text{Im } F = \left\{(a,b,c):c\in \mathbb{R}\right\}
+  \]
+  Nótese que el núcleo de \(F\) es el eje \(z\). O sea,
+  \[
+    \text{Ker } F = \left\{(0,0,c):c\in \mathbb{R}\right\}
+  \]
+  ya que estos puntos y solamente éstos se aplican en el vector cero \(0=(0,0,0)\).
+  \item Sean \(V\) el espacio vectorial de los polinomios sobre \(\mathbb{R}\) y \(\mathbf{T}:V\rightarrow V\) el operador tercera derivada, esto es,
+  \[
+    \mathbf{T}\left[f(t)\right] = \frac{d^3 f}{dt^3}
+  \]
+  A veces se emplea la notación \(\mathbf{T}=\mathbf{D}^3\), donde \(\mathbf{D}\) es la aplicación derivada. Tendremos:
+  \[
+    \text{Ker } T = \left\{\text{polinomios de grado} \leq 2\right\}
+  \]
+  porque \(\mathbf{T}(at^2+bt+c)=0\) pero \(\mathbf{T}(t^n)\neq 0\) para \(n > 3\). Por otra parte
+  \[
+    \text{Im } T = V
+  \]
+  puesto que todo polinomio en \(V\) es la tercera derivada de algún polinomio.
+\end{enumerate}
+
+\paragraph{Teorema de la imagen de un sistema de generadores}
+
+Supongamos ahora que los vectores \(v_1, \cdots, v_n\) generan \(V\) y que \(F:V\rightarrow U\) es lineal. Probemos que los vectores \(F(v_1),\cdots, F(v_n)\in U\) generan \(\text{Im } F\); en ese caso, \(F(v)=u\) para algún vector \(v\in V\). Como los \(v_i\) generan \(V\) y \(v \in V\), existen escalares \(a_1, \cdots, a_n\) tales que:
+\[
+  v = a_1 v_1 + a_2 v_2 + \cdots + a_n v_n
+\]  
+En consecuencia:
+\[
+  u = F(v) = F(a_1 v_1 + a_2 v_2 + \cdots + a_n v_n) = a_1 F(v_1) + a_2 F(v_2) + \cdots + a_n F(v_n)
+\]
+y por lo tanto los vectores \(F(v_1), \cdots , F(v_n)\) generan \(\text{Im } F\).
+
+Establezcamos formalmente este útil resultado.
+
+Supongamos que \(v_1, v_2, \cdots, v_n\) generan un espacio vectorial \(V\) y que \(F:V\rightarrow U\) es lineal.
+
+Entonces \(F(v_1), F(v_2), \cdots, F(v_n)\) generan \(\text{Im } F\).
+
+\subsection{Rango y nulidad de una aplicación lineal}
+
+Hasta aquí no hemos relacionado la noción de dimensión con la de aplicación lineal \(F : V \rightarrow U\). En pos casos enq ue \(V\) es de dimensión finita, tenemos la relación fundamental que sigue:
+
+\teorema
+Sea \(V\) de dimensión finita y sea \(F:V\rightarrow U\) una aplicación lineal. Entonces:
+\begin{equation}
+  \dim V = \dim( \text{Ker } F) + \dim(\text{Im } F)
+  \label{eq:teorema_dimensión_nucleo_imagen}  
+\end{equation}
+
+El teorema proporciona, la siguiente fórmula para \(F\) cuando \(V\) tiene dimensión finita:
+
+Es decir, la suma de las dimensiones de la imagen y el núcleo de una aplicación lineal es igual a la dimensión de su dominio. 
+
+Se ve fácilmente que la ecuación (?9.1) se rige para la aplicación proyección de \(F\) del ejemplo (?9.5a - creo que es el primer ejemplo de \ref{ej:ejemplos_a_revisar}). Allí la imagen (plano \(xy\)) y el núcleo (eje \(z\)) de \(F\) tienen dimensiones 2 y 1, respectivamente, mientras que el dominio \(\mathbb{R}^3\) de \(F\) tiene dimensión 3.
+
+\textbf{Nota}: Sea \(F:V\rightarrow U\) una aplicación lineal. Se define el \textit{rango} de \(F\) como la dimensión de su imagen y la \textit{nulidad} de \(F\) como la dimensión de su núcleo; esto es:
+\[
+  \text{rango } F = \dim(\text{Im } F) \qquad \text{y} \qquad \text{nulidad } F = \dim(\text{Ker } F)
+\]
+\[
+\text{rango } F + \text{nulidad } F = \dim V
+\]
+Recordemos que el rango de una matriz se definió en origen como la dimensión de su espacio columna y de su espacio fila. Obsérvese que si ahora \(A\) como una aplicación lineal, las dos definiciones se corresponden, porque la imagen de \(A\) es precisamente su espacio columna.
+
+Ejemplo
+
+Sea \(F:\mathbb{R}^4 \rightarrow \mathbb{R}^3\) la aplicación lineal definida por:
+\[
+  F(x,y,s,t) = (x-y+s+t,x+2s-t,x+y+3s-3t)
+\]
+\begin{enumerate}[label=\alph*.]
+  \item Encontramos una base y la dimensión de la imagen de \(F\).
+  
+  Hallamos la imagen de los vectores de la base usual de \(\mathbb{R}^4\):
+  \begin{align*}
+    F(1,0,0,0) = (1,1,1)\phantom{-} &\qquad F(0,0,1,0) = (1,2,3)\\
+    F(0,1,0,0) = (-1,0,1) &\qquad F(0,0,0,1) = (1,-1,-3)
+  \end{align*}
+  Según la proposición (??) (revisar), los vectores imagen generan \(\text{Im } F\); por eso construimos la matriz cuyas filas son estos vectores imagen y la reducimos por filas a forma escalonada:
+  \[
+  \begin{pmatrix}
+    1 & 1 & 1 \\
+    -1 & 0 & 1 \\
+    1 & 2 & 3 \\
+    1 & -1 & -3
+  \end{pmatrix} \sim \begin{bmatrix}
+    1 & 1 & 1 \\
+    0 & 1 & 2 \\
+    0 & 1 & 2 \\
+    0 & -2 & -4
+  \end{bmatrix} \sim \begin{bmatrix}
+    1 & 1 & 1 \\
+    0 & 1 & 2 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \]
+  De este modo, \((1,1,1)\) y \((0,1,2)\) constituyen una base de \(\text{Im } F\), luego \(\dim(\text{Im } F) = 2\) o, en otras palabras, rango \(F=2\).
+  \item Encontraremos una base y la dimensión del núcleo de la aplicación \(F\).
+
+  Hacemos \(F(v)=0\), donde \(v=(x,y,z,t)\):
+  \[
+    F(x,y,s,t) = (x-y+s+t, x+2s-t, x+y+3s-3t) = (0,0,0)
+  \]
+  Igualamos entre si las componentes correspondientes para formar el siguiente sistema homogéneo cuyo espacio solución es \(\text{Ker } F\):
+  \begin{align*}
+    \begin{cases}
+      x - y + \phantom{1}s + \phantom{1}t = 0 \\
+      x \phantom{+ 1y } + 2s - \phantom{1}t = 0 \\
+      x + y + 3s - 3t = 0
+    \end{cases} \quad \text{o} \quad \begin{cases}
+      x - y + \phantom{1}s + \phantom{1}t = 0 \\
+      \phantom{x +} \phantom{1}y + \phantom{1}s - 2t = 0 \\
+      \phantom{x +} 2y + 2s - 4t = 0
+    \end{cases} \quad \text{o} \quad \begin{cases}
+      x-y+s+\phantom{1}t=0\\
+      \phantom{x+} y+s-2t = 0
+    \end{cases}
+  \end{align*}
+  Las variables libres son \(s\) t \(t\), luego \(\dim(\text{Ker } F)=2\) o \(\text{nulidad } F =2\). Tomamos:
+  \begin{itemize}
+    \item \(s=-1,t=0\), para obtener la solución \((2,1,-1,0)\).
+    \item \(s=0,t=1\), para obtener la solución \((1,2,0,1)\).
+  \end{itemize}
+  Así \((2,1,-1,0)\) y \(1,2,0,1\) constituyen una base de \(\text{Ker } F\). (Obsérvese que \(\text{rango } F + \text{nulidad } F = 2 + 2 = 4\)), que es la dimensión del dominio \(\mathbb{R}^4\) de \(F\).
+\end{enumerate}
+
+\subsection{Aplicación a los sistemas de ecuaciones lineales}
+
+Consideremos un sistema de \(m\) ecuaciones lineales con \(n\) incógnitas sobre un cuerpo \(K\):
+\begin{align*}
+  a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n &= b_1 \\
+  a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n &= b_2\\
+  \vdots  \qquad \qquad ~ & \\
+  a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n &= b_m
+\end{align*}
+que es equivalente a la ecuación matricial
+\[
+  Ax=b
+\]
+donde \(A=(a_{ij})\) es la matriz de los coeficientes y \(x=(x_i)\) y \(b=(b_i)\) los vectores columna de las incógnitas y de las constantes, respectivamente. Ahora la matriz \(A\) puede verse también como la aplicación lineal 
+\[
+  A:K^n \rightarrow K^m
+\]
+Siendo así, la solución de la ecuación \(A:K^n \rightarrow K^m\). Más aún, la solución de la ecuación homogénea asociada \(Ax=0\) puede verse como el núcleo de la aplicación lineal \(A:K^n \rightarrow K^m\).
+
+El teorema \ref{eq:teorema_dimensión_nucleo_imagen} relativo a aplicaciones lineales nos conduce a la relación:
+\[
+  \dim(\text{Ker } A = \dim(K^n) - \dim(\text{Im } A) = n - \text{rango } A)
+\]
+Pero \(n\) es exactamente el número de incógnitas en el sistema homogéneo \(Ax=0\).
+
+\subsection{Aplicaciones lineales singulares y no singulares (isomorfismo)}
+
+Se dice que una aplicación lineal \(F: V \rightarrow U\) es \textit{singular} si la imagen de algún vector no nulo bajo \(F\) es \(0\), es decir, si existe algún \(v \in V\) tal que \(v \neq 0\) pero \(F(v) = 0\). De esta manera, \(F:V \rightarrow U\) es \textit{no singular} si unicamente \(0 \in V\) se aplica en \(0 \in U\) o, equivalentemente, si su núcleo consiste solamente en el vector cero: \(\text{Ker } F = \left\{0\right\}\).
+
+\teorema Supongamos que una aplicación lineal \(F: V \rightarrow U\) es no singular. En tal caso, la imagen de cualquier conjunto linealmente independiente es linealmente independiente.
+
+\textbf{Demostración}: Supongamos que \(v_1, v_2, \cdots, v_n\) son vectores linealmente independientes en \(V\). Afirmamos que \(F(v_1),F(v_2),\cdots, F(v_n)\) son también linealmente independientes. Supongamos que:
+\[
+  a_1 F(v_1) + a_2 F(v_2) + \cdots + a_n F(v_n) = 0 \quad \text{donde } a_i ~ \text{pertenece a } K
+\]
+dado que \(F\) es lineal \(F(a_1 v_1 + a_2 v_2 + \cdots + a_n v_n) = 0\) por lo tanto,
+\[
+  \left(a_1 v_1 + a_2 v_2 + \cdots + a_n v_n\right) \in \text{Ker } F
+\]
+Pero \(F\) es no singular, esto es el \(\text{Ker }F = \{0\}\), luego \(a_1 v_1 + a_2 v_2 + \cdots + a_n v_n = 0\). Siendo linealmente independientes los \(v_i\), todos los \(a_i\) son cero. De acuerdo con esto los \(F(v_i)\) son linealmente independientes.
+
+\paragraph{Isomorfismos}
+
+Supongamos que una aplicación lineal \(F:V \rightarrow U\) es inyectiva. Entonces solo \(0 \in V\) puede aplicarse en \(0 \in U\) y por tanto \(F\) es no singular. El recíproco es cierto también, porque si \(F\) es no singular y \(F(v)=F(w)\), necesariamente \(F(v-w) = F(v) - F(w) = 0\), luego \(v-w = 0\) o \(v=w\). Así \(F(v) = F(w)\) implica \(v=w\), o sea, \(F\) es inyectiva. Hemos demostrado pues,
+
+\textbf{Proposición}: Una aplicación lineal \(F:V\rightarrow U\) es inyectiva si y solo si es no singular.
+
+Recordemos que una aplicación \(F:V\rightarrow U\) recibe el nombre de isomorfismo si es lineal y biyectiva, esto es, si es lineal, inyectiva y suprayectiva. Recordemos, asimismo, que se dice que un espacio vectorial \(V\) es isomorfo a otro \(U\), escrito \(V \simeq U\), si existe algún isomorfismo \(F:V\rightarrow U\).
+
+En este caso es aplicable el siguiente teorema:
+\begin{quote}
+  Supongamos que \(V\) tiene dimensión finita y que \(F:V \rightarrow U \) es lineal. Entonces \(F\) es un isomorfismo si y solo si no es singular.
+
+  Demostración:
+  Si \(F\) es un isomorfismo, solo \(0\) se aplica en \(0\), de modo que \(F\) es no singular. Supongamos que \(F\) es no singular. Entonces \(\dim(\text{Ker } F) = 0\). Según el teorema (libro:9.5??), \(\dim(V) = \dim(\text{Ker } F) + \dim(\text{Im } F)\).
+  Así pues, \(\dim(U) = \dim(V) = \dim(\text{Im } F)\). Como \(U\) tiene dimensión finita, \(\text{Im } F = U\) y por ende \(F\) es suprayectiva. Por lo tanto, \(F\) es simultáneamente inyectiva y suprayectiva, es decir \(F\) es un isomorfismo.
+\end{quote}
+
+\subsection{Operaciones con aplicaciones lineales}
+
+Podemos combinar aplicaciones lineales de varias maneras consiguiendo nuevas aplicaciones lineales. Estas operaciones son de gran importancia y se utilizan a lo largo de todo el texto.
+
+Supongamos que \(F:V \rightarrow U\) y \(G:V \rightarrow U\) son aplicaciones lineales entre espacios vectoriales sobre un cuerpo \(K\). Definimos la suma \(F+G\) como la aplicación de \(V\) en \(U\) que asigna \(F(v) + G(v)\) a \(v\in V\):
+\[
+  (F+G)(v) = F(v) + G (v)
+\]
+Asimismo, para cualquier escalar \(k \in K\), definimos el producto \(kF\) como la aplicación en \(U\) que asigna \(kF(v)\) a \(v \in V\):
+\[
+  (kF)(v) = kF (v)
+\]
+Probamos ahora que si \(F\) y \(G\) son lineales, también lo son \(F + G\) y \(kF\). Tenemos, para todo par de vectores \(v,w \in V\) y todo par de escalares \(a,b \in K\).
+\begin{align*}
+  (F+G)(av + bw) &= F(av + bw) + G(av + bw) = \\
+                 &=aF(v) + bF(w) + aG(v) + bG(w) = \\
+                 &=a(F(v) + G(v)) + b(F(w) + G(w)) = \\
+                 &=a(F+G)(v) + b(F+G)(w) =\\[3pt]
+  (kF)(av + bw) &= kF(av + bw) = k(aF(v)+bF(w))= \\
+                &= akF(v) + bkF(w) = a(kF)(v) + b(kF)(w)
+\end{align*}
+Así pues \(F+G\) y \(kF\) son lineales.
+
+Disponemos del siguiente teorema:
+\teorema Sean \(V\) y \(U\) espacios vectoriales sobre un cuerpo \(K\). Ka colección de todas las aplicaciones lineales de \(V\) en \(U\), con las operaciones de suma y producto por un escalar anteriores, es un espacio vectorial sobre \(K\).
+
+El espacio vectorial del teorema suele denotarse por:
+\[
+\text{Hom}(V,U)
+\]
+Aquí \(\text{Hom}\) viene de la palabra homomorfismo. En caso de ser \(V\) y \(U\) de dimensión finita, se aplica el teorema que enseguida enunciamos,
+
+Supongamos \(\dim V = m\) y \(\dim U=n\). En tal caso, \(\dim(\text{Hom}(V,U)) = m\cdot n\).
+
+\subsection{Composición de aplicaciones lineales}
+
+Sean \(U, V\) y \(W\) espacios vectoriales sobre un mismo cuerpo \(K\) y \(F : V \rightarrow U\) y \(G: U \rightarrow W\) aplicaciones lineales:
+\begin{center}
+\begin{tikzpicture}[
+  node distance=3cm,
+  every node/.style={font=\large},
+  set/.style={circle, draw, minimum size=1cm, align=center},
+  arrow/.style={-Stealth, thick}
+  ]
+
+  \node[set] (V) {\(V\)};
+  \node[set, right=of V] (U) {\(U\)};
+  \node[set, right=of U] (W) {\(W\)};
+
+  \draw[arrow] (V) -- node[above] {\(F\)} (U);
+  \draw[arrow] (U) -- node[above] {\(G\)} (W);
+
+\end{tikzpicture}
+\end{center}
+
+  \draw[arrow] (V) -- node[above] {\(f\)} (U);
+Recordemos que la función compuesta \(G \circ F\) es la aplicación de \(V\) en \(W\) definida por \((G \circ F) (v) = G(F(v))\). Probemos que \(G\circ F\) es lineal siempre que lo sean \(F\) y \(G\). Tenemos, para todo par de vectores \(v,w \in V\) y todo par de escalares \(a,b \in K\),
+\begin{align*}
+  (G \circ F)(av + bw) &= G(F(av+bw)) = G(aF(v)+bF(w)) =\\
+                       &=aG(F(v)) + bG(F(w)) = a(G \circ F)(v) + b(G \circ F)(w)
+  
+\end{align*}
+Es decir \(G \circ F\) es lineal.
+
+La composición de aplicaciones lineales está relacionada con la suma y el producto por un escalar como sigue:
+
+Sean \(V, U\) y \(W\) espacios vectoriales sobre \(K\), \(F\) y \(F'\) aplicaciones lineales de \(V\) en \(U\), \(G\) y \(G'\) aplicaciones lineales de \(U\) en \(W\) y sea \(k \in K\). Entonces:
+\begin{align*}
+  G \circ (F+F') = G\circ F + G \circ F'\\
+  (G+G') \circ F = G \circ F + G' \circ F \\
+  k(G\circ F) = (kG) \circ F = G \circ (kF)
+\end{align*}
