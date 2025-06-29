@@ -1,0 +1,271 @@
+\section{Diagonalización}
+
+Sea \(f\) un endomorfismo en el espacio vectorial \(V(K)\), y \(A\) su matriz asociada en cierta base \(B\)
+\begin{align*}
+  f:V&\rightarrow V \\
+  u &\rightarrow f(u) \quad \text{tal que} \quad A\cdot [u] = [f(u)]
+\end{align*}
+Un \textbf{vector} \(u\) de \(V\), no nulo, es un \textbf{vector propio} o característico del endomorfismo \(f\), si y sólo si existe un escalar \(\lambda\) tal que:
+\[
+  f(u) = \lambda \cdot u \quad \text{lo que equivale a que} \quad A \cdot [u] = \lambda[u]
+\]
+\(u\) es un vector propio relativo al \textbf{escalar \(\lambda\)} que recibe el nombre de \textbf{valor propio}.
+
+\textbf{Proposición}: Si \(u\) es un vector propio del endomorfismo \(f\) relativo al valor propio \(\lambda\), resulta que todo vector linealmente dependiente de \(u\) también es un vector propio correspondiente al mismo valor propio \(\lambda\).
+
+\textit{Demostración}: \(f\) es un endomorfismo y \(u\) es un vector propio de él relativo al valor propio \(\lambda\), por lo tanto:
+\[
+  f(u) = \lambda \cdot u
+\]
+Busquemos ahora la imagen de \(v\) por \(f\):
+\[
+  f(v) = f(t \cdot u) = t \cdot f(u) = t \cdot (\lambda \cdot u) = \lambda \cdot (t\cdot u) = \lambda \cdot v
+\]
+Lo que indica que \(v\) también es un vector propio relativo al valor propio \(\lambda\): \(f(v) = \lambda \cdot v\)
+
+Como \(u\) es no nulo, el conjunto de los vectores linealmente dependientes a él, \(v = t \cdot u\), determinan un subespacio de \(V\):
+\[
+  U = \left\{v \in V \mid \exists t \in K ~~ \text{tal que} ~~ v = t\cdot u\right\}
+\]
+Este \textbf{conjunto que contiene a los vectores propios} generados por el vector propio \(u\), es un subespacio vectorial de \(V\) que recibe el nombre de \textbf{espacio propio o característico} del endomorfismo \(f\), respecto al valor propio \(\lambda\).
+
+Veamos ahora de qué forma se pueden determinar los valores, vectores y espacios propios:
+
+\(f\) es un endomorfismo en \(V\) del cual conocemos su matriz asociada \(A\) y queremos hallar los vectores que hacen posible \(A \cdot [u] = \lambda [u]\) con \(A\in M_{n\times n}\)
+
+Esta expresión la podemos escribir:
+\[
+  A \cdot [u] = \lambda \cdot I \cdot [u] \qquad I : \text{matriz identidad en } M_{n\times n}
+\]
+Por lo tanto:
+\[
+  A \cdot [u] - \lambda \cdot I \cdot [u] = 0 \qquad 0:\text{matriz nula}
+\]
+O bien:
+\[
+  (A-\lambda \cdot I) \cdot [u] = 0
+\]
+Para que el vector \(u\), \textbf{no nulo}, verifique esta última expresión para algún \(\lambda\), que es un sistema de ecuaciones homogéneo, debe verificarse que:
+\[
+\det(A-\lambda \cdot I) = 0
+\]
+Lo que equivale a decir que el sistema homogéneo admite solución no nula.
+
+La expresión: \(\det(A-\lambda \cdot I) = 0\) se conoce como ecuación característica, los escalares \(\lambda\) que la satisfacen son los valores propios.
+
+Sustituyendo los valores propios \(\lambda\) en el sistema de ecuaciones lineales homogéneo:
+\[
+  (A-\lambda \cdot I) \cdot [u] = 0
+\]
+se obtiene los vectores propios y espacios característicos respectivos.
+
+\ejemplo{ Sea \(f\) un endomorfismo en \(\mathbb{R}^2\) cuya matriz asociada en la base canónica es:}
+\[
+  A = \begin{pmatrix}
+    3 & 0 \\
+    8 & -1
+  \end{pmatrix}
+\]
+\begin{enumerate}
+  \item Buscar valores propios a partir de la ecuación característica: \(\det(A-\lambda \cdot I) = 0\)
+  \[
+    A = \begin{pmatrix}
+      3 & 0 \\ 8 & -1
+    \end{pmatrix}, \quad \lambda \cdot I = \lambda \cdot \begin{pmatrix}
+      1 & 0 \\ 0 & 1
+    \end{pmatrix} = \begin{pmatrix}
+      \lambda & 0 \\
+      0 & \lambda
+    \end{pmatrix}
+  \]
+  \[ 
+    \quad A - \lambda \cdot I = \begin{pmatrix}
+      3 - \lambda & 0 \\ 8 & -1-\lambda
+    \end{pmatrix}
+  \]
+  \begin{align*}
+    \det(A-\lambda \cdot I) &= \begin{vmatrix}
+      3-\lambda & 0 \\ 8 & -1-\lambda
+    \end{vmatrix} = (3-\lambda) \cdot (-1-\lambda) - 0 \\
+    &= \lambda ^2 -2 \lambda  - 3 = 0 \implies \lambda_1 = 3 ~,~~ \lambda_2 = -1
+  \end{align*}
+  Resolviendo la ecuación característica obtuvimos los valores propios del endomorfismo dado:
+  \[
+    \lambda_1 = 3 \quad \text{y} \quad \lambda_2 = -1
+  \]
+  \item Buscar los vectores propios relativos a los valores propios hallados anteriormente, para ello planteamos el sistema homogéneo: \((A-\lambda \cdot I)\cdot [u] = 0\)
+  \[
+    (A-\lambda \cdot I)\cdot [u] = \begin{pmatrix}
+      3-\lambda & 0 \\ 8 & -1-\lambda
+    \end{pmatrix} \cdot \begin{pmatrix}
+      x \\ y
+    \end{pmatrix} = \begin{pmatrix}
+      0 \\ 0
+    \end{pmatrix}, ~~ \text{multiplicando matricialmente:}
+  \]
+  \[
+    \begin{cases}
+      (3-\lambda)x + 0y = 0 \\
+      8x + (-1-\lambda)y = 0
+    \end{cases} \quad \text{sustituimos } \lambda \text{ por los valores encontrados}
+  \]
+  Si \(\lambda = \lambda_1 = 3\):
+  \[
+    \begin{cases}
+      (3-3)x + 0y = 0 \\
+      8x + (-1-3)y = 0
+    \end{cases} \qquad \implies y = 2x
+  \]
+  Por lo tanto los vectores \(u = (x ~~~ 2x)^T\) son solución del sistema para \(\lambda = \lambda_1 = 3\), de aquí que:
+  \[
+    U_1 = \left\{u \in \mathbb{R}^2 \mid u = \begin{pmatrix}
+      x \\ 2x
+    \end{pmatrix} ~~ \text{para algún} ~ x \in \mathbb{R}\right\}
+  \]
+  es el espacio propio relativo al valor propio \(\lambda_1 = 3\), un vector propio a este mismo escalar sería por ejemplo: \(u_1 = (1 ~~~ 2)^T\)
+
+  Si \(\lambda = \lambda_2 = -1\):
+  \[
+    \begin{cases}
+      (3-(-1))x + 0y = 0 \\
+      8x + (-1-(-1))y = 0
+    \end{cases} \quad \implies\quad \begin{array}{c}
+      4x = 0 \\
+      8x = 0
+    \end{array} \quad \implies x=0
+  \]
+  Por lo tanto los vectores \(u=(0 ~~~ y)^T\) son solución del sistema para \(\lambda = \lambda_2 = -1\), de aquí que:
+  \[
+    U_2 = \left\{u \in \mathbb{R}^2 \mid u = \begin{pmatrix}
+      0 \\ y
+    \end{pmatrix} ~~ \text{para algún} ~ y \in \mathbb{R}\right\}
+  \]
+  es el espacio propio relativo al valor propio \(\lambda_2 = -1\), un vector propio relativo a este mismo escalar sería por ejemplo: \(u_2 = (0 ~~~ 1)^T\)
+\end{enumerate}
+
+\subsection{Diagonalización por vectores propios}
+
+\subsubsection{Diagonalización}
+
+Dada una matriz cuadrada \(A\) asociada a un endomorfismo \(f\) en \(V\):
+
+\textbf{La matriz \textit{A} es diagonalizable} si existe una matriz \(P\) \textbf{invertible}, tal que se verifique que:
+\[
+  P^{-1} \cdot A \cdot P = D~ , ~~~ \text{siendo } D \text{ una matriz diagonal}
+\]
+\paragraph{Procedimiento para diagonalizar una matriz a partir de los vectores propios}
+
+\begin{enumerate}[label=\arabic{*}^\circ]
+  \item se buscan los vectores propios del endomorfismo \(f\)
+  \item se forma con ellos una matriz \(P\)
+  \item se analiza si \(P\) es invertible, en caso afirmativo se determina \(P^{-1}\)
+  \item se realiza la multiplicación matricial \(P^{-1}\cdot A \cdot P = D\). Esta matriz \(D\) tiene en su diagonal principal los valores propios del endomorfismo \(f\). 
+\end{enumerate}
+Si \(P\) no es invertible, entonces es imposible diagonalizar a la matriz \(A\).
+
+\ejemplo{ Retomemos el ejemplo anterior, teníamos un endomorfismo en \(\mathbb{R}^2\) cuya matriz asociada es}
+\[
+  A = \begin{pmatrix}
+    3 & 0 \\ 8 & -1
+  \end{pmatrix}
+\]
+dijimos que los vectores \(u_1=(1 ~~~ 2)^T\) y \(u_2 =(0 ~~~ 1)\) eran vectores propios relativos a los vectores propios \(\lambda_1 = 3\) y \(\lambda_2 = -1\)
+
+Formamos con ellos una matriz \(P\):
+\[
+  P = \begin{pmatrix}
+    1 & 0 \\
+    2 & 1 
+  \end{pmatrix}
+\]
+Analizamos si \(P\) es invertible: \(\det P = 1\), por lo tanto existe \(P^{-1}\):
+\[
+P^{-1} = \begin{pmatrix}
+  1 & 0 \\
+  -2 & 1
+\end{pmatrix}
+\]
+Esto implica que \(A\) es diagonalizable, relizamos la multiplicación matricial:
+\[
+P^{-1} \cdot A \cdot P = D = \begin{pmatrix}
+  3 & 0 \\
+  0 & -1
+\end{pmatrix}
+\]
+Observemos que en la diagonal están los valores propios del endomorfismo.
+
+\teorema{Si la matriz \(A\), asociada al endomorfismo \(f\) de \(V_n\), tiene \(n\) valores propios diferentes, entonces \(A\) es diagonalizable.}
+
+\teorema{Si el endomorfismo \(f\) de \(v_n\) tiene \(n\) vectores propios linealmente independientes, \(A\) es diagonalizable.}
+
+\subsection{Matrices simétricas congruentes}
+
+Se dice que una matriz \(M\) es congruente a otra \(A\) si existe una matriz no singular \(P\) tal que:
+\[
+  M = P^T \cdot A \cdot P
+\]
+La congruencia es una relación de equivalencia.
+
+Si la matriz \(A\) es simétrica significa que \(A = A^T\), entonces podemos hacer:
+\[
+  M^T = (P^T \cdot A \cdot P)^T = P^T \cdot A \cdot (P^T)^T = P^T \cdot A \cdot P = M
+\]
+Por lo tanto, si \(A\) es simétrica, entonces \(M\) también lo es.
+
+Las matrices diagonales son simétricas, se puede demostrar que únicamente matrices simétricas son congruentes a matrices diagonales.
+
+\subsubsection{Diagonalización ortogonal}
+
+Una matriz cuadrada y simétrica \(A\), asociada a un endomorfismo \(f\) en \(V\), es \textbf{ortogonalmente diagonalizable} si existe una matriz \(P\) tal que:
+\[
+  P^T \cdot A \cdot P = D \qquad \text{sea diagonal}
+\]
+\(A\) es diagonalizable ortogonalmente solamente si es \textbf{simétrica}, es decir, que \(A^T=A\)
+
+\paragraph{Procedimiento para diagonalizar ortogonalmente una matriz simétrica a partir de los vectores propios}
+
+\begin{enumerate}[label=\arabic{*}^\circ]
+  \item Se hallan los valores propios relativos al endomorfismo \(f\)
+  \item Se determinan vectores propios correspondientes a los valores propios
+  \item Se ortonormalizan dichos vectores propios
+  \item Se forma con los vectores ya ortonormalizados una matriz \(P\) y se realiza la multiplicación matricial \(P^T \cdot A \cdot P\)
+\end{enumerate}
+La matriz que se obtiene es diagonal.
+
+\ejemplo
+
+Sea \(A\) una matriz asociada a un endomorfismo en \(\mathbb{R}^2\), tal que \(A^T = A\), definida a continuación
+\[
+  A = \begin{pmatrix}
+    3 & 1 \\
+    1 & 3
+  \end{pmatrix}
+\]
+Buscamos los valores propios a partir de la ecuación característica: \(\det (A - \lambda \cdot I) = 0\)
+\begin{align*}
+A - \lambda \cdot I = \begin{pmatrix}
+  3-\lambda & 1 \\
+  1 & 3-\lambda
+\end{pmatrix} \quad \implies \det (A-\lambda \cdot I) &= (3-\lambda)(3-\lambda)-1\\
+&= \lambda^2 -6\lambda + 8 = 0
+\end{align*}
+Los valores propios son: \(\lambda_1 = 4\) y \(\lambda_2=2\)
+
+Buscamos vectores propios a relativos a esos valores propios:
+\begin{align*}
+  (A-\lambda \cdot I) \cdot [u] &= [0] \\
+  \begin{pmatrix}
+    3-\lambda & 1 \\
+    1 & 3-\lambda
+  \end{pmatrix} \cdot \begin{pmatrix}
+    x\\ y
+  \end{pmatrix} &= \begin{pmatrix}
+    0 \\ 0
+  \end{pmatrix} \quad \implies \quad \begin{cases}
+    (3-\lambda)x + y =0\\
+    x +(3-\lambda) \cdot y = 0
+  \end{cases} 
+\end{align*}
+Resolviendo el sistema para \(\lambda_1 = 4\) resulta que un vector propio puede ser \(u_1 = (1 ~~~ 1)^T\) y para el valor \(\lambda_2 = 2\) un vector propio sería por ejemplo \(u_2 = (-1 ~~~ 1)^T\)
+
+Tenemos que normalizar a estos vectores, 
