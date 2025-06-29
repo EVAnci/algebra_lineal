@@ -521,30 +521,31 @@ Supongamos \(\dim V = m\) y \(\dim U=n\). En tal caso, \(\dim(\text{Hom}(V,U)) =
 
 Sean \(U, V\) y \(W\) espacios vectoriales sobre un mismo cuerpo \(K\) y \(F : V \rightarrow U\) y \(G: U \rightarrow W\) aplicaciones lineales:
 \begin{center}
-\begin{tikzpicture}[
-  node distance=3cm,
-  every node/.style={font=\large},
-  set/.style={circle, draw, minimum size=1cm, align=center},
-  arrow/.style={-Stealth, thick}
-  ]
+  \begin{tikzpicture}[
+    node distance=3cm,
+    every node/.style={font=\large},
+    set/.style={circle, draw, minimum size=1cm, align=center},
+    arrow/.style={-Stealth, thick}
+    ]
 
-  \node[set] (V) {\(V\)};
-  \node[set, right=of V] (U) {\(U\)};
-  \node[set, right=of U] (W) {\(W\)};
+    \node[set] (V) {\(V\)};
+    \node[set, right=of V] (U) {\(U\)};
+    \node[set, right=of U] (W) {\(W\)};
 
-  \draw[arrow] (V) -- node[above] {\(F\)} (U);
-  \draw[arrow] (U) -- node[above] {\(G\)} (W);
+    \draw[arrow] (V) -- node[above] {\(F\)} (U);
+    \draw[arrow] (U) -- node[above] {\(G\)} (W);
+    \draw[arrow] (V) -- node[above] {\(f\)} (U);
 
-\end{tikzpicture}
+  \end{tikzpicture}
 \end{center}
 
-  \draw[arrow] (V) -- node[above] {\(f\)} (U);
 Recordemos que la función compuesta \(G \circ F\) es la aplicación de \(V\) en \(W\) definida por \((G \circ F) (v) = G(F(v))\). Probemos que \(G\circ F\) es lineal siempre que lo sean \(F\) y \(G\). Tenemos, para todo par de vectores \(v,w \in V\) y todo par de escalares \(a,b \in K\),
+
 \begin{align*}
   (G \circ F)(av + bw) &= G(F(av+bw)) = G(aF(v)+bF(w)) =\\
-                       &=aG(F(v)) + bG(F(w)) = a(G \circ F)(v) + b(G \circ F)(w)
-  
+  &=aG(F(v)) + bG(F(w)) = a(G \circ F)(v) + b(G \circ F)(w)  
 \end{align*}
+
 Es decir \(G \circ F\) es lineal.
 
 La composición de aplicaciones lineales está relacionada con la suma y el producto por un escalar como sigue:
@@ -555,3 +556,283 @@ Sean \(V, U\) y \(W\) espacios vectoriales sobre \(K\), \(F\) y \(F'\) aplicacio
   (G+G') \circ F = G \circ F + G' \circ F \\
   k(G\circ F) = (kG) \circ F = G \circ (kF)
 \end{align*}
+
+\subsection{Algebra de operadores lineales \(A(V)\)}
+
+Sea \(V\) un espacio vectorial sobre un cuerpo \(K\). Consideramos ahora el caso especial de las aplicaciones lineales \(F:V\rightarrow V\), o sea, de \(V\) en si mismo. Estas se llaman también operadores lineales o transformaciones lineales en \(V\). Escribiremos \(A(V)\), en lugar de \(\text{Hom}(V,V)\), para designar el espacio de tales aplicaciones.
+
+De acuerdo con el teorema (9.10??), \(A(V)\) es un espacio vectorial sobre \(K\); es de dimensión \(n^2\) si \(V\) es de dimensión \(n\). Si \(F,G \in A(V)\), la composición \(G \circ F\) existe y es también una aplicación lineal de \(V\) en sí mismo, es decir, \(G\circ F \in A(V)\). De este modo, tenemos un <<producto>> definido en \(A(V)\).[En el espacio \(A(V)\) expresaremos \(G \circ F\) como \(GF\).]
+
+\textbf{Nota}: Un álgebra \(A\) sobre un cuerpo \(K\) es un espacio vectorial sobre \(K\) en el que se ha definido una operación de producto que satisface, para todos los \(F,G,H \in A\) y todo \(k \in K\),
+\begin{enumerate}
+  \item \(F(G+H)=FG+FH\)
+  \item \((G+H)F = GF+HF\)
+  \item \(k(GF)=(kG)F = G(kF)\)
+\end{enumerate}
+Si la ley asociativa rige para el producto, esto es, si para todos los \(F,G,H \in A\), \((FG)H = F(GH)\) se dice que el álgebra \(A\) es asociativa.
+
+Enunciamos el siguiente teorema:
+
+Sea \(V\) un espacio vectorial sobre \(K\). En ese caso, \(A(V)\) es un álgebra asociativa sobre \(K\) con respecto a la composición de aplicaciones. Si \(\dim(V) = n\), \(\dim(A(V))=n^2\).
+
+En vista del teorema anterior, \(A(V)\) se denomina frecuentemente el álgebra de operadores lineales en \(V\).
+
+\subsection{Polinomios y operadores lineales}
+
+Observemos que la aplicación identidad \(I:V\rightarrow V\) pertenece a \(A(V)\). Además para todo \(T\in A(V)\), tenemos \(T\cdot I = I \cdot T = T\). Hacemos notar que también pueden formarse <<potencias>> de \(T\); usamos la notación \(T^2=T \circ T\), \(T^3=T\circ T \circ T\), \(\cdots\). Más aún, para todo polinomio
+\[
+  p(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n \quad a_i \in K
+\]
+podemos construir el operador \(p(T)\) definido según
+\[
+  p(T) = a_0 I + a_1 T + a_2 T^2 + \cdots + a_n T^n
+\]
+(Para un escalar \(k \in K\), el operador \(kI\) se denota con frecuencia por \(k\), simplemente.) En particular, si \(p(T)=0\), la aplicación cero, se dice que \(T\) es un \textit{cero} del polinomio \(p(x)\).
+
+\ejemplo{ Definamos \(T:\mathbb{R}^3 \rightarrow \mathbb{R}^3\) por \(T(x,y,z)=(0,x,y)\). Si \(a,b,c\) es cualquier elemento de \(\mathbb{R}^3\).}
+\begin{align*}
+  (T+I)(a,b,c) = (0,a,b) + (a,b,c) = (a,a+b,b+c) \\
+  T^3(a,b,c) = T^2(0,a,b) = T(0,0,a) = (0,0,0)
+\end{align*}
+Vemos, pues, que \(T^3 = 0\), la aplicación cero de \(V\) en sí mismo. Dicho de otro modo, \(T\) es un cero del polinomio \(p(x)=x^3\).
+
+\subsection{Operadores invertibles}
+
+Decimos que un operador lineal \(T:V\rightarrow V\) es \textit{invertible} si tiene una inversa, es decir, si existe \(T^{-1}\in A(V)\) tal que \(TT^{-1} = T^{-1}T = 1\).
+
+Ahora bien, \(T\) es invertible si y sólo si es inyectivo y suprayectivo. De este modo, en particular, si \(T\) es invertible, solamente \(0\in V\) puede aplicarse en si  mismo, esto es, \(T\) es no singular. El recíproco no es cierto en general como se ve en el siguiente ejemplo:
+
+\ejemplo
+
+Sean \(V\) el espacio vectorial de los polinomios sobre \(K\) y \(T\) el operador en \(V\) definido según:
+\[
+  T(a_0 + a_1t + \cdots + a_n t^n) = a_0t + a_1 t^2 + \cdots + a_n t^{n+1} \qquad (n=0,1,2,\cdots)
+\]
+o sea, \(T\) aumenta en una unidad el exponente de \(t\) en cada término. Tenemos que \(T\) es una aplicación lineal y es no singular. Sin embargo, \(T\) no es suprayectivo y por lo tanto no es invertible.
+
+La situación cambia significativamente cuando \(V\) es de dimensión finita. En concreto disponemos del teorema enunciado a continuación.
+
+\teorema{ Supongamos que \(T\) es un operador lineal en un espacio vectorial \(V\) de dimensión finita. Son equivalentes las cuatro condiciones:}
+\begin{enumerate}
+  \item \(T\) es no singular, es decir \(\text{Ker }T = \{0\}\).
+  \item \(T\) es inyectivo.
+  \item \(T\) es suprayectivo.
+  \item \(T\) es invertible, esto es, inyectivo y suprayectivo.
+\end{enumerate}
+
+Ya probamos que 1) y 2) son equivalentes. Siendo así para demostrar el teorema, solo necesitamos probar que lo son 1) y 3). Se desprende entonces que 4) es equivalente de las otras.
+
+Según vimos:
+\[
+  \dim V = \dim(\text{Im } T) + \dim(\text{Ker } T)
+\]
+Si \(T\) es no singular, necesariamente \(\dim(\text{Ker } T) = 0\), con lo cual, \(\dim V = \dim(\text{Im }T)\). Esto significa que \(V = \text{Im } T\) o que \(T\) es suprayectivo, de manera que 1) implica 3). Recíprocamente supongamos que \(T\) es suprayectivo. En ese caso, \(V = \text{Im }T\), de donde \(\dim V = \dim(\text{Im }T)\). Esto quiere decir que \(\dim(\text{Ker } T) = 0\) y por ende \(T\) es no singular. Así pues, 3) implica 1). En consecuencia, el teorema queda demostrado. (La demostración del teorema (9.9??) es idéntica).
+
+\ejemplo{ Sea \(T\) el operador en \(\mathbb{R}^2\) definido por \(T(x,y)=(y,2x-y)\). El núcleo de \(T\) es \(\{(0,0)\}\) luego \(T\) es no singular y, en virtud del Teorema,}
+
+Hallemos ahora una fórmula para \(T^{-1}\).
+
+Supongamos que \(s,t\) es la imagen de \((x,y)\) bajo \(T\); por consiguiente \((x,y)\) es la imagen de \((s,t)\) bajo \(T^{-1}:T(x,y) = (s,t)\) y \(T^{-1}(s,t)=(x,y)\). Tenemos:
+\[
+  T(x,y) = (y,2x-y) = (s,t) \quad \text{y así} \quad y=s,2x-y = t
+\]
+Despejando \(x\) e \(y\) en términos de \(s\) y \(t\) obtenemos \(x=\frac{1}{2}s + \frac{1}{2}t,~ y=s\). Entonces \(T^{-1}\) viene dado por la fórmula \(T^{-1}(s,t) = \left(\frac{1}{2}s+\frac{1}{2}t,~s\right)\).
+
+\subsection{Aplicaciones a los sistemas de ecuaciones lineales}
+
+Consideremos un sistema de ecuaciones lineales sobre \(K\) y supongamos que el sistema tiene el mismo número de ecuaciones que de incógnitas, digamos \(n\). Podemos representar este sistema por la ecuación matricial
+\begin{equation}
+  Ax = b
+  \label{eq:sistema_lineal_5}  
+\end{equation}
+donde \(A\) es la matriz n-cuadrada sobre \(K\) que vemos como un operador lineal en \(K^n\). Supongamos que la matriz \(A\) es no singular, esto es, que la ecuación matricial \(Ax = 0\) tiene sólo la solución trivial. La aplicación lineal \(A\) es, pues, inyectiva y suprayectiva. Esto significa que el sistema \ref{eq:sistema_lineal_5} tiene solución única para cualquier \(b \in K^n\). Por otra parte, supongamos que la matriz \(A\) es singular, es decir, que la ecuación matricial \(Ax = 0\) tiene una solución no nula. En ese caso la aplicación lineal \(A\) no es suprayectiva, lo que significa que existe \(b \in K^n\) para el que \ref{eq:sistema_lineal_5} no tiene solución. Más aún, si existe una solución, esta no es única.
+
+\teorema{Consideremos un sistema de ecuaciones lineales con igual número de incógnitas y de ecuaciones}
+\begin{enumerate}[label=\alph*.]
+  \item Si el sistema homogéneo asociado sólo tiene la solución nula, el sistema precedente tiene solución única para todos los valores de los \(b_i\).
+  \item Si el sistema homogéneo asociado tiene una solución no nula, entonces: i) hay valores de los \(b_i\) para los que el sistema precedente no tiene solución; ii) siempre que exista una solución del sistema anterior, no será única.
+\end{enumerate}
+
+\subsubsection{Matriz asociada a una función lineal}
+
+Se tiene una función \(f:V \rightarrow W\) ambos espacios vectoriales sobre el mismo cuerpo \(K\) \(B=\left\{u_1,u_2,\cdots,u_n \right\}\) es una base de \(V\), \(B'={u'_1, u'_2, \cdots, u'_m}\) es una base de \(W\), si se conoce:
+\[
+f(u_1) = a_{11} u'_1 + a_{21} u'_2 + \cdots + a_{m1} u'_m
+ = \begin{pmatrix}
+  a_{11} \\
+  a_{21} \\
+  \vdots \\
+  a_{m1}
+ \end{pmatrix}
+\]
+\[
+f(u_2) = a_{12} u'_1 + a_{22} u'_2 + \cdots + a_{m2} u'_m
+ = \begin{pmatrix}
+  a_{12} \\
+  a_{22} \\
+  \vdots \\
+  a_{m2}
+ \end{pmatrix}
+\]
+\[
+\vdots
+\]
+\[
+f(u_n) = a_{1n} u'_1 + a_{2n} u'_2 + \cdots + a_{mn} u'_m
+ = \begin{pmatrix}
+  a_{1n} \\
+  a_{2n} \\
+  \vdots \\
+  a_{mn}
+ \end{pmatrix}
+\]
+Entonces la imagen de un vector \(u\) de \(V\) es un vector \(w\) de \(W:f(u) = w\)
+\begin{align*}
+  f(u) &= \alpha_1 f(u_1) + \alpha_2 f(u_2) + \cdots + \alpha_n f(u_n) \\
+  &= \alpha_1 \begin{pmatrix}
+    a_{11} \\ a_{21} \\ \vdots \\ a_{m1}
+  \end{pmatrix} + \alpha_2 \begin{pmatrix}
+    a_{12} \\ a_{22} \\ \vdots \\ a_{m2}
+  \end{pmatrix} + \cdots + \alpha_n \begin{pmatrix}
+    a_{1n} \\ a_{2n} \\ \vdots \\ a_{mn}
+  \end{pmatrix} = \begin{pmatrix}
+    \beta_1 \\ \beta_2 \\ \vdots \\ \beta_m
+  \end{pmatrix} \\[4pt]
+  &= \begin{pmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n}\\
+    a_{21} & a_{22} & \cdots & a_{2n}\\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{m1} & a_{m2} & \cdots & a_{mn}\\
+  \end{pmatrix} \cdot \begin{pmatrix}
+    \alpha_1 \\ \alpha_2 \\ \vdots \\ \alpha_n
+  \end{pmatrix} = \begin{pmatrix}
+    \beta_1 \\ \beta_2 \\ \vdots \\ \beta_m
+  \end{pmatrix} = w
+\end{align*}
+La matriz \(A = (a_{ij})\) que contiene a las imágenes de los vectores básicos de \(B\) expresados en \(B'\) se llama matriz asociada a la función lineal \(f\) en dichas bases.
+
+\ejemplo{ Si se trabaja con las bases canónicas en dominio y codiminio}
+\[
+f:\mathbb{R}^2 \rightarrow \mathbb{R}^2 \quad \text{tal que} \quad f\begin{pmatrix}
+  x \\ y \\ z
+\end{pmatrix} = \begin{pmatrix}
+  x+y \\ y-z
+\end{pmatrix}
+\]
+Se halla la imagen de los vectores de la base canónica de \(\mathbb{R}^3\):
+\[
+f\begin{pmatrix}
+  1 \\ 0 \\ 0 
+\end{pmatrix} = \begin{pmatrix}
+  1 \\ 0
+\end{pmatrix} \qquad f\begin{pmatrix}
+  0 \\ 1 \\ 0
+\end{pmatrix} = \begin{pmatrix}
+  1 \\ 1
+\end{pmatrix} \qquad f \begin{pmatrix}
+  0 \\ 0 \\ 1
+\end{pmatrix} = \begin{pmatrix}
+  0 \\ -1
+\end{pmatrix}
+\]
+Luego, la matriz asociada \(A\) a esta función en las bases canónicas resulta:
+\[
+A = \begin{pmatrix}
+  1 & 1 & 0 \\
+  0 & 1 & -1
+\end{pmatrix}
+\] 
+A partir de ella es posible hallar la imagen de algún vector del dominio:
+\[
+u = \begin{pmatrix}
+  2 \\ 1 \\ -1
+\end{pmatrix} \quad \text{por ejemplo}
+\]
+entonces hacemos \(A\cdot u = f(u)\):
+\[
+\begin{pmatrix}
+  1 & 1 & 0 \\
+  0 & 1 & -1
+\end{pmatrix} \cdot \begin{pmatrix}
+  2 \\ 1 \\ -1
+\end{pmatrix} = \begin{pmatrix}
+  3 \\ 2
+\end{pmatrix}
+\]
+
+\ejemplo{ Cuando en el dominio y codominio se conocen bases distintas canónicas}
+
+En \(\mathbb{R}^2\) se tiene la base \(B = \left\{(-1,1),~(1,2)\right\}\) y en \(\mathbb{R}^3\) se tiene \(B'=\left\{(1,1,1),~(1,1,0),~(-1,0,0)\right\}\)
+\[
+f:\mathbb{R}^2 \rightarrow \mathbb{R}^3 \quad \text{dada por}\quad f\begin{pmatrix}
+  x \\ y
+\end{pmatrix} = \begin{pmatrix}
+  x+y \\ x-y \\ y
+\end{pmatrix}
+\]
+Hallamos la imagen de los vectores de \(B\) y los expresamos en la base \(B'\):
+\[
+f\begin{pmatrix}
+  -1 \\ 1
+\end{pmatrix} = \begin{pmatrix}
+  0 \\ -2 \\ 1
+\end{pmatrix} = \alpha_1 \begin{pmatrix}
+  1 \\ 1 \\ 1
+\end{pmatrix} + \alpha_2 \begin{pmatrix}
+  1 \\ 1 \\ 0
+\end{pmatrix} + \alpha_3 \begin{pmatrix}
+  -1 \\ 0 \\ 0
+\end{pmatrix} = \begin{pmatrix}
+  1 \\ -3 \\ -2
+\end{pmatrix}
+\]
+\[
+f\begin{pmatrix}
+  1 \\ 2
+\end{pmatrix} = \begin{pmatrix}
+  3 \\ -1 \\ 2
+\end{pmatrix} = \alpha_1 \begin{pmatrix}
+  1 \\ 1 \\ 1
+\end{pmatrix} + \alpha_2 \begin{pmatrix}
+  1 \\ 1 \\ 0
+\end{pmatrix} + \alpha_3 \begin{pmatrix}
+  -1 \\ 0 \\ 0
+\end{pmatrix} = \begin{pmatrix}
+  2 \\ -3 \\ -4
+\end{pmatrix}
+\]
+\begin{tcolorbox}[mydanger]
+  \centering
+  REVISAR, acá hay algo mal, falta aclarar bien qué está en que base. No es todo igualdades!
+\end{tcolorbox}
+
+Por lo tanto la matriz asociada \(A\) asociada a \(f\) en las bases \(B\) y \(B'\) es:
+\[
+A = \begin{pmatrix}
+  1 & 2 \\ -3 & -3 \\ -2 & -4
+\end{pmatrix}
+\] 
+
+Si queremos hallar a partir de ella la imagen de un vector cualquiera de \(\mathbb{R}^2\):
+\[
+u = \begin{pmatrix}
+  2 \\ -3
+\end{pmatrix} \quad \text{por ejemplo,}
+\]
+basta con hacer \(A \cdot u = f(u)\):
+\[
+\begin{pmatrix}
+  1 & 2 \\ -3 & -3 \\ -2 & -4
+\end{pmatrix} \cdot \begin{pmatrix}
+  2 & -3
+\end{pmatrix} = \begin{pmatrix}
+  -4 \\ 3 \\ 8
+\end{pmatrix}
+\]
+Esta es la imagen de \(u\) en las bases de \(B\) y \(B'\) dada en \(\mathbb{R}^2\) y \(\mathbb{R}^3\) respectivamente.
+
+De no disponer de la matriz \(A\) asociada a la función en las bases \(B\) y \(B'\), habría que determinar a la función \(f\) en la base \(B\), luego calcular con ella la imagen del vector \(u\) y a esa imagen obtenida expresarla en la base \(B'\) del codominio.
+
+\begin{tcolorbox}
+  La matriz asociada a una función lineal tiene \(m\) filas y \(n\) columnas, el número de filas lo determina la dimensión del codominio y el número de columnas la dimensión del dominio.
+\end{tcolorbox}
