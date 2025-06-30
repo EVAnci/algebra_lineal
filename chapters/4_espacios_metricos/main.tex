@@ -2,88 +2,151 @@
 
 \subsection{Función distancia}
 
-Sea \(E\) un conjunto no vacío de ``puntos'' se denomina función distancia a aquella función que a cada par de ``puntos'' asigna un número real, verificando determinadas condiciones:
-\[
-  d:E\times E \rightarrow \mathbb{R} \quad \text{tal que} \quad d(a,b) = h
-\]
-Condiciones:
-\begin{itemize}
-  \item \(d(a,b) = d(b,a)\)
-  \item \(d(a,b) = 0 \quad \Longleftrightarrow \quad a=b\)
-  \item \(d(a,c) \leq d(a,b) + d(b,c)\)
-\end{itemize}
-Recuerde que todo par ordenado de puntos de \(E\) determina un vector del espacio vectorial \(V(K):(a,b) \rightarrow \vec{ab}\) por esto al conjunto de puntos siempre se asocia un espacio vectorial.
+Sea \(E\) un conjunto no vacío cuyos elementos se denominan ``puntos''. Se llama \textit{función distancia} a toda aplicación que a cada par de puntos de \(E\) les asigna un número real, verificando las siguientes propiedades:
 
-Definida una función distancia, se designa al conjunto \(E\) como ``espacio métrico'', asociado al espacio vectorial \(V\).
+\[
+  d: E \times E \rightarrow \mathbb{R}, \quad \text{tal que } d(a,b) = h
+\]
+
+\begin{itemize}
+  \item Simetría: \(d(a,b) = d(b,a)\)
+  \item Identidad: \(d(a,b) = 0 \iff a=b\)
+  \item Desigualdad triangular: \(d(a,c) \leq d(a,b) + d(b,c)\)
+\end{itemize}
+
+Un par \((E, d)\), donde \(E\) es un conjunto y \(d\) una función distancia definida sobre él, se denomina \hl{espacio métrico}.
+
+\begin{tcolorbox}[remember, title=Observación]
+  En el caso particular en que \(E\) sea un subconjunto de un espacio vectorial \(V(K)\), como por ejemplo \(\mathbb{R}^n\), es posible asociar a cada par ordenado de vectores \((a,b)\) el vector de desplazamiento \(\vec{ab} = b - a = d(a,b)\). En tales contextos, la distancia entre puntos puede definirse a partir de la norma de dicho vector, por ejemplo, utilizando la norma euclídea (o pre-hilbertiana):
+  \[
+    d(a,b) = \| b - a \| = \sqrt{(b_1 - a_1)^2 + \cdots + (b_n - a_n)^2}
+  \]
+  En este caso, el espacio métrico sería \(\left(\mathbb{R}^n,\left\lVert a-b \right\rVert \right)\), aunque profundizaremos más sobre esto en la próxima sección.
+
+  Sin embargo, es importante destacar que la definición general de espacio métrico no requiere que \(E\) tenga estructura vectorial; basta con que exista una función distancia que cumpla las propiedades mencionadas.
+\end{tcolorbox}
 
 \subsection{Función norma}
 
 \subsubsection{En un espacio vectorial real \(V(\mathbb{R})\)}
 
-En todo espacio vectorial \(V(\mathbb{R})\) es posible definir una función que designe a cada vector un escalar, verificando ciertas condiciones, esa función recibe el nombre de función norma:
+Sea \(V(\mathbb{R})\) un espacio vectorial sobre \(\mathbb{R}\). Se denomina \textit{norma} a una función que asigna a cada vector \(u \in V\) un número real no negativo, cumpliendo las siguientes condiciones:
 \begin{align*}
-  \left\lVert ~~ \right\rVert : V &\rightarrow \mathbb{R} \\
-  u &\rightarrow \left\lVert u\right\rVert  
+  \left\lVert \cdot \right\rVert : V &\longrightarrow \mathbb{R} \\
+  u &\longmapsto \left\lVert u \right\rVert
 \end{align*}
-Condiciones: para todo vector de \(V\):
+Para todo \(u, v \in V\) y \(t \in \mathbb{R}\), la función \(\left\lVert \cdot \right\rVert\) debe verificar:
+
 \begin{itemize}
-  \item \(\left\lVert u\right\rVert \geq 0 ~~ \land ~~ (\left\lVert u\right\rVert = 0 \Longleftrightarrow) u = \vec{0}\)
-  \item \(\left\lVert t \cdot u\right\rVert = \left|t\right| \cdot \left\lVert u\right\rVert \quad\) para cualquier \(t \in \mathbb{R}\)
-  \item \(\left\lVert u + v\right\rVert \leq \left\lVert u\right\rVert + \left\lVert v\right\rVert\) 
+  \item \textbf{Positividad:} \(\left\lVert u \right\rVert \geq 0\), y \(\left\lVert u \right\rVert = 0 \iff u = \vec{0}\)
+  \item \textbf{Homogeneidad absoluta:} \(\left\lVert t \cdot u \right\rVert = \left|t\right| \cdot \left\lVert u \right\rVert\)
+  \item \textbf{Desigualdad triangular:} \(\left\lVert u + v \right\rVert \leq \left\lVert u \right\rVert + \left\lVert v \right\rVert\)
 \end{itemize}
-Definida esta función norma sobre \(V\), decimos que \(V, \left\lVert ~~\right\rVert\) es un \textbf{espacio normado}.
+
+Cuando se ha definido una función norma sobre el espacio vectorial \(V\), al par \((V, \left\lVert \cdot \right\rVert)\) se lo denomina \textbf{espacio normado}.
+
+\vspace{5mm}
 
 \paragraph{Consecuencias de la definición}
 
+A partir de las propiedades que cumple la norma, se deducen inmediatamente los siguientes resultados:
+
 \[
-  \left\lVert \vec{0}\right\rVert = 0 \qquad \left\lVert -u\right\rVert = \left\lVert u\right\rVert \qquad \left\lVert u - v\right\rVert = \left\lVert v - u\right\rVert
-\]
-\[
-\left\lVert u\right\rVert = 1 \qquad \text{Es un vector normado}
-\]
-\[
-\left\lVert u\right\rVert \neq 1 \qquad \text{Se puede normalizar:} \quad u' = \frac{1}{\left\lVert u\right\rVert} \rightarrow \left\lVert u'\right\rVert = 1
+  \left\lVert \vec{0} \right\rVert = 0, \qquad
+  \left\lVert -u \right\rVert = \left\lVert u \right\rVert, \qquad
+  \left\lVert u - v \right\rVert = \left\lVert v - u \right\rVert
 \]
 
-\begin{quote}
-  \ejemplo{ Algunas normas son:}
-  \begin{enumerate}
-    \item Sea el espacio vectorial \(\mathbb{R}(\mathbb{R})\), se define la función norma: \(\left\lVert ~~ \right\rVert: \mathbb{R} \rightarrow \mathbb{R}\), llamada \textbf{valor absoluto}. \[
-      \left\lVert x\right\rVert = \left|x\right|
+\paragraph{Vector unitario (o normalizado):}
+
+Un vector \(u \in V\) tal que \(\left\lVert u \right\rVert = 1\) se denomina \textbf{vector unitario}. En general, si \(u \neq \vec{0}\), siempre es posible normalizarlo mediante:
+\[
+u' = \frac{u}{\left\lVert u \right\rVert} \quad \Rightarrow \quad \left\lVert u' \right\rVert = 1
+\]
+
+\noindent \ejemplo{ Algunas funciones norma son las siguientes}
+\begin{enumerate}
+
+  \item \textbf{En \(\mathbb{R}\): valor absoluto}
+
+  Sea \(E = \mathbb{R}\). La norma natural sobre este espacio es el valor absoluto:
+  \[
+    \left\lVert x \right\rVert = |x|
+  \]
+
+  \item \textbf{En \(\mathbb{R}^n\): normas \(p\)}
+
+  Sea \(x = (x_1, x_2, \dots, x_n) \in \mathbb{R}^n\). Se definen distintas normas en función de su forma:
+
+  \begin{itemize}
+    \item \textbf{Norma uno (o norma \(L^1\)):}
+    \[
+      \left\lVert x \right\rVert_1 = \sum_{i=1}^{n} |x_i|
     \]
-    \item En el espacio vectorial \(\mathbb{R}^n(\mathbb{R})\), se definen:
-    \begin{itemize}
-      \item La función \hl{norma uno}: \(\left\lVert ~~\right\rVert _1 : \mathbb{R}^n \rightarrow \mathbb{R}\)\[
-        \left\lVert x\right\rVert _1 = \sum_{i=1}^{n} \left|x_i\right|
-      \]
-      \item La función \hl{norma dos}: \(\left\lVert ~~\right\rVert _2 : \mathbb{R}^n \rightarrow \mathbb{R}\) \[
-        \left\lVert x\right\rVert _2 = \sqrt{\sum_{i=1}^{n}x_i^2}
-      \]
-      \item La función \hl{norma p}: \(\left\lVert ~~\right\rVert _p : \mathbb{R}^n \rightarrow \mathbb{R}\) \[
-        \left\lVert x\right\rVert _p = \sqrt[p]{\sum_{i=1}^{n}x_i^p}
-      \]
-      \item La función \hl{norma infinito}: \(\left\lVert ~~\right\rVert _\infty : \mathbb{R}^n \rightarrow \mathbb{R}\) \[
-        \left\lVert x\right\rVert _\infty = \max \left\{\left|x_i\right|; ~~ i = 1,2,\cdots,n\right\}
-      \]
-    \end{itemize}
-    \item Sea el espacio vectorial \(C_{\left[a,b\right]} (\mathbb{R})\), el espacio vectorial de las funciones continuas definidas en un intervalo real \([a,b]\), se definen:
-    \begin{itemize}
-      \item La función \hl{norma dos}: \(\left\lVert ~~\right\rVert _2 : C_{[a,b]} \rightarrow \mathbb{R}\) \[
-        \left\lVert f\right\rVert _2 = \sqrt{\int_{a}^{b}f^2 ~~ dx}
-      \]
-      \item La función \hl{norma infinito}: \(\left\lVert ~~\right\rVert _\infty : C_{[a,b]} \rightarrow \mathbb{R}\) \[
-        \left\lVert f\right\rVert _\infty = \max \left\{\left|f(x)\right|; ~~ x \in [a,b]\right\}
-      \]
-    \end{itemize}
-    \item Normas matriciales:
-    \begin{itemize}
-      \item La \hl{norma matricial a uno}: \(\left\lVert A\right\rVert _1 = \max _j \sum_{i_1}^{n} \left|a_{ij}\right|\), es el máximo de la suma de los coeficientes de las columnas en valor absoluto.
-      \item La \hl{norma matricial infinito}: \(\left\lVert A\right\rVert _\infty = \max _i \sum_{j=1}^{n}\left|a_{ij}\right|\), es el máximo de la suma de los coeficientes del renglón o filas e valor absoluto.
-      \item La \hl{norma matricial a dos}: \(\left\lVert A\right\rVert _2 = \sqrt{\max_{1\leq k \leq n}{(\lambda_k)}}\), siendo \(\lambda_k\) los valores propios de la matriz \(A \cdot A^T\). 
-      \item La \hl{norma de Frobenius}: \(\left\lVert A\right\rVert _F = \sqrt{\sum_{i,k=1}^{n} a_{i,k}^2}\)
-    \end{itemize}
-  \end{enumerate}
-\end{quote}
+
+    \item \textbf{Norma dos (o euclídea, o \(L^2\)):}
+    \[
+      \left\lVert x \right\rVert_2 = \sqrt{\sum_{i=1}^{n} x_i^2}
+    \]
+
+    \item \textbf{Norma \(p\) (para \(p \geq 1\)):}
+    \[
+      \left\lVert x \right\rVert_p = \left( \sum_{i=1}^{n} |x_i|^p \right)^{\frac{1}{p}}
+    \]
+
+    \item \textbf{Norma infinito (o \(L^\infty\)):}
+    \[
+      \left\lVert x \right\rVert_\infty = \max \{ |x_i| : 1 \leq i \leq n \}
+    \]
+  \end{itemize}
+
+  \item \textbf{En \(C([a,b])\): funciones continuas en un intervalo}
+
+  Sea \(f \in C([a,b])\), es decir, una función continua definida sobre \([a,b]\). Se definen:
+
+  \begin{itemize}
+    \item \textbf{Norma \(L^2\):}
+    \[
+      \left\lVert f \right\rVert_2 = \sqrt{ \int_a^b f(x)^2 \, dx }
+    \]
+
+    \item \textbf{Norma supremo (o norma \(L^\infty\)):}
+    \[
+      \left\lVert f \right\rVert_\infty = \max_{x \in [a,b]} |f(x)|
+    \]
+  \end{itemize}
+
+  \item \textbf{Normas matriciales}
+
+  Sea \(A = (a_{ij}) \in \mathbb{R}^{n \times n}\). Se definen:
+
+  \begin{itemize}
+    \item \textbf{Norma matricial uno:}
+    \[
+      \left\lVert A \right\rVert_1 = \max_{1 \leq j \leq n} \sum_{i=1}^{n} |a_{ij}|
+    \]
+    Es el máximo valor absoluto de las sumas por columnas.
+
+    \item \textbf{Norma matricial infinito:}
+    \[
+      \left\lVert A \right\rVert_\infty = \max_{1 \leq i \leq n} \sum_{j=1}^{n} |a_{ij}|
+    \]
+    Es el máximo valor absoluto de las sumas por filas.
+
+    \item \textbf{Norma matricial dos:}
+    \[
+      \left\lVert A \right\rVert_2 = \sqrt{ \lambda_{\max} }
+    \]
+    donde \(\lambda_{\max}\) es el mayor valor propio de \(A^T A\). Esta norma es inducida por la norma euclídea.
+
+    \item \textbf{Norma de Frobenius:}
+    \[
+      \left\lVert A \right\rVert_F = \sqrt{ \sum_{i=1}^{n} \sum_{j=1}^{n} a_{ij}^2 }
+    \]
+    Coincide con la norma euclídea sobre el espacio \(\mathbb{R}^{n^2}\).
+  \end{itemize}
+
+\end{enumerate}
 
 \subsubsection{Norma y distancia}
 
@@ -93,139 +156,227 @@ Siempre es posible definir una distancia inducida por una función norma tal que
 \]
 Por lo tanto, todo \textbf{espacio normado}, es también \textbf{espacio métrico}.
 
-\subsection{Producto interior (Producto escalar)}
+\subsection{Producto interior (producto escalar)}
 
 \subsubsection{En un espacio vectorial real \(V(\mathbb{R})\)}
 
-En todo espacio vectorial \(V(\mathbb{R})\) es posible definir una función tal que a cada par de vectores le asigne un número real, cumpliendo ciertos requisitos, esta función recibe el nombre de \textbf{producto escalar} o producto interior.
+Sea \(V(\mathbb{R})\) un espacio vectorial sobre el cuerpo \(\mathbb{R}\). Se denomina \textbf{producto escalar} (o \textbf{producto interior}) a una aplicación que asigna a cada par de vectores un número real, cumpliendo ciertas propiedades:
 \begin{align*}
-  \left\langle ~\right\rangle  : V \times V &\rightarrow \mathbb{R} \\
-  (u,v) & \rightarrow \left\langle u, v\right\rangle 
+  \left\langle \cdot, \cdot \right\rangle : V \times V &\longrightarrow \mathbb{R} \\
+  (u,v) &\longmapsto \left\langle u, v \right\rangle
 \end{align*}
-Condiciones: Para todo \(u\), para todo \(v\) y para todo \(w\) del espacio \(V\):
+Para todos \(u, v, w \in V\) y para todo escalar \(t \in \mathbb{R}\), el producto escalar debe verificar:
+
 \begin{itemize}
-  \item \(\left\langle u,u \right\rangle \geq 0 ~ \land ~ \left(\left\langle u,u\right\rangle = 0 \Longleftrightarrow u = \vec{0}\right)\)
-  \item \(\left\langle u,v\right\rangle = \left\langle v, u\right\rangle\)
-  \item \(\left\langle u, v+w\right\rangle = \left\langle u,v\right\rangle + \left\langle u,w\right\rangle\)
-  \item \(\left\langle u, t\cdot v\right\rangle = t \left\langle u,v\right\rangle \quad\) para cualquier \(t\in \mathbb{R}\) 
+  \item \textbf{Positividad:} \(\left\langle u, u \right\rangle \geq 0\), y \(\left\langle u, u \right\rangle = 0 \iff u = \vec{0}\)
+  \item \textbf{Simetría:} \(\left\langle u, v \right\rangle = \left\langle v, u \right\rangle\)
+  \item \textbf{Linealidad en la segunda variable:}
+  \[
+    \left\langle u, v + w \right\rangle = \left\langle u, v \right\rangle + \left\langle u, w \right\rangle
+    \quad \text{y} \quad
+    \left\langle u, t v \right\rangle = t \left\langle u, v \right\rangle
+  \]
 \end{itemize}
-Definida esta función producto escalar sobre \(V\), decimos que \(\left(V, \left\langle ~ \right\rangle \right)\) es un espacio \textbf{pre-hilbertiano}.
 
-\paragraph{Consecuencia de la definición}
+Cuando un producto escalar está definido sobre el espacio vectorial \(V\), al par \(\left(V, \left\langle \cdot, \cdot \right\rangle\right)\) se lo denomina un \textbf{espacio prehilbertiano}.
+
+\paragraph{Consecuencias de la definición}
 \[
-\left\langle u,v\right\rangle = 0 \qquad \text{entonces los vectores son ortogonales} 
+\left\langle u, v \right\rangle = 0 \quad \Rightarrow \quad \text{los vectores \(u\) y \(v\) son ortogonales}
 \]
-s
-\begin{quote}
-  \ejemplo{ Algunos ejemplos de producto interior:}
-  \begin{enumerate}
-    \item Sea el espacio vectorial \(\mathbb{R}^n (\mathbb{R})\), definimos el producto interior o producto escalar usual:
-    \[
-      \left\langle u,v\right\rangle = \sum_{i=1}^{n} u_i ~ v_i 
-    \]
-    \item Sea el espacio \(\mathbb{R}^2(\mathbb{R})\), para \(u = (x,y),~ v=(x',y')\), definimos el producto escalar:
-    \[
-      \left\langle u,v\right\rangle = x\cdot x' - y\cdot x' - x \cdot y' + 4 (y\cdot y') 
-    \]
-    \item En el espacio \(P_n (\mathbb{R})\) de los polinomios de grado menor o igual a \(n\):
-    \[
-      \left\langle u,v \right\rangle = \int_{0}^{1} u(x) ~ v(x) ~~ dx 
-    \]
-    \item En el espacio vectorial \(M_{n\times n} (\mathbb{R})\), de las matrices cuadradas de orden \(n\):
-    \[
-      \left\langle A, B\right\rangle = \text{tr} (B^T \cdot A) 
-    \]
-  \end{enumerate} 
-\end{quote}
 
-\subsubsection{Norma y distacia inducidas por el producto interior}
+\ejemplo{ Algunos productos interiores}
 
-Siempre es posible definir una norma inducida por el producto escalar:
+\begin{enumerate}
+  \item \textbf{Producto escalar usual en \(\mathbb{R}^n\):}
+
+  Sea \(u = (u_1, \dots, u_n)\) y \(v = (v_1, \dots, v_n)\), se define:
+  \[
+    \left\langle u, v \right\rangle = \sum_{i=1}^{n} u_i v_i
+  \]
+
+  \item \textbf{Producto escalar no usual en \(\mathbb{R}^2\):}
+
+  Para \(u = (x, y)\), \(v = (x', y')\), definimos:
+  \[
+    \left\langle u, v \right\rangle = x x' - y x' - x y' + 4 y y'
+  \]
+  Este producto escalar es válido si cumple las propiedades definitorias.
+
+  \item \textbf{Producto escalar en el espacio \(P_n(\mathbb{R})\):}
+
+  Para polinomios reales de grado menor o igual a \(n\):
+  \[
+    \left\langle u, v \right\rangle = \int_0^1 u(x) v(x) \, dx
+  \]
+
+  \item \textbf{Producto escalar en el espacio \(M_{n \times n}(\mathbb{R})\):}
+
+  Para matrices reales cuadradas de orden \(n\):
+  \[
+    \left\langle A, B \right\rangle = \mathrm{tr}(B^T A)
+  \]
+  donde \(\mathrm{tr}(\cdot)\) denota la traza de una matriz.
+\end{enumerate}
+
+\subsubsection{Norma y distancia inducidas por el producto interior}
+
+Todo producto interior induce una norma sobre el espacio vectorial \(V\), definida por:
 \[
-\left\lVert u\right\rVert = + \sqrt{\left\langle u,u\right\rangle } 
+\left\lVert u \right\rVert = \sqrt{ \left\langle u, u \right\rangle }
 \]
-Por lo cual todo \textbf{espacio pre-hilbertiano} es también \textbf{espacio normado}.
+Por lo tanto, todo \textbf{espacio prehilbertiano} es también un \textbf{espacio normado}.
 
-Siempre es posible definir una distancia inducida por un producto escalar y su norma inducida:
+Además, esta norma induce una distancia (o métrica) sobre \(V\), dada por:
 \[
-  d(u,v) = \left\lVert u-v\right\rVert = + \sqrt{\left\langle u-v, u-v\right\rangle } 
+d(u, v) = \left\lVert u - v \right\rVert = \sqrt{ \left\langle u - v, u - v \right\rangle }
 \]
-Por lo cual todo \textbf{espacio pre-hilbertiano} es también un \textbf{espacio métrico}
+Por lo tanto, todo \textbf{espacio prehilbertiano} es también un \textbf{espacio métrico}.
 
-\subsection{Espacios Complejos con producto interno}
+\subsection{Espacios complejos con producto interno}
 
-Sea \(V\) un espacio vectorial sobre el cuerpo \(K=\mathbb{C}\) de números complejos, se define la función producto interior sobre \(\mathbb{C}\), que a cada par de vectores le asigna un número complejo:
+Sea \(V\) un espacio vectorial sobre el cuerpo \(\mathbb{C}\) de los números complejos. Se denomina \textbf{producto interior} (o \textbf{producto hermítico}) a una función que asigna a cada par de vectores un número complejo, cumpliendo ciertas propiedades fundamentales:
+
 \begin{align*}
-  \left\langle ~ \right\rangle : V \times V &\rightarrow \mathbb{C} \\
-  (u,v) &\rightarrow \left\langle u,v\right\rangle 
+  \left\langle \cdot , \cdot \right\rangle : V \times V &\longrightarrow \mathbb{C} \\
+  (u, v) &\longmapsto \left\langle u, v \right\rangle
 \end{align*}
-Que cumple las siguientes propiedades:
+
+Para todo \(u, v, w \in V\) y \(t \in \mathbb{C}\), se deben cumplir las siguientes propiedades:
+
 \begin{itemize}
-  \item \(\left\langle u, v+w\right\rangle = \left\langle u,v\right\rangle + \left\langle v,w\right\rangle\)
-  \item \(\left\langle t \cdot u, v\right\rangle = \bar{t} \cdot \left\langle u,v\right\rangle \quad\) donde \(t\in \mathbb{C}\) y \(\bar{t}\) es su conjugado.
-  \item \(\left\langle u,v\right\rangle = \overline{\left\langle v,u\right\rangle} \quad\) (conjugado de \(\left\langle u,v\right\rangle\))
-  \item \(\left\langle u,u\right\rangle \geq 0 \land \left\langle u,u\right\rangle = 0 \Longleftrightarrow u=\vec{0}\)
+  \item \textbf{Linealidad en la segunda variable:}
+  \[
+    \left\langle u, v + w \right\rangle = \left\langle u, v \right\rangle + \left\langle u, w \right\rangle
+  \]
+  \item \textbf{Conjugación en la primera variable:}
+  \[
+    \left\langle t \cdot u, v \right\rangle = \overline{t} \cdot \left\langle u, v \right\rangle
+  \]
+  \item \textbf{Hermiticidad:}
+  \[
+    \left\langle u, v \right\rangle = \overline{ \left\langle v, u \right\rangle }
+  \]
+  \item \textbf{Positividad definida:}
+  \[
+    \left\langle u, u \right\rangle \in \mathbb{R}, \quad \left\langle u, u \right\rangle \geq 0, \quad \text{y} \quad \left\langle u, u \right\rangle = 0 \iff u = \vec{0}
+  \]
 \end{itemize}
-Este producto escalar se denomina ``\textbf{producto hermítico}''
 
-Definida esta función producto interior sobre el espacio complejo \(V(\mathbb{C})\), decimos que \(V, \left\langle ~ \right\rangle\) es un \textbf{espacio unitario}.
+Definido un producto interior que cumple estas propiedades, al par \(\left(V, \left\langle \cdot , \cdot \right\rangle\right)\) se lo denomina un \textbf{espacio unitario}.
 
-\begin{quote}
-  \ejemplo{ Algunos ejemplos de producto interior sobre \(\mathbb{C}\)}:
-  \begin{enumerate}
-    \item Sea el espacio complejo \(\mathbb{C}^n (\mathbb{C})\), para \(u=(x_1, \cdots , x_n), ~ v=(x'_1, \cdots, x'_n)\), se define el \textbf{producto interno canónico}:
-    \[
-      \left\langle u,v\right\rangle = x_1 \cdot \bar{x}'_1 + \cdots + x_n \cdot \bar{x}'_n
-    \]
-    \item Sea \(C^*_{[a,b]}\) el espacio de las funciones definidas en el intervalo \([a,b]\) con valores complejos, es decir, cada función es de la forma: \(f(t)=f_1(t)+if_2(t)\), donde \(f_1(t)\) y \(f_2(t)\) pertenece a \(C_{[a,b]}\), se define el producto interior:
-    \[
-      \left\langle f, g\right\rangle = \int_{a}^{b} f(t) ~\overline{g(t)} ~~ dt 
-    \]
-    \item En el espacio \(M_n (C)\) de matrices cuadradas complejas de orden \(n\geq 1\), se define el producto interior canónico dado por:
-    \[
-      \left\langle A,B\right\rangle = \sum_{i,j=1}^{n} a_{ij} ~ \bar{b}_{ij} 
-    \]
-  \end{enumerate}
-\end{quote}
-La mayoría de las propiedades de los espacios pre-hilbertianos se mantienen para los espacios unitarios.
+\ejemplo{Ejemplos de producto interior sobre \(\mathbb{C}\):}
 
-Siempre es posible definir una función norma inducida por un producto hermítico, del mismo modo que en el espacio real:
+\begin{enumerate}
+  \item \textbf{Producto interior canónico en \(\mathbb{C}^n\):}
+
+  Para \(u = (x_1, \dots, x_n)\) y \(v = (x'_1, \dots, x'_n)\), se define:
+  \[
+    \left\langle u, v \right\rangle = x_1 \cdot \overline{x'_1} + \cdots + x_n \cdot \overline{x'_n}
+    = \sum_{k=1}^{n} x_k \cdot \overline{x'_k}
+  \]
+
+  \item \textbf{Producto interior en el espacio \(C^*_{[a,b]}\):}
+
+  Sea \(C^*_{[a,b]}\) el conjunto de funciones continuas con valores complejos definidas en \([a,b]\), es decir:
+  \[
+    f(t) = f_1(t) + i f_2(t), \quad \text{con } f_1, f_2 \in C_{[a,b]}(\mathbb{R})
+  \]
+  El producto interior se define como:
+  \[
+    \left\langle f, g \right\rangle = \int_{a}^{b} f(t) \cdot \overline{g(t)} \, dt
+  \]
+
+  \item \textbf{Producto interior en \(M_n(\mathbb{C})\):}
+
+  Sea \(M_n(\mathbb{C})\) el espacio de matrices complejas cuadradas de orden \(n\). Se define:
+  \[
+    \left\langle A, B \right\rangle = \sum_{i,j=1}^{n} a_{ij} \cdot \overline{b_{ij}} 
+  \]
+  Este producto también puede expresarse como:
+  \[
+    \left\langle A, B \right\rangle = \mathrm{tr}(B^* A)
+  \]
+  donde \(B^*\) denota la matriz adjunta de \(B\) (conjugada transpuesta).
+\end{enumerate}
+
+Una gran parte de las propiedades de los espacios prehilbertianos se extiende naturalmente a los espacios unitarios.
+
+\paragraph{Norma y distancia inducidas por el producto hermítico}
+
+Como en el caso real, todo producto hermítico induce una norma sobre el espacio \(V\):
 \[
-  d(w_1, w_2) = \left\lVert (w_1 + w_2)\right\rVert = + \sqrt{\left\langle (w_1 - w_2), (w_1 - w_2)\right\rangle } 
+  \left\lVert u \right\rVert = \sqrt{ \left\langle u, u \right\rangle } \quad \in \mathbb{R}_{\geq 0}
 \]
-Siempre teniendo en cuenta que la distancia asigna siempre un numero real, por lo tanto, en los espacios unitarios también se verifica esa condición.
+
+A partir de esta norma, se puede definir una función distancia (o métrica) mediante:
+\[
+  d(u, v) = \left\lVert u - v \right\rVert = \sqrt{ \left\langle u - v, u - v \right\rangle }
+\]
+
+Esta distancia es siempre un número real no negativo, por lo que todo \textbf{espacio unitario} es también un \textbf{espacio métrico}.
 
 \subsection{Bases ortogonales y ortonormadas}
 
 \subsubsection{Vectores y bases ortogonales}
 
-Sea \(V(K)\) un espacio vectorial, en el que se ha definido un producto escalar, y resulta que para un par cualquiera de vectores, \(u,v\) de \(V\) el producto escalar es nulo, entonces esos vectores son ortogonales.
+Sea \(V(K)\) un espacio vectorial en el que se ha definido un producto interior. Dados \(u, v \in V\), si
 \[
-(u \in V ~ \land ~ v \in V) \land \left\langle u,v\right\rangle = 0 \quad \rightarrow \quad \text{Los vectores son ortogonales}
+\left\langle u, v \right\rangle = 0,
 \]
-\textbf{Nota}: El vector nulo es ortogonal a cualquier vector \(u\) de \(V\).
+entonces los vectores \(u\) y \(v\) se dicen \textbf{ortogonales}.
 
-Una familia de vectores de \(V:F=\left\{u_1,u_2,\cdots, u_n\right\}\) es un \textbf{conjunto ortogonal} si para todo par de vectores distintos de \(F\) se verifica que son ortogonales, es decir, que todos los vectores del conjunto \(F\) son ortogonales entre sí.
-\[
-F ~ \text{es conjunto ortogonal} ~ \Longleftrightarrow ~ \left(\forall (u_i,v_i)\in V^2\right) | i \neq j : \left\langle u_i, u_j\right\rangle = 0 
-\]
-Una familia \(F\) de vectores de \(V\) que sea base de dicho espacio vectorial y también conjunto ortogonal, se denomina \textbf{base ortogonal}.
+\textbf{Nota:} El vector nulo \(\vec{0}\) es ortogonal a todo vector de \(V\).
 
-\subsubsection{Vectores y bases normados}
-
-Sea \(V(K)\) un espacio vectorial en el cual se ha definido una norma, si resulta que para algún vector \(u\) de \(V\) se verifica que su norma es la unidad, ese vector se denomina normado.
+Una familia de vectores \(F = \{u_1, u_2, \dots, u_n\}\) se denomina un \textbf{conjunto ortogonal} si:
 \[
-  u \in V ~ \land ~ \left\lVert u\right\rVert = 1 \quad \rightarrow \quad u~\text{es un vector normado}
-\]
-Como vimos un vector que no es normado es posible normalizarlo, siempre y cuando no sea el vector nulo, de la siguiente manera:
-\[
-  \left\lVert u\right\rVert \neq 1 \land u \neq 0 \implies u' = \frac{1}{\left\lVert u\right\rVert} \cdot u \quad \rightarrow \quad \text{es un vector normado}
+\left\langle u_i, u_j \right\rangle = 0 \quad \text{para todo } i \neq j
 \]
 
-Si \(F\) es una familia de vectores de \(V:F={u_1,u_2,\cdots,u_n}\) en la cual todos sus vectores son normados, \(F\) se denomina \textbf{conjunto normado}.
-\[
-  F ~ \text{es conjunto normado} \quad \Longleftrightarrow \quad \left(\forall u_i \in F\right): \left\lVert u_i\right\rVert = 1 
-\]
-Si la familia \(F\) es conjunto normado y además es una base de \(V\) se denomina \textbf{base normada}.
+Si además el conjunto \(F\) es una base del espacio \(V\), entonces se dice que \(F\) es una \textbf{base ortogonal}.
 
-\textbf{Nota}: si una familia de vectores de \(V\) es base ortogonal y normada se denomina \textbf{base ortonormada}.
+\subsubsection{Vectores y bases normalizados}
+
+Sea \(V(K)\) un espacio vectorial provisto de una norma. Un vector \(u \in V\) se dice \textbf{normalizado} o \textbf{unitario} si su norma es igual a uno:
+\[
+\left\lVert u \right\rVert = 1
+\]
+
+Todo vector no nulo puede ser normalizado mediante:
+\[
+u' = \frac{u}{\left\lVert u \right\rVert}, \quad \text{de modo que } \left\lVert u' \right\rVert = 1
+\]
+
+Una familia de vectores \(F = \{u_1, u_2, \dots, u_n\}\) se dice un \textbf{conjunto normalizado} si:
+\[
+\left\lVert u_i \right\rVert = 1 \quad \text{para todo } i
+\]
+
+Si además el conjunto \(F\) es una base del espacio \(V\), se dice que \(F\) es una \textbf{base normalizada}.
+
+\subsubsection{Bases ortonormadas}
+
+Una familia de vectores de \(V\) que sea simultáneamente ortogonal y normalizada se denomina \textbf{ortonormada}. Es decir:
+\[
+\left\langle u_i, u_j \right\rangle = 
+\begin{cases}
+1 & \text{si } i = j \\
+0 & \text{si } i \neq j
+\end{cases}
+\]
+
+Si esta familia constituye además una base de \(V\), entonces se dice que es una \textbf{base ortonormada}.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{c|c|c}
+    \textbf{Tipo de base} & \textbf{Vectores ortogonales} & \textbf{Vectores normalizados} \\
+    \hline
+    Arbitraria & No necesariamente & No necesariamente \\
+    Ortogonal & Sí: \(\left\langle u_i, u_j \right\rangle = 0\) si \(i \neq j\) & No necesariamente \\
+    Ortonormal & Sí: \(\left\langle u_i, u_j \right\rangle = 0\) si \(i \neq j\) & Sí: \(\left\lVert u_i \right\rVert = 1\) \\
+  \end{tabular}
+  \caption{Comparación entre bases en espacios con producto interior}
+\end{table}
+
+Una base ortonormal es el caso más estructurado: los vectores son mutuamente ortogonales y además tienen norma unitaria. Toda base ortonormal es ortogonal, pero no toda base ortogonal está normalizada.
