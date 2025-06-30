@@ -311,23 +311,120 @@ Las componentes del vector \(u+v\) son las suma de las componentes de \(u\) más
     k \cdot a_1 \\ k \cdot a_2 \\ \vdots \\ k \cdot a_m
   \end{pmatrix}
 \end{align*}
+Es decir, si tienes dos vectores expresados en coordenadas relativas a una base:
+\[
+u = a_1 u_1 + \dots + a_m u_m,\quad
+v = b_1 u_1 + \dots + b_m u_m,
+\]
+Entonces las coordenadas relativas del vector \(u + v\) son:
+\[
+(u+v)_B = (a_1 + b_1,\; a_2 + b_2,\; \dots,\; a_m + b_m)
+\]
+Y si multiplicas \(u\) por un escalar \(k\), las coordenadas se escalan:
+\[
+(k\cdot u)_B = (k a_1,\; k a_2,\; \dots,\; k a_m)
+\]
+Esto es una consecuencia directa de la linealidad del espacio vectorial: suma y producto por escalar se reflejan componente a componente.
+
+\begin{quote}
+  \ejemplo{ Supongamos que tienes un espacio vectorial \(V(K)\), por ejemplo \(V = \mathbb{R}^2\), y eliges una base \(B = \{u_1, u_2\}\), donde los vectores \(u_1\) y \(u_2\) son linealmente independientes.}
+
+  Entonces, cualquier vector \(v \in \mathbb{R}^2\) puede escribirse de forma única como combinación lineal:
+  \[
+  v = a_1 u_1 + a_2 u_2
+  \]
+  Los escalares \(a_1\) y \(a_2\) se llaman coordenadas del vector \(v\) relativas a la base \(B\). Veamos un ejemplo concreto.
+
+  Tomemos una base no canónica de \(\mathbb{R}^2\):
+  \[
+  B = \left\{ u_1 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}, \quad
+  u_2 = \begin{pmatrix} -1 \\ 2 \end{pmatrix} \right\}
+  \]
+  Y el vector:
+  \[
+  v = \begin{pmatrix} 2 \\ 5 \end{pmatrix}
+  \]
+  Queremos expresar \(v\) como combinación lineal de \(u_1\) y \(u_2\):
+  \[
+  v = a_1 u_1 + a_2 u_2
+  \]
+  Sustituyendo:
+  \[
+  \begin{pmatrix} 2 \\ 5 \end{pmatrix}
+  =
+  a_1 \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+  + a_2 \begin{pmatrix} -1 \\ 2 \end{pmatrix}
+  =
+  \begin{pmatrix} a_1 - a_2 \\ a_1 + 2a_2 \end{pmatrix}
+  \]
+  Entonces, debemos resolver el sistema:
+  \[
+  \begin{cases}
+  a_1 - a_2 = 2 \\
+  a_1 + 2a_2 = 5
+  \end{cases}
+  \]
+  Resolviendo:
+  \begin{itemize}
+    \item De la primera: \(a_1 = 2 + a_2\)
+    \item Sustituyendo en la segunda:
+    \[
+    (2 + a_2) + 2a_2 = 5 \quad\Rightarrow\quad 2 + 3a_2 = 5 \quad\Rightarrow\quad a_2 = 1,\; a_1 = 3
+    \]
+  \end{itemize}
+  Entonces,
+  \[
+  v = 3u_1 + 1u_2
+  \quad\Longrightarrow\quad
+  (v)_B = \begin{pmatrix} 3 \\ 1 \end{pmatrix}
+  \]
+  Esto significa que respecto de la base \(B\), el vector \(v\) se representa mediante las coordenadas \((3, 1)\), aunque geométricamente sigue siendo el mismo vector \(\begin{pmatrix} 2 \\ 5 \end{pmatrix}\) en el plano.
+\end{quote}
+
+\begin{tcolorbox}
+  Cuando dices que un vector tiene coordenadas relativas a una base \(B\), estás indicando cómo se escribe ese vector como combinación lineal de los vectores de la base \(B\). Esta representación depende totalmente de la base elegida, y por eso el mismo vector puede tener coordenadas distintas en diferentes bases.
+\end{tcolorbox}
 
 \subsubsection{Cambio de base}
+
+\paragraph{¿Qué significa cambiar de base?}
+
+En un espacio vectorial como \(\mathbb{R}^2\), cada vector \(w\) puede escribirse de muchas maneras geométricas, pero algebraicamente su representación depende de la base que uses.
 
 Lo desarrollaremos para un espacio vectorial de dimensión 2 y luego lo generalizaremos a un espacio de dimensión finita \textit{n}.
 
 \paragraph{Cambio de base en \(\mathbb{R}^2\)}
 
-Sea \(V(K)\) un espacio vectorial y \(F_1 = \left\{u_1, u_2\right\}\) y \(F_2 = \left\{v_1, v_2\right\}\) dos bases de \(V\), un vector \(w\) de \(V\) se expresa de manera única en \(F_1\) y de manera única en \(F_2\):
+Sea \(V(K)\) un espacio vectorial y \(F_1 = \left\{u_1, u_2\right\}\) y \(F_2 = \left\{v_1, v_2\right\}\) dos bases de \(V\), un vector \(w\) de \(V\) se expresa de manera única en \(F_1\) y de manera única en \(F_2\).
+
+Entonces, las dos bases de \(\mathbb{R}^2\) son:
+\begin{itemize}
+  \item \(F_1 = \{u_1, u_2\}\)
+  \item \(F_2 = \{v_1, v_2\}\)
+\end{itemize}
+Cada vector \(w\in \mathbb{R}^2\) tiene una única representación lineal respecto de cada base:
+\[
+w = \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2
+\]
+Entonces:
+\begin{itemize}
+  \item El vector columna \(\begin{pmatrix} \alpha_1 \\ \alpha_2 \end{pmatrix}\) representa a \(w\) en la base \(F_1\).
+  \item El vector columna \(\begin{pmatrix} \beta_1 \\ \beta_2 \end{pmatrix}\) representa a \(w\) en la base \(F_2\).
+\end{itemize}
+El objetivo es pasar de una representación a otra, es decir, dado el vector \(w\) expresado en la base \(F_2\), ¿cómo se obtiene su representación en la base \(F_1\)? Y viceversa.
+
+Para esto, se usa la relación entre las bases. Si conoces cómo se expresan los vectores de \(F_2\) (es decir, \(v_1\) y \(v_2\)) en la base \(F_1\), puedes construir la llamada matriz de cambio de base o matriz de pasaje.
+
+Como sabemos cómo expresar un vector \(w\) en \(F_1\) y en \(F_2\), vemos que
 \begin{gather*}
   (w)_{F1} = \alpha_1 u_1 + \alpha_2 u_2 = \begin{pmatrix}
     \alpha_1 \\ \alpha_2
   \end{pmatrix} \qquad (w)_{F2} = \beta_1 v_1 + \beta_2 v_2 = \begin{pmatrix}
     \beta_1 \\ \beta_2
-  \end{pmatrix} \\[3pt]
+  \end{pmatrix} \\[5pt]
   w = \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2
 \end{gather*}
-Si se sabe que las componentes de los vectores de \(F_2\) en la base de \(F_1\) son: 
+Si los vectores \(v_1\) y \(v_2\) de la base \(F_2\) se escriben como combinaciones lineales de la base \(F_1 = \{u_1, u_2\}\):
 \[
   v_1 = \begin{pmatrix}
     a_{11} \\ a_{21}
@@ -335,22 +432,35 @@ Si se sabe que las componentes de los vectores de \(F_2\) en la base de \(F_1\) 
     a_{12} \\ a_{22}
   \end{pmatrix} = a_{12} u_1 + a_{22} u_2
 \]
-Es posible relacionar ambas expresiones de \(w\):
-\begin{align*}
-  w &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 v_1 + \beta_2 v_2 = \beta_1 \begin{pmatrix}
-    a_{11} \\ a_{21}
-  \end{pmatrix} + \beta_2 \begin{pmatrix}
-    a_{12} \\ a_{22}
-  \end{pmatrix} \\
-  &= \beta_1 (a_{11} u_1 + a_{21}u_2) + \beta_2 (a_{12}u_1 + a_{22}u_2)\\[5pt]
-  w &= \alpha_1 u_1 + \alpha_2 u_2 = \beta_1 a_{11} u_1 + \beta_1 a_{21} u_2 + \beta_2 a_{12}u_1 + \beta_2 a_{22}u_2\\
-  &= (a_{11}\beta_1 + \beta_2 a_{12}) u_1 + (\beta_1 a_{21} + \beta_2 a_{22}) u_2
-\end{align*}
-Por igualación podemos decir que:
-\begin{align*}
-  \alpha_1 &= \beta_1 a_{11} + \beta_2 a_{12} \\ 
-  \alpha_2 &= \beta_1 a_{21} + \beta_2 a_{22}
-\end{align*}
+entonces podemos escribir el vector \(w\) como:
+\[
+w = \beta_1 v_1 + \beta_2 v_2 = \beta_1(a_{11}u_1 + a_{21}u_2) + \beta_2(a_{12}u_1 + a_{22}u_2),
+\]
+agrupando términos:
+\[
+w = (\beta_1 a_{11} + \beta_2 a_{12}) u_1 + (\beta_1 a_{21} + \beta_2 a_{22}) u_2,
+\]
+y comparando con la expresión \(w = \alpha_1 u_1 + \alpha_2 u_2\), se deduce que:
+\[
+\begin{cases}
+\alpha_1 = \beta_1 a_{11} + \beta_2 a_{12} \\
+\alpha_2 = \beta_1 a_{21} + \beta_2 a_{22}
+\end{cases}
+\quad\Longrightarrow\quad
+\begin{pmatrix}
+\alpha_1 \\
+\alpha_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{pmatrix}
+\begin{pmatrix}
+\beta_1 \\
+\beta_2
+\end{pmatrix}
+\]
 Que es un sistema de dos ecuaciones con dos incógnitas, con solución única, ya que dijimos que cada vector se expresa de manera única en cada base. Resolver el sistema equivale a hallar las componentes de \(w\) en \(F_2\) a partir de \(F_1\) o viceversa.
 
 En forma matricial lo podemos expresar así:
@@ -364,9 +474,28 @@ En forma matricial lo podemos expresar así:
     \beta_1 \\ \beta_2
   \end{pmatrix}
 \end{align*}
-Donde \(X\) contiene a las componentes de \(w\) en \(F_1\), \(P\) contiene en cada columna a las componentes de los vectores de \(F_2\), y se le denomina matriz de pasaje, y \(X'\) contiene a las componentes de \(w\) en \(F_2\).
+Entonces se define la \hl{matriz de pasaje} de \(F_2\) a \(F_1\) como:
+\[
+P = 
+\begin{pmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{pmatrix}
+\]
+donde cada columna de \(P\) contiene las coordenadas de un vector de \(F_2\) expresado en la base \(F_1\), en este caso \((v_1)_{F1} = (a_{11}, a_{21})\) y \((v_2)_{F1} = (a_{12}, a_{22})\).
 
-Lo visto se generaliza a un espacio vectorial de dimensión finita \(n\).
+\newpage
+
+\paragraph{¿Y para ir de \(F_1\) a \(F_2\)?}
+
+Si quisieras obtener las coordenadas de \(w\) en \(F_2\) a partir de las coordenadas en \(F_1\), simplemente debes invertir la matriz:
+\[
+X' = P^{-1} \cdot X
+\]
+
+\paragraph{Generalización}
+
+Todo esto se extiende sin dificultad a espacios \(K^n\) de dimensión mayor a 2: las matrices de pasaje serán de tamaño \(n\times n\), y cumplirán la misma lógica: cada columna de la matriz contiene un vector de una base expresado en la otra base.
 
 \subsection{Subespacio vectorial}
 
