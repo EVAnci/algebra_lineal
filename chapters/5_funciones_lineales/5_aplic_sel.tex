@@ -1,0 +1,43 @@
+\subsection{Aplicación a los sistemas de ecuaciones lineales I}
+\label{sec:appl_sels_1}
+
+\begin{tcolorbox}[remember, title=Aclaración]
+  En este apartado se verá una introducción con los conocimientos que se tienen, sobre cómo se aplican las transformaciones lineales a los SEL's. Más adelante veremos la segunda parte después de abordar otros conceptos fundamentales.
+\end{tcolorbox}
+
+Consideremos un sistema de \(m\) ecuaciones lineales con \(n\) incógnitas sobre un cuerpo \(K\):
+\begin{align*}
+  a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n &= b_1 \\
+  a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n &= b_2\\
+  \vdots  \qquad \qquad ~ & \\
+  a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n &= b_m
+\end{align*}
+Este sistema puede escribirse de forma matricial como:
+\[
+  A x = b
+\]
+donde \(A = (a_{ij})\) es la matriz de coeficientes del sistema, \(x = (x_i)\) es el vector columna de incógnitas, y \(b = (b_i)\) es el vector columna de constantes.
+
+La matriz \(A\), vista como una aplicación lineal
+\[
+  A: K^n \rightarrow K^m
+\]
+permite interpretar el sistema \(Ax = b\) como la búsqueda de un vector \(x \in K^n\) cuya imagen bajo \(A\) sea \(b\). Es decir, estamos buscando preimágenes de \(b\) bajo la transformación lineal definida por \(A\).
+
+En particular, el conjunto de soluciones del sistema homogéneo asociado \(Ax = 0\) coincide con el núcleo de la aplicación lineal \(A: K^n \to K^m\), es decir:
+\[
+  \text{Ker } A = \left\{ x \in K^n \mid Ax = 0 \right\}
+\]
+Aplicando el teorema del rango y la nulidad (teorema \ref{teo:teorema_dimensión_nucleo_imagen}), que establece que para toda aplicación lineal \(F: V \rightarrow U\) con \(V\) de dimensión finita:
+\[
+  \dim V = \dim(\text{Ker } F) + \dim(\text{Im } F)
+\]
+se obtiene, en este contexto particular, que:
+\[
+  \dim(\text{Ker } A) = \dim(K^n) - \dim(\text{Im } A) = n - \text{rango } A
+\]
+donde el rango de \(A\) coincide con la dimensión de la imagen de la transformación lineal asociada a la matriz \(A\).
+
+\begin{tcolorbox}[title=Interpretación]
+  La \textbf{nulidad} del sistema (número de parámetros libres en la solución del sistema homogéneo) está dada por la diferencia entre el número de incógnitas \(n\) y el rango de la matriz \(A\). Esta relación resulta especialmente útil para determinar la existencia y el número de soluciones, tanto del sistema homogéneo como del sistema no homogéneo.
+\end{tcolorbox}

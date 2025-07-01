@@ -1,0 +1,21 @@
+\subsection{Clasificación de las funciones lineales}
+\label{sec:clasificacion_de_funciones}
+
+Sea \( f: V(K) \rightarrow W(K) \) una función lineal entre espacios vectoriales sobre un cuerpo \( K \). Podemos clasificar a \( f \) según las siguientes propiedades:
+
+\begin{itemize}
+  \item \textbf{Monomorfismo}: \( f \) es inyectiva si \( f(v_1) = f(v_2) \Rightarrow v_1 = v_2 \).  
+  Por ejemplo, la función \( f(x) = x \) es inyectiva, mientras que \( f(x) = x^2 \) no lo es, ya que \( f(-1) = f(1) = 1 \).
+
+  \item \textbf{Epimorfismo}: \( f \) es sobreyectiva si su imagen es todo el codominio: \( \text{Im } f = W \).  
+  Por ejemplo, \( f: \mathbb{R} \to \mathbb{R} \), \( f(x) = x \), es sobreyectiva, ya que todo valor real se alcanza. En cambio, \( f(x) = e^x \) no lo es, ya que su imagen es \( (0, +\infty) \), no todo \( \mathbb{R} \).
+
+  \item \textbf{Isomorfismo}: \( f \) es biyectiva (inyectiva y sobreyectiva).  
+  Por ejemplo, \( f: \mathbb{R}^2 \to \mathbb{R}^2 \), \( f(x, y) = (x + y, x - y) \), es un isomorfismo. Su inversa también es lineal y se puede calcular explícitamente.
+
+  \item \textbf{Endomorfismo}: \( f: V \to V \) (el dominio y el codominio coinciden).  
+  Por ejemplo, la proyección \( f(x, y, z) = (x, y, 0) \) es un endomorfismo de \( \mathbb{R}^3 \), pero no es inyectiva ni sobreyectiva.
+
+  \item \textbf{Automorfismo}: endomorfismo que además es isomorfismo (inyectivo y sobreyectivo).  
+  Por ejemplo, \( f(x, y) = (x + y, x) \) es un automorfismo de \( \mathbb{R}^2 \); se puede verificar que es lineal y que tiene inversa.
+\end{itemize}

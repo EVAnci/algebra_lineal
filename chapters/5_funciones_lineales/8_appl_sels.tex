@@ -1,0 +1,223 @@
+\subsection{Aplicaciones a los sistemas de ecuaciones lineales II}
+
+En la sección \ref{sec:appl_sels_1} vimos una breve introducción acerca de cómo se plantea una aplicación lineal a un SEL. En esta sección profundizaremos más acerca de la resolución de sistemas de ecuaciones lineales a través de transformaciones lineales (o la aplicación lineal).
+
+\subsubsection{Solución de sistemas cuadrados mediante operadores}
+
+Consideremos un sistema de \(n\) ecuaciones lineales con \(n\) incógnitas sobre un cuerpo \(K\). Tal sistema puede representarse matricialmente mediante la ecuación:
+\begin{equation}
+  Ax = b
+  \label{eq:sistema_lineal_5}  
+\end{equation}
+donde \(A\) es una matriz cuadrada de orden \(n\) con entradas en \(K\), \(x \in K^n\) es el vector incógnita, y \(b \in K^n\) es el vector de términos independientes.
+
+Interpretamos a \(A\) como un operador lineal \(T_A : K^n \rightarrow K^n\) definido por \(T_A(x) = Ax\). Esta interpretación nos permite analizar el sistema desde una perspectiva funcional: buscamos el elemento \(x\) que el operador \(T_A\) transforma en \(b\).
+
+\paragraph{Caso 1: \(A\) no singular}
+
+Supongamos que la matriz \(A\) es \hl{no singular}, es decir, que el sistema homogéneo asociado \(Ax = 0\) tiene únicamente la solución trivial \(x = 0\). En ese caso, el operador \(T_A\) es inyectivo. Como trabajamos en dimensión finita, se sigue del Teorema de la dimensión (teorema \ref{teo:teorema_dimensión_nucleo_imagen}) que:
+\[
+\dim(K^n) = \dim(\operatorname{Ker} T_A) + \dim(\operatorname{Im} T_A)
+\]
+y como \(\dim(\operatorname{Ker} T_A) = 0\), se deduce que \(\operatorname{Im} T_A = K^n\), es decir, \(T_A\) es también suprayectivo. En consecuencia, el sistema \(Ax = b\) admite una solución única para todo \(b \in K^n\).
+
+\begin{tcolorbox}[remember,title=Recordatorio]
+  Es importante recordar que, por definición \(\dim\left({\vec{0}}\right) = 0\) (es decir, la dimensión del espacio nulo es cero).
+\end{tcolorbox}
+
+\paragraph{Caso 2: \(A\) singular}
+
+Por el contrario, si \(A\) es singular, es decir, si \(Ax = 0\) posee soluciones no triviales, entonces el operador \(T_A\) no es inyectivo. En ese caso, la imagen del operador no puede abarcar todo \(K^n\), por lo tanto, no es suprayectivo. Esto significa que existen vectores \(b \in K^n\) para los cuales el sistema no tiene solución. Además, si una solución existe, entonces no puede ser única, ya que el núcleo de \(T_A\) contiene infinitas soluciones homogéneas que pueden sumarse a cualquier solución particular.
+
+\teorema Sea \(Ax = b\) un sistema lineal con igual número de ecuaciones e incógnitas. Entonces:
+\begin{enumerate}[label=\alph*)]
+  \item Si el sistema homogéneo asociado \(Ax = 0\) posee únicamente la solución trivial, entonces el sistema \(Ax = b\) admite una solución única para todo \(b \in K^n\).
+  \item Si el sistema homogéneo asociado admite soluciones no triviales, entonces:
+  \begin{itemize}
+    \item[i)] Existen valores de \(b \in K^n\) para los cuales el sistema \(Ax = b\) no admite solución.
+    \item[ii)] Siempre que exista una solución, esta no será única.
+  \end{itemize}
+\end{enumerate}
+
+\paragraph{Ejemplo ilustrativo}
+
+Veamos estos conceptos en un caso concreto.
+
+\ejemplo{ Sea el sistema en \(\mathbb{R}^2\) dado por:}
+\[
+  A = \begin{bmatrix}
+    2 & 1 \\
+    4 & 2
+  \end{bmatrix}, \qquad b = \begin{bmatrix}
+    3 \\
+    6
+  \end{bmatrix}
+\]
+
+Estudiamos el sistema \(Ax = b\). Observamos que:
+\[
+  \det A = 2 \cdot 2 - 4 \cdot 1 = 4 - 4 = 0
+\]
+Por lo tanto, \(A\) es singular. El sistema homogéneo \(Ax = 0\) tiene infinitas soluciones no triviales. Verifiquemos si \(b\) pertenece a la imagen de \(A\). Como la segunda fila es un múltiplo de la primera, el rango de \(A\) es 1. Notamos que \(b_2 = 2 \cdot b_1\), luego \(b\) pertenece a la imagen de \(A\), y el sistema tiene soluciones, pero no son únicas.
+
+Si en cambio tomamos \(b = \begin{bmatrix} 3 \\ 7 \end{bmatrix}\), ya no cumple esa proporción, y el sistema no tiene solución.
+
+\paragraph{Interpretación}
+
+Este ejemplo muestra cómo el operador lineal \(T_A(x) = Ax\) puede o no ser inversible dependiendo de la estructura de \(A\), y cómo esta estructura influye directamente en la existencia y unicidad de soluciones. Esta conexión entre álgebra lineal y análisis funcional es uno de los fundamentos del estudio de los sistemas de ecuaciones en espacios vectoriales.
+
+\subsubsection{Matriz asociada a una aplicación lineal}
+
+Sea \(f:V \rightarrow W\) una aplicación lineal entre espacios vectoriales sobre un cuerpo \(K\). Sean \(B = \{u_1, u_2, \ldots, u_n\}\) una base de \(V\) y \(B' = \{u'_1, u'_2, \ldots, u'_m\}\) una base de \(W\). Dado que \(f\) es lineal, cada vector \(f(u_j)\) puede escribirse como combinación lineal de los vectores de \(B'\):
+\[
+f(u_j) = a_{1j} u'_1 + a_{2j} u'_2 + \cdots + a_{mj} u'_m, \quad j = 1, \dots, n
+\]
+Los coeficientes \(a_{ij}\) se organizan como columnas para formar una matriz \(A = (a_{ij}) \in M_{m \times n}(K)\). Esta matriz se llama \hl{matriz asociada} a la aplicación lineal \(f\) en las bases \(B\) y \(B'\).
+
+Entonces, si un vector \(v \in V\) tiene coordenadas \((\alpha_1, \ldots, \alpha_n)\) respecto de la base \(B\), su imagen \(w = f(v)\) tiene coordenadas en \(B'\) dadas por:
+\[
+[w]_{B'} = A \cdot [v]_B
+\]
+
+\begin{ejemplo}
+Supongamos que \(f: \mathbb{R}^3 \to \mathbb{R}^2\) está definida por:
+\[
+f\begin{pmatrix}x \\ y \\ z\end{pmatrix} = \begin{pmatrix}x+y \\ y - z\end{pmatrix}
+\]
+Queremos hallar la matriz asociada a \(f\) respecto de las bases canónicas de \(\mathbb{R}^3\) y \(\mathbb{R}^2\).
+
+Calculamos la imagen de cada vector de la base canónica de \(\mathbb{R}^3\):
+\[
+f\begin{pmatrix}1 \\ 0 \\ 0\end{pmatrix} = \begin{pmatrix}1 \\ 0\end{pmatrix}, \quad
+f\begin{pmatrix}0 \\ 1 \\ 0\end{pmatrix} = \begin{pmatrix}1 \\ 1\end{pmatrix}, \quad
+f\begin{pmatrix}0 \\ 0 \\ 1\end{pmatrix} = \begin{pmatrix}0 \\ -1\end{pmatrix}
+\]
+
+Luego, la matriz asociada \(A\) es:
+\[
+A = \begin{pmatrix}
+1 & 1 & 0 \\
+0 & 1 & -1
+\end{pmatrix}
+\]
+
+Podemos usar esta matriz para hallar la imagen de cualquier vector \(v \in \mathbb{R}^3\). Por ejemplo, si
+\[
+v = \begin{pmatrix}2 \\ 1 \\ -1\end{pmatrix}, \quad \text{entonces} \quad f(v) = A \cdot v = \begin{pmatrix}3 \\ 2\end{pmatrix}
+\]
+\end{ejemplo}
+
+\begin{tcolorbox}
+La matriz asociada a una aplicación lineal \(f: V \to W\) en bases dadas tiene tantas filas como la dimensión de \(W\) y tantas columnas como la dimensión de \(V\). Esta matriz permite traducir la acción de \(f\) en términos de productos matriciales.
+\end{tcolorbox}
+
+\paragraph{Ejemplo con bases no canónicas}
+
+\begin{ejemplo}
+Sea \(f: \mathbb{R}^2 \to \mathbb{R}^2\) la aplicación lineal definida por
+\[
+f\begin{pmatrix}x \\ y\end{pmatrix} = \begin{pmatrix}x + 2y \\ 3x + y\end{pmatrix}
+\]
+Consideremos las siguientes bases no canónicas:
+
+Base del dominio:
+\[
+B = \left\{ \begin{pmatrix}1 \\ 1\end{pmatrix},\; \begin{pmatrix}1 \\ -1\end{pmatrix} \right\}
+\]
+
+Base del codominio:
+\[
+B' = \left\{ \begin{pmatrix}1 \\ 0\end{pmatrix},\; \begin{pmatrix}1 \\ 1\end{pmatrix} \right\}
+\]
+
+Queremos hallar la **matriz asociada** a \(f\) en las bases \(B\) y \(B'\), y luego usarla para calcular \(f(v)\), donde
+\[
+v = \begin{pmatrix}2 \\ 3\end{pmatrix}
+\]
+
+\vspace{0.5em}
+\textbf{Paso 1:} Hallamos la imagen por \(f\) de los vectores de la base \(B\):
+\[
+f\begin{pmatrix}1 \\ 1\end{pmatrix} = \begin{pmatrix}1 + 2 \\ 3 + 1\end{pmatrix} = \begin{pmatrix}3 \\ 4\end{pmatrix}
+\quad \text{y} \quad
+f\begin{pmatrix}1 \\ -1\end{pmatrix} = \begin{pmatrix}1 - 2 \\ 3 - 1\end{pmatrix} = \begin{pmatrix}-1 \\ 2\end{pmatrix}
+\]
+
+\vspace{0.5em}
+\textbf{Paso 2:} Escribimos estos vectores en coordenadas respecto de la base \(B'\). Es decir, buscamos escalares \(\alpha_1, \alpha_2\) tales que:
+\[
+\begin{pmatrix}3 \\ 4\end{pmatrix} = \alpha_1 \begin{pmatrix}1 \\ 0\end{pmatrix} + \alpha_2 \begin{pmatrix}1 \\ 1\end{pmatrix}
+\Rightarrow
+\begin{cases}
+\alpha_1 + \alpha_2 = 3 \\
+\alpha_2 = 4
+\end{cases}
+\Rightarrow \alpha_2 = 4,\; \alpha_1 = -1
+\]
+
+\[
+\begin{pmatrix}-1 \\ 2\end{pmatrix} = \beta_1 \begin{pmatrix}1 \\ 0\end{pmatrix} + \beta_2 \begin{pmatrix}1 \\ 1\end{pmatrix}
+\Rightarrow
+\begin{cases}
+\beta_1 + \beta_2 = -1 \\
+\beta_2 = 2
+\end{cases}
+\Rightarrow \beta_2 = 2,\; \beta_1 = -3
+\]
+
+\vspace{0.5em}
+\textbf{Paso 3:} La matriz asociada a \(f\) en las bases \(B\) y \(B'\) es:
+\[
+[f]_{B,B'} = \begin{pmatrix}
+-1 & -3 \\
+4 & 2
+\end{pmatrix}
+\]
+
+\vspace{0.5em}
+\textbf{Paso 4:} Expresamos el vector \(v = \begin{pmatrix}2 \\ 3\end{pmatrix}\) en coordenadas respecto de la base \(B\). Buscamos escalares \(\lambda_1, \lambda_2\) tales que:
+\[
+\begin{pmatrix}2 \\ 3\end{pmatrix} = \lambda_1 \begin{pmatrix}1 \\ 1\end{pmatrix} + \lambda_2 \begin{pmatrix}1 \\ -1\end{pmatrix}
+\Rightarrow
+\begin{cases}
+\lambda_1 + \lambda_2 = 2 \\
+\lambda_1 - \lambda_2 = 3
+\end{cases}
+\Rightarrow \lambda_1 = \dfrac{5}{2},\; \lambda_2 = -\dfrac{1}{2}
+\]
+
+\vspace{0.5em}
+\textbf{Paso 5:} Multiplicamos la matriz asociada por las coordenadas del vector en la base \(B\):
+\[
+[f]_{B,B'} \cdot [v]_B = \begin{pmatrix}
+-1 & -3 \\
+4 & 2
+\end{pmatrix} \cdot \begin{pmatrix}
+\dfrac{5}{2} \\[4pt] -\dfrac{1}{2}
+\end{pmatrix}
+=
+\begin{pmatrix}
+-1 \cdot \dfrac{5}{2} + (-3) \cdot \left(-\dfrac{1}{2} \right) \\
+4 \cdot \dfrac{5}{2} + 2 \cdot \left(-\dfrac{1}{2} \right)
+\end{pmatrix}
+=
+\begin{pmatrix}
+-1 \\ 9
+\end{pmatrix}
+\]
+
+Estas son las coordenadas de \(f(v)\) respecto de la base \(B'\).
+
+\vspace{0.5em}
+\textbf{Paso 6:} Finalmente, para obtener \(f(v)\) como vector de \(\mathbb{R}^2\), desarrollamos en la base \(B'\):
+\[
+f(v) = -1 \cdot \begin{pmatrix}1 \\ 0\end{pmatrix} + 9 \cdot \begin{pmatrix}1 \\ 1\end{pmatrix}
+= \begin{pmatrix}-1 \\ 0\end{pmatrix} + \begin{pmatrix}9 \\ 9\end{pmatrix} = \begin{pmatrix}8 \\ 9\end{pmatrix}
+\]
+
+\textbf{Verificación directa:}
+\[
+f\begin{pmatrix}2 \\ 3\end{pmatrix} = \begin{pmatrix}2 + 6 \\ 6 + 3\end{pmatrix} = \begin{pmatrix}8 \\ 9\end{pmatrix}
+\quad \checkmark
+\]
+\end{ejemplo}

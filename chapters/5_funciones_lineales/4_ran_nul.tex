@@ -1,0 +1,248 @@
+\subsection{Rango y nulidad de una aplicación lineal}
+
+Hasta aquí hemos estudiado el núcleo y la imagen de una aplicación lineal, pero aún no los hemos relacionado con la dimensión del espacio de partida. Cuando el dominio es un espacio vectorial de dimensión finita, se cumple una igualdad fundamental.
+
+\subsubsection{Teorema del núcleo y la imagen}
+\label{sec:teorema_dimensión_nucleo_imagen}
+
+\teorema{ Sea \(F: V \rightarrow U\) una aplicación lineal, con \(V\) un espacio vectorial de dimensión finita. Entonces:}
+\label{teo:teorema_dimensión_nucleo_imagen}
+\begin{equation}
+  \dim V = \dim(\text{Ker } F) + \dim(\text{Im } F)
+\end{equation}
+
+Este teorema establece que la suma de las dimensiones del núcleo y de la imagen de \(F\) coincide con la dimensión del dominio \(V\). Es decir, la información contenida en el espacio vectorial de partida se reparte entre los vectores que se anulan bajo \(F\) (núcleo) y los que efectivamente se proyectan al espacio de llegada (imagen).
+
+\vspace{5pt}
+
+\ejemplo{ Aplicación del teorema}
+
+Consideremos el ejemplo \ref{ej:aplicacion_proyeccion_xy} de la proyección sobre el plano \(xy\) en \(\mathbb{R}^3\), donde:
+\[
+  F(x,y,z) = (x,y,0)
+\]
+En este caso:
+\begin{itemize}
+  \item \(\dim(\text{Im } F) = 2\), ya que la imagen es el plano \(xy\)
+  \item \(\dim(\text{Ker } F) = 1\), ya que el núcleo es el eje \(z\)
+  \item \(\dim(\mathbb{R}^3) = 3\)
+\end{itemize}
+Se verifica así la identidad:
+\[
+  \dim(\text{Ker } F) + \dim(\text{Im } F) = 1 + 2 = 3 = \dim(\mathbb{R}^3)
+\]
+
+\vspace{1em}
+
+\subsubsection{Definiciones de rango y nulidad}
+
+Dados estos conceptos, se introducen dos definiciones asociadas a una aplicación lineal \(F: V \rightarrow U\), con \(V\) de dimensión finita:
+
+\begin{itemize}
+  \item El \textbf{rango} de \(F\) es la dimensión de su imagen:
+    \[
+      \text{rango } F = \dim(\text{Im } F)
+    \]
+  \item La \textbf{nulidad} de \(F\) es la dimensión de su núcleo:
+    \[
+      \text{nulidad } F = \dim(\text{Ker } F)
+    \]
+\end{itemize}
+
+Por lo tanto, el teorema anterior puede expresarse como:
+\[
+  \text{rango } F + \text{nulidad } F = \dim V
+\]
+
+\vspace{5pt}
+
+\begin{tcolorbox}[title=Relación con matrices]
+  Recordemos que el rango de una matriz se definió originalmente como la dimensión de su espacio columna (o espacio fila). Si consideramos una matriz \(A\) como una aplicación lineal \(F_A: K^n \rightarrow K^m\), entonces:
+  \begin{itemize}
+    \item \(\text{Im } F_A\) es el espacio columna de \(A\)
+    \item \(\text{rango } A = \dim(\text{Im } F_A)\)
+  \end{itemize}
+  Esto confirma que la noción de rango coincide tanto en la teoría matricial como en la teoría de aplicaciones lineales.
+\end{tcolorbox}
+
+\subsubsection{Ejemplos}
+
+Veamos algunos ejemplos que ilustran la aplicación del teorema anterior y consolidan las nociones de núcleo, imagen, rango y nulidad.
+
+\ejemplo{ Aplicación lineal desde \(\mathbb{R}^4\) a \(\mathbb{R}^3\)}
+
+Sea \(F:\mathbb{R}^4 \rightarrow \mathbb{R}^3\) la aplicación definida por:
+\[
+  F(x,y,s,t) = (x-y+s+t,\quad x+2s-t,\quad x+y+3s-3t)
+\]
+
+\begin{enumerate}[label=\alph*.]
+
+  \item \textbf{Cálculo de una base y dimensión de la imagen de \(F\)}.
+
+  Consideramos la base canónica de \(\mathbb{R}^4\) y calculamos:
+  \[
+  \begin{aligned}
+    F(1,0,0,0) &= (1,1,1) \\
+    F(0,1,0,0) &= (-1,0,1) \\
+    F(0,0,1,0) &= (1,2,3) \\
+    F(0,0,0,1) &= (1,-1,-3)
+  \end{aligned}
+  \]
+
+  Estos vectores generan la imagen de \(F\). Para hallar una base, colocamos estos vectores como filas en una matriz y reducimos por filas:
+  \[
+  \begin{pmatrix}
+    1 & 1 & 1 \\
+    -1 & 0 & 1 \\
+    1 & 2 & 3 \\
+    1 & -1 & -3
+  \end{pmatrix}
+  \sim
+  \begin{bmatrix}
+    1 & 1 & 1 \\
+    0 & 1 & 2 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0
+  \end{bmatrix}
+  \]
+
+  Así, una base de \(\text{Im } F\) está dada por los vectores \((1,1,1)\) y \((0,1,2)\). Por lo tanto:
+  \[
+    \dim(\text{Im } F) = 2 \quad \Rightarrow \quad \text{rango}(F) = 2
+  \]
+
+  \item \textbf{Cálculo de una base y dimensión del núcleo de \(F\)}.
+
+  Sea \(v = (x,y,s,t)\). Buscamos las soluciones del sistema:
+  \[
+    F(x,y,s,t) = (0,0,0)
+  \]
+
+  Lo que equivale al sistema lineal:
+  \[
+  \begin{cases}
+    x - y + s + t = 0 \\
+    x + 2s - t = 0 \\
+    x + y + 3s - 3t = 0
+  \end{cases}
+  \Rightarrow
+  \begin{cases}
+    x - y + s + t = 0\\
+    \phantom{x+} y + s - 2t = 0
+  \end{cases}
+  \]
+
+  De las dos ecuaciones:
+  \begin{enumerate}
+    \item \(y + s - 2t = 0 \;\Rightarrow\; y = 2t - s\)
+    \item \(x - y + s + t = 0 \;\Rightarrow\; x = y - s - t = (2t - s) - s - t = t - 2s\)
+  \end{enumerate}
+  Elegimos los parámetros libres \(s\) y \(t\). Entonces
+  \begin{align*}
+    v = (x,y,s,t) &= (\,t - 2s,\;2t - s,\;s,\;t\,) \\
+    &= s\,(-2,-1,1,0)\;+\; t\,(1,2,0,1)
+  \end{align*}
+
+  Por lo tanto, una \hl{base} de \(\text{Ker } F\) está dada por:
+  \[
+    \{(-2,-1,1,0),\ (1,2,0,1)\}, \quad \text{y} \quad \dim(\text{Ker } F) = 2
+  \]
+
+  Finalmente, verificamos el teorema:
+  \[
+    \text{rango } F + \text{nulidad } F = 2 + 2 = 4 = \dim(\mathbb{R}^4)
+  \]
+
+\end{enumerate}
+
+\ejemplo{ Aplicación inyectiva con núcleo trivial}
+
+Sea \(F : \mathbb{R}^2 \rightarrow \mathbb{R}^2\) la aplicación definida por:
+\[
+F(x,y) = (x + y,\ 2x + 3y)
+\]
+
+\begin{enumerate}[label=\alph*.]
+  \item \textbf{Determinamos el núcleo:}
+
+  Buscamos \((x,y)\) tal que \(F(x,y) = (0,0)\), es decir:
+  \[
+  \begin{cases}
+    x + y = 0 \\
+    2x + 3y = 0
+  \end{cases}
+  \Rightarrow \text{Sustituyendo: } y = -x \Rightarrow 2x - 3x = -x = 0 \Rightarrow  ~ \begin{array}{c}
+    x = 0 \\ y = 0
+  \end{array}
+  \]
+
+  Por lo tanto:
+  \[
+  \text{Ker } F = \{(0,0)\}, \quad \text{nulidad } F = 0
+  \]
+
+  \item \textbf{Determinamos la imagen:}
+
+  Como el sistema no tiene restricciones adicionales, la imagen es todo \(\mathbb{R}^2\). Los vectores columna de la matriz asociada
+  \[
+  A = \begin{pmatrix}
+    1 & 1 \\
+    2 & 3
+  \end{pmatrix}
+  \]
+  son linealmente independientes, ya que el determinante \(\det A = 1 \cdot 3 - 1 \cdot 2 = 1 \ne 0\). Entonces:
+  \[
+  \text{Im } F = \mathbb{R}^2, \quad \text{rango } F = 2
+  \]
+
+  \item \textbf{Verificamos el teorema:}
+
+  \[
+  \text{rango } F + \text{nulidad } F = 2 + 0 = 2 = \dim(\mathbb{R}^2)
+  \]
+
+\end{enumerate}
+
+\ejemplo{ Aplicación derivada en un espacio de polinomios}
+
+\begin{quote}
+  Sea \(V = \mathbb{P}_3(\mathbb{R})\), el espacio de los polinomios reales de grado a lo sumo 3, y sea \(\mathbf{D} : V \rightarrow V\) la aplicación derivada:
+\end{quote}
+\[
+\mathbf{D}(p(t)) = p'(t)
+\]
+
+\begin{enumerate}[label=\alph*.]
+  \item \textbf{Núcleo:}
+
+  El núcleo está formado por los polinomios cuya derivada es nula. Esto es:
+  \[
+  \text{Ker } \mathbf{D} = \{p \in V \mid p'(t) = 0\} = \{\text{constantes}\}
+  \]
+  Luego:
+  \[
+  \dim(\text{Ker } \mathbf{D}) = 1
+  \]
+
+  \item \textbf{Imagen:}
+
+  La imagen está compuesta por todos los polinomios de grado a lo sumo 2, ya que derivar un polinomio de grado 3 reduce el grado en 1:
+  \[
+  \text{Im } \mathbf{D} = \mathbb{P}_2(\mathbb{R}), \quad \dim(\text{Im } \mathbf{D}) = 3
+  \]
+
+  \begin{quote}
+    \begin{tcolorbox}[remember, title=Aclaración de la Imagen]
+      La imagen son los polinomios de grado a lo sumo dos ya que, dado cualquier polinomio de grado a lo sumo tres:
+      \begin{align*}
+        \frac{d}{dx}\left(a+bx+cx^2+dx^3\right) = b+cx+dx^2
+      \end{align*}
+    \end{tcolorbox}
+  \end{quote}
+
+  \item \textbf{Verificación del teorema:}
+  \[
+  \text{rango } \mathbf{D} + \text{nulidad } \mathbf{D} = 3 + 1 = 4 = \dim(\mathbb{P}_3)
+  \]
+\end{enumerate}

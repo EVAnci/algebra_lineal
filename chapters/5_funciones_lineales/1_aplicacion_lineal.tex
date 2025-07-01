@@ -1,0 +1,124 @@
+\subsection{Aplicación lineal}
+
+Una función lineal (también llamada transformación lineal o aplicación lineal) es una función entre dos espacios vectoriales que preserva la estructura algebraica de los vectores, es decir, respeta la suma de vectores y la multiplicación por escalares.
+
+\textbf{Definición}: Sea \(f: V \to U\) una función entre espacios vectoriales sobre el mismo cuerpo \(K\),
+\begin{align*}
+  f: V &\rightarrow U\\
+  v &\rightarrow u
+\end{align*}
+que a cada vector \(v\) de \(V\) le hace corresponder un único vector \(f(v)\) de \(U\).
+
+Diremos que \(f\) es una aplicación lineal si para todo \(v, w \in V\) y todo escalar \(t \in K\), se cumple:
+\begin{enumerate}
+  \item Aditividad (respeta la suma):
+    \[
+     f(v + w) = f(v) + f(w)
+    \]
+  \item Homogeneidad (respeta el producto por escalares):
+    \[
+      f(t \cdot v) = t \cdot f(v)
+    \]
+\end{enumerate}
+La primera condición se la conoce como \textit{aditividad}, indica que la función respeta las operaciones internas definidas en los espacios vectoriales involucrados, la segunda se denomina \textit{homogeneidad} y está indicando que la función también respeta las operaciones externas. 
+
+Estas dos propiedades garantizan que la función ``conserva'' la estructura lineal. En otras palabras, las combinaciones lineales en el espacio de partida se transforman en combinaciones lineales en el espacio de llegada, de la misma forma.
+
+\begin{tcolorbox}[remember, title=Aclaración]
+  \(V(K)\) y \(U(K)\) son dos espacios vectoriales definidos sobre un mismo cuerpo \(K\) (por ejemplo, \(\mathbb{R}\) o \(\mathbb{C}\)).
+  
+  La función \(f: V \rightarrow U\) toma un vector \(v \in V\) y lo lleva a un vector \(f(v) \in U\).
+  
+  Es importante entender que tanto el dominio como el codominio son espacios vectoriales, por lo tanto, en ambos hay operaciones de suma y producto por escalar.
+\end{tcolorbox}
+
+\subsubsection{Propiedades de una función lineal}
+
+Si \(f\) es una función lineal de \(V(K)\) en \(U(K)\) entonces:
+\begin{enumerate}
+  \item \(f\left(\vec{0}\right) = \vec{0}, \qquad \left(\vec{0} \in V,\vec{0} \in U\right)\)
+
+  Demostración:\[
+    f\left(\vec{0}\right) = f\left(0 \cdot v\right) = 0 \cdot f(v) = \vec{0}
+  \]
+  \item \(f(-v)=-f(v), \quad \forall v \in V\)
+  
+  Demostración: \[
+    f(-v) = f(-1 \cdot v) = -1 \cdot f(v) = -f(v)
+  \]
+  \item \(f(v-w)=f(v) - f(w) \quad \forall v,w \in V\)
+  
+  Demostración: \[
+    f(v-w) = f(v) + f(-w) = f(v) + (-f(w)) = f(v) - f(w)
+  \]
+\end{enumerate}
+
+\begin{tcolorbox}[interesting_data, title=Nota conceptual]
+  Las propiedades desarrolladas son sumamente importantes. Por ejemplo la primer propiedad distingue claramente las funciones lineales de otras funciones. Por ejemplo, si una función \(f\) no cumple que \(f\left(\vec{0}\right) = \vec{0}\), entonces automáticamente no es lineal.
+\end{tcolorbox}
+
+\paragraph{Propiedad fundamental de las funciones lineales}
+
+Como consecuencia directa de la aditividad y la homogeneidad, para todo par de escalares \(a, b \in K\) y todo par de vectores \(v, w \in V\), se cumple:
+\begin{equation}
+  f(av + bw) = a f(v) + b f(w)
+  \label{eq:lineal_combinacion_binaria}
+\end{equation}
+
+Esta propiedad se generaliza de manera natural a cualquier combinación lineal finita:
+\begin{equation}
+  f\left( \sum_{i=1}^n a_i v_i \right) = \sum_{i=1}^n a_i f(v_i)
+  \label{eq:lineal_combinacion_general}
+\end{equation}
+donde \(a_i \in K\) y \(v_i \in V\) para \(i = 1, \ldots, n\).
+
+\begin{tcolorbox}[interesting_data, title=Uso de la propiedad]
+  Las expresiones \eqref{eq:lineal_combinacion_binaria} y \eqref{eq:lineal_combinacion_general} se utilizan frecuentemente para demostrar que una función es lineal o para verificar propiedades relacionadas con combinaciones lineales en el contexto de espacios vectoriales.
+\end{tcolorbox}
+
+\ejemplo{ Veamos algunos ejemplos}
+\begin{enumerate}[label=\alph*.]
+  \item Sea \( A \in M_{m \times n}(K) \) una matriz con \( m \) filas y \( n \) columnas, cuyas entradas pertenecen a un cuerpo \( K \). Esta matriz define una aplicación lineal \( f: K^n \rightarrow K^m \) mediante la asignación:
+  \[
+    f(v) = Av
+  \]
+  donde \( v \in K^n \) se considera como un vector columna. Verifiquemos que \( f \) es lineal:
+  \begin{align*}
+    f(v + w) &= A(v+w) = Av + Aw = f(v) + f(w) \\
+    f(kv) &= A(kv) = kAv = kf(v)
+  \end{align*}
+  Por lo tanto, \( f \) es lineal.
+  \item Sea \(f:\mathbb{R}^3 \rightarrow \mathbb{R}^3\) la aplicación <<proyección>> en el plano \(xy: f(x,y,z)= (x,y,0)\). Probemos que \(f\) es lineal. Sean \(v=(a,b,c)\) y \(w=(a',b',c')\). Entonces:
+  \begin{align*}
+    f(v+w) &= f(a+a', b+b', c+c') = (a+a', b+b',0) = \\
+          &= (a,b,0) + (a',b',0) = f(v) + f(w)
+  \end{align*}
+  y para todo \(k \in \mathbb{R}\):
+  \[
+    f(kv) = f(ka,kb,kc) = (ka,kb,0) = k(a,b,0) = kf(v)
+  \]
+  O sea, \(f\) es lineal.
+  \item Sea \(f: \mathbb{R}^2 \rightarrow \mathbb{R}^2\) la aplicación de <<traslación>> definida según \(f(x,y) = (x+1,y+2)\). Obsérvese que \(f(0)=(0,0)=(1,2)\neq 0\). Es decir, el vector cero no se aplica sobre el vector cero. Por consiguiente \(f\) no es lineal.
+  \item Sea \(f:V\rightarrow U\) la aplicación que asigna \(0 \in U\) a todo \(v \in V\). Para todo par de vectores \(v,w \in V\) y todo \(k \in K\) tenemos:
+  \[
+    f(v+w) = 0 = 0+0 = f(v) + f(w) \qquad \text{y} \qquad f(kv) = 0 = k0 = kf(v)
+  \]
+  Así \(f\) es lineal. Llamamos a \(f\) la \textit{aplicación cero} y la denotaremos normalmente por \(0\).
+  \item Sea \( V \) el espacio vectorial de los polinomios en la variable \( t \) sobre \( \mathbb{R} \). Definimos dos aplicaciones:
+  \begin{itemize}
+    \item La derivada: \( \mathbf{D}: V \rightarrow V \), dada por \( \mathbf{D}(p) = p' \)
+    \item La integral definida desde 0: \( \mathbf{J}: V \rightarrow V \), dada por
+    \[
+      \mathbf{J}(p)(t) = \int_0^t p(s) \, ds
+    \]
+  \end{itemize}
+  Ambas son lineales, porque se cumple:
+  \[
+    \mathbf{D}(u + v) = \mathbf{D}(u) + \mathbf{D}(v), \qquad \mathbf{D}(ku) = k\mathbf{D}(u)
+  \]
+  y de forma análoga:
+  \[
+    \mathbf{J}(u + v) = \mathbf{J}(u) + \mathbf{J}(v), \qquad \mathbf{J}(ku) = k\mathbf{J}(u)
+  \]
+  para todo \( u, v \in V \) y todo \( k \in \mathbb{R} \). Estas propiedades se demuestran en cursos de Cálculo.
+\end{enumerate}

@@ -1,0 +1,264 @@
+\subsection{Núcleo e imagen de una función lineal}
+
+Sea \(f\) una función lineal de \(V(K)\) en \(U(K)\) \(\left(f:V\rightarrow U\right)\), asociados a esta función existen dos subconjuntos, uno del conjunto de partida y otro del conjunto de llegada, que reciben el nombre de \textit{núcleo} (o \textit{Ker}) de la función e imagen de la función, los definimos:
+\[
+\text{Ker } f = N(f) = \left\{ v \in V \mid f(v) = \vec{0}_U \right\}
+\]
+\begin{center}
+  son todos los vectores de \(V\) que tienen como imagen al vector nulo de \(U\)
+\end{center}
+\[
+\text{Im } f = \left\{u\in U \mid \exists v \in V ~\text{ tal que }~ f(v) = u \right\}
+\]
+o también en una forma más abreviada:
+\[
+\text{Im } f = \left\{f(v) \mid v \in V\right\}
+\]
+\begin{center}
+  son todos los vectores de \(U\) que son imagen de algún vector \(v \in V\)
+\end{center}
+
+Los subconjuntos \(N(f)\) e \(\text{Im } f\) son subespacios de \(V\) y de \(U\) respectivamente.
+
+\begin{quote}
+  \ejemplo{ Consideremos la siguiente función lineal:}
+  \[
+    f(x) = 3x
+  \]
+  Esta es una función lineal \(f:\mathbb{R} \rightarrow \mathbb{R}\).
+  \begin{itemize}
+    \item \textbf{Núcleo:}
+    \[
+      \text{Ker } f = \left\{x \in \mathbb{R} \mid f(x) = 0\right\} = \{0\}
+    \]
+    \item \textbf{Imagen:}
+    \[
+      \text{Im } f = \left\{f(x) \mid x \in \mathbb{R}\right\} = \left\{3x \mid x \in \mathbb{R}\right\} = \mathbb{R}
+    \]
+  \end{itemize}
+  Aquí el \textit{único} elemento que se anula es el \(0\), pero la imagen es \textit{todo} \(\mathbb{R}\).
+
+  \vspace{5mm}
+
+  \ejemplo{ Ahora consideremos la función trivial de \(\mathbb{R}\) a \(\mathbb{R}\):}
+  \[
+    f(x) = 0
+  \]
+  Esta función también es lineal, y \(f:\mathbb{R} \rightarrow \mathbb{R}\)
+  \begin{itemize}
+    \item \textbf{Núcleo:}
+    \[
+      \text{Ker } f = \left\{x \in \mathbb{R} \mid f(x) = 0\right\} = \mathbb{R}
+    \]
+    \item \textbf{Imagen:}
+    \[
+      \text{Im } f = \{0\}
+    \]
+  \end{itemize}
+  En este caso, \textit{todo} el dominio se anula y la imagen es el conjunto reducido que contiene solo al cero.
+\end{quote}
+
+\begin{tcolorbox}[title=Resumen para fijar la idea]
+  \begin{itemize}
+    \item El \textbf{núcleo} es un subconjunto del \textbf{dominio} \(V\): son los vectores que van a parar al cero del codominio.
+    \item La \textbf{imagen} es un subconjunto del codominio \(U\): son todos los valores posibles que puede tomar \(f(v)\)
+  \end{itemize}
+
+  \vspace{5pt}
+
+  El núcleo responde a la pregunta: ``¿Qué vectores se anulan bajo \(f\)?''
+
+  La imagen responde a: ``¿Qué vectores pueden obtenerse como salida de \(f\)''
+\end{tcolorbox}
+
+\subsubsection{Los subespacios Núcleo y Imagen de \(f\)}
+
+\paragraph{El conjunto núcleo de \(f\) es un subespacio del dominio}
+
+\textbf{Proposición}: Sea \(f: V \to U\) una aplicación lineal entre espacios vectoriales. Entonces, el conjunto núcleo de \(f\),
+\[
+\text{Ker } f = \{ v \in V \mid f(v) = 0 \}
+\]
+es un subespacio vectorial de \(V\).
+
+\textit{Demostración}
+\begin{quote}
+  \begin{enumerate}
+    \item \textbf{No vacío}:
+    
+    El vector nulo del dominio \(\vec{0}_V \in V\) cumple que:
+      \[
+      f(\vec{0}_V) = \vec{0}_U
+      \]
+    por lo tanto, \(\vec{0}_V \in \text{Ker } f\), y así \(\text{Ker } f \ne \emptyset\).
+  
+    \item \textbf{Cerrado bajo la suma}:
+    
+      Sean \(v_1, v_2 \in \text{Ker } f\). Entonces:
+     \[
+     f(v_1) = 0 \quad \text{y} \quad f(v_2) = 0
+     \]
+     Como \(f\) es lineal:
+     \[
+     f(v_1 + v_2) = f(v_1) + f(v_2) = 0 + 0 = 0
+     \]
+     Entonces \(v_1 + v_2 \in \text{Ker } f\).
+  
+    \item \textbf{Cerrado bajo el producto por escalares}:
+     
+      Sea \(t \in K\) y \(v \in \text{Ker } f\), es decir, \(f(v) = 0\). Entonces:
+     \[
+     f(t \cdot v) = t \cdot f(v) = t \cdot 0 = 0
+     \]
+     Por lo tanto, \(t \cdot v \in \text{Ker } f\).
+  \end{enumerate}
+  
+  Conclusión: Se cumplen las tres condiciones necesarias para que \(\text{Ker } f\) sea un subespacio de \(V\).
+\end{quote}
+
+\paragraph{El conjunto imagen de \(f\) es un subespacio del codominio}
+
+
+\textbf{Proposición}: Sea \(f: V \to U\) una aplicación lineal entre espacios vectoriales sobre un mismo cuerpo \(K\). Entonces el conjunto
+\[
+\text{Im } f = \{ u \in U \mid \exists v \in V \text{ tal que } f(v) = u \}
+\]
+es un subespacio vectorial de \(U\).
+
+\textit{Demostración:}
+\begin{quote}
+  \begin{enumerate}
+    \item \textbf{No vacío}:
+      Como \(f\) es lineal, se cumple que:
+      \[
+      f(\vec{0}_V) = \vec{0}_U
+      \]
+      Entonces, \(\vec{0}_U \in \text{Im } f\), por lo tanto \(\text{Im } f \ne \emptyset\).
+
+    \item \textbf{Cerrado bajo suma y producto por escalares} (en una sola propiedad):
+
+      Sean \(u_1, u_2 \in \text{Im } f\).
+      Por definición, existen \(v_1, v_2 \in V\) tales que:
+      \[
+      f(v_1) = u_1 \quad \text{y} \quad f(v_2) = u_2
+      \]
+      Sean \(a, b \in K\) escalares arbitrarios. Como \(f\) es lineal:
+      \[
+      f(a v_1 + b v_2) = a f(v_1) + b f(v_2) = a u_1 + b u_2
+      \]
+      Esto significa que \(a u_1 + b u_2 \in \text{Im } f\).
+  \end{enumerate}
+
+  Conclusión: La imagen de \(f\) cumple las condiciones necesarias para ser subespacio de \(U\): no es vacía, y es cerrada bajo combinaciones lineales.
+\end{quote}
+
+\begin{tcolorbox}[title=Observaciones]
+  Note que no necesitamos comprobar ``cerrado bajo suma'' y ``cerrado bajo producto escalar'' por separado, ya que probar cerrado bajo combinaciones lineales es más general y suficiente.
+\end{tcolorbox}
+
+\subsubsection{Ejemplos de cálculo del núcleo e imagen}
+
+\ejemplo{ Sea \(F:\mathbb{R}^3 \rightarrow \mathbb{R}^3\) la aplicación definida por}
+\label{ej:aplicacion_proyeccion_xy}
+\[
+F(x,y,z) = (x,y,0)
+\]
+Esta función corresponde a la proyección ortogonal sobre el plano \(xy\).
+
+\begin{figure}[ht]
+  \centering
+  % Configurar el punto de vista 3D
+  \tdplotsetmaincoords{70}{110}
+
+  \begin{tikzpicture}[tdplot_main_coords, scale=1.5]
+
+  % Definir las coordenadas del vector (para el dibujo)
+  \def\vx{3}
+  \def\vy{2}
+  \def\vz{2.5}
+
+  % Dibujar los ejes coordenados
+  \draw[thick, ->] (0,0,0) -- (4,0,0) node[anchor=north east]{$x$};
+  \draw[thick, ->] (0,0,0) -- (0,3,0) node[anchor=north west]{$y$};
+  \draw[thick, ->] (0,0,0) -- (0,0,2) node[anchor=south]{$z$};
+
+  % Dibujar el plano xy con una cuadrícula sutil
+  \draw[gray!30] (0,0,0) -- (4,0,0) -- (4,3,0) -- (0,3,0) -- cycle;
+  \foreach \x in {1,2,3} {
+      \draw[gray!20] (\x,0,0) -- (\x,3,0);
+  }
+  \foreach \y in {1,2,3} {
+      \draw[gray!20] (0,\y,0) -- (4,\y,0);
+  }
+
+  % Dibujar el vector original v
+  \draw[very thick, blue, ->] (0,0,0) -- (\vx,\vy,\vz) 
+      node[midway, above left] {$\vec{v}$};
+
+  % Dibujar la proyección del vector en el plano xy
+  \draw[very thick, red, ->] (0,0,0) -- (\vx,\vy,0) 
+      node[midway, above right] {$\text{proy}_{xy}(\vec{v})$};
+
+  % Dibujar líneas auxiliares para mostrar la proyección
+  \draw[dashed, gray] (\vx,\vy,\vz) -- (\vx,\vy,0);
+  \draw[dashed, gray] (\vx,0,0) -- (\vx,\vy,0);
+  \draw[dashed, gray] (0,\vy,0) -- (\vx,\vy,0);
+
+  % Marcar puntos importantes
+  \fill[blue] (\vx,\vy,\vz) circle (2pt) node[above right] {$(x,y,z)$};
+  \fill[red] (\vx,\vy,0) circle (2pt) node[below right] {$(x,y,0)$};
+  \fill[black] (0,0,0) circle (2pt) node[left] {$O$};
+
+  % Agregar un arco para mostrar el ángulo (opcional)
+  \tdplotdrawarc[dashed, gray]{(0,0,0)}{0.8}{0}{90}{}{$\theta$}
+  % Gráfico generado con Claude.ai
+  \end{tikzpicture}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Núcleo:} son todos los vectores que se proyectan en el origen. Es decir:
+  \[
+  \text{Ker } F = \{(0,0,z) \in \mathbb{R}^3 \mid z \in \mathbb{R}\}
+  \]
+  que corresponde al eje \(z\).
+  \item \textbf{Imagen:} son todos los vectores de la forma \((x,y,0)\), es decir, el plano \(xy\):
+  \[
+  \text{Im } F = \{(x,y,0) \in \mathbb{R}^3 \mid x,y \in \mathbb{R}\}
+  \]
+\end{itemize}
+
+\ejemplo{ Sea \(V\) el espacio de polinomios reales y sea \(\mathbf{T}:V \to V\) el operador derivada tercera:}
+\[
+\mathbf{T}[f] = \frac{d^3 f}{dt^3}
+\]
+
+\begin{itemize}
+  \item \textbf{Núcleo:} está formado por todos los polinomios que se anulan al derivar tres veces, es decir:
+  \[
+  \text{Ker } \mathbf{T} = \{f(t) \in V \mid \deg f \leq 2\}
+  \]
+  \item \textbf{Imagen:} todo polinomio de \(V\) puede obtenerse como tercera derivada de otro polinomio, por lo tanto:
+  \[
+  \text{Im } \mathbf{T} = V
+  \]
+\end{itemize}
+
+Este ejemplo ilustra un caso donde el núcleo no es trivial, pero la imagen es todo el espacio.
+
+\subsubsection{Relación entre generadores del dominio y la imagen}
+
+Supongamos que \(v_1, v_2, \dots, v_n\) generan el espacio vectorial \(V\), y que \(F:V \rightarrow U\) es una función lineal. Entonces los vectores \(F(v_1), F(v_2), \dots, F(v_n)\) generan \(\text{Im } F\).
+
+\begin{tcolorbox}[title=Idea intuitiva]
+Dado que todo vector del dominio puede escribirse como combinación lineal de los \(v_i\), y que \(F\) preserva combinaciones lineales, la imagen de cualquier vector será una combinación de las imágenes de los \(v_i\).
+\end{tcolorbox}
+
+\textit{Demostración:} Sea \(v \in V\). Como los \(v_i\) generan \(V\), existe una combinación lineal:
+\[
+v = a_1 v_1 + \cdots + a_n v_n
+\]
+Aplicando \(F\):
+\[
+F(v) = F(a_1 v_1 + \cdots + a_n v_n) = a_1 F(v_1) + \cdots + a_n F(v_n)
+\]
+Esto demuestra que todo vector en \(\text{Im } F\) es combinación lineal de \(F(v_1), \dots, F(v_n)\).

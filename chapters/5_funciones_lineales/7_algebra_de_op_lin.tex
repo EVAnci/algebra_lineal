@@ -1,0 +1,320 @@
+\subsection{Álgebra de operadores lineales}
+
+\subsubsection{Operaciones con aplicaciones lineales}
+
+Las aplicaciones lineales o funciones lineales pueden combinarse de diversas formas para generar nuevas aplicaciones también lineales. Estas operaciones son fundamentales, ya que permiten dotar al conjunto de las aplicaciones lineales de una estructura algebraica relevante que será empleada reiteradamente a lo largo del estudio.
+
+Supongamos que \(F, G: V \to U\) son aplicaciones lineales entre espacios vectoriales sobre un cuerpo \(K\). Definimos las siguientes operaciones:
+
+\begin{itemize}
+  \item \textbf{Suma}: la aplicación \(F + G: V \to U\) se define por
+  \[
+    (F + G)(v) = F(v) + G(v), \quad \text{para todo } v \in V.
+  \]
+
+  \item \textbf{Producto por escalar}: para todo escalar \(k \in K\), la aplicación \(kF: V \to U\) se define por
+  \[
+    (kF)(v) = k \cdot F(v), \quad \text{para todo } v \in V.
+  \]
+\end{itemize}
+
+Estas operaciones están bien definidas, en el sentido de que preservan la linealidad. Veámoslo a continuación.
+
+Sean \(a, b \in K\) y \(v, w \in V\). Entonces:
+\begin{align*}
+  (F + G)(a v + b w) &= F(a v + b w) + G(a v + b w) \\
+                     &= a F(v) + b F(w) + a G(v) + b G(w) \\
+                     &= a(F(v) + G(v)) + b(F(w) + G(w)) \\
+                     &= a (F + G)(v) + b (F + G)(w), \\[6pt]
+  (kF)(a v + b w) &= k F(a v + b w) \\
+                  &= k (a F(v) + b F(w)) \\
+                  &= a (k F(v)) + b (k F(w)) \\
+                  &= a (kF)(v) + b (kF)(w).
+\end{align*}
+
+Por lo tanto, \(F + G\) y \(kF\) son también aplicaciones lineales.
+
+\teorema{Sean \(V\) y \(U\) espacios vectoriales sobre un cuerpo \(K\). El conjunto de todas las aplicaciones lineales de \(V\) en \(U\), provisto con la suma de aplicaciones y el producto por escalares definidos anteriormente, forma un espacio vectorial sobre \(K\).}
+
+Este espacio vectorial se denota habitualmente por
+\[
+  \text{Hom}(V, U),
+\]
+donde el prefijo ``Hom''\footnote{La página siguiente proporciona la definición general de homomorfismo} hace referencia a los homomorfismos entre espacios vectoriales.
+
+Cuando \(V\) y \(U\) son de dimensión finita, el espacio \(\text{Hom}(V,U)\) también tiene dimensión finita. En particular, si \(\dim V = m\) y \(\dim U = n\), se cumple:
+
+\begin{equation}
+  \dim(\text{Hom}(V, U)) = m \cdot n.
+  \label{eq:dim_homomorfismo}
+\end{equation}
+
+En la sección \ref{sec:operadores_lineales} se estudiará el tema de \textit{Operadores Lineales}, que no es más que un caso particular de operaciones lineales. En particular es cuando \(V=U\).
+
+\begin{tcolorbox}[remember, title=Homomorfismo]
+  Si tienes dos estructuras algebraicas \((G,\ast)\) y \((H,\cdot)\) del mismo tipo, una función \(f:G\rightarrow H\) es un \textbf{homomorfismo} si para cualesquiera elementos \(a,b\) en \(G\) se cumple que:
+  \[
+    f(a\ast b) = f(a) \cdot f(b)
+  \]
+  Esta propiedad significa que ``no importa si primero operas y luego aplicas la función, o si primero aplicas la función y luego operas; el resultado es el mismo''.
+
+  \textbf{Nota}: Los isomorfismos, endomorfismos y automorfismos son tipos particulares de homomorfismos.
+\end{tcolorbox}
+
+\subsubsection{Composición de aplicaciones lineales}
+
+Sean \(V\), \(U\) y \(W\) espacios vectoriales sobre un cuerpo \(K\). Sean \(F : V \rightarrow U\) y \(G : U \rightarrow W\) aplicaciones lineales. La \textbf{composición} de \(F\) con \(G\), denotada por \(G \circ F\), es la aplicación de \(V\) en \(W\) definida por:
+\[
+  (G \circ F)(v) := G(F(v)) \qquad \text{para todo } v \in V.
+\]
+
+\begin{center}
+  \begin{tikzpicture}[
+    node distance=3cm,
+    every node/.style={font=\large},
+    set/.style={circle, draw, minimum size=1cm, align=center},
+    arrow/.style={-Stealth, thick}
+    ]
+
+    \node[set] (V) {\(V\)};
+    \node[set, right=of V] (U) {\(U\)};
+    \node[set, right=of U] (W) {\(W\)};
+
+    \draw[arrow] (V) -- node[above] {\(F\)} (U);
+    \draw[arrow] (U) -- node[above] {\(G\)} (W);
+
+  \end{tikzpicture}
+\end{center}
+
+\textit{Proposición}: La composición de aplicaciones lineales es también una aplicación lineal. Es decir, si \(F : V \to U\) y \(G : U \to W\) son lineales, entonces \(G \circ F : V \to W\) es lineal.
+
+\begin{proof}
+Sean \(v, w \in V\) y \(a, b \in K\). Se tiene:
+\begin{align*}
+  (G \circ F)(av + bw) &= G(F(av + bw)) \\
+                       &= G(aF(v) + bF(w)) \quad \text{(por linealidad de \(F\))} \\
+                       &= aG(F(v)) + bG(F(w)) \quad \text{(por linealidad de \(G\))} \\
+                       &= a(G \circ F)(v) + b(G \circ F)(w),
+\end{align*}
+lo que prueba que \(G \circ F\) es lineal.
+\end{proof}
+
+\textit{Observación}: La operación de composición de aplicaciones lineales es \textbf{asociativa}, pero en general no es \textbf{conmutativa}. Es decir, si las composiciones están definidas,
+\[
+  H \circ (G \circ F) = (H \circ G) \circ F, \quad \text{pero usualmente } G \circ F \ne F \circ G.
+\]
+
+\paragraph{Compatibilidad con suma y producto por escalar}
+
+Sean \(F, F' : V \to U\), \(G, G' : U \to W\), y \(k \in K\). Las siguientes identidades muestran que la composición de aplicaciones lineales es compatible con la estructura de espacio vectorial:
+\begin{align*}
+  G \circ (F + F') &= G \circ F + G \circ F', \\
+  (G + G') \circ F &= G \circ F + G' \circ F, \\
+  k(G \circ F) &= (kG) \circ F = G \circ (kF).
+\end{align*}
+
+\begin{tcolorbox}[remember, title=Observación]
+  Estas propiedades permiten considerar, en particular, que el conjunto de operadores lineales \(A(V) = \text{Hom}(V, V)\), con la suma, el producto por escalar y la composición, constituye una \textbf{álgebra asociativa} sobre \(K\). Este hecho será aprovechado en secciones posteriores al estudiar operadores invertibles, polinomios de operadores, autovalores y formas canónicas.
+\end{tcolorbox}
+
+\subsubsection{Estructura algebraica de \(A(V)\)}
+
+Una estructura algebraica es un conjunto equipado con una o más operaciones que satisfacen ciertas propiedades. Por ejemplo:
+\begin{itemize}
+  \item Los números enteros \(\mathbb{Z}\) con la suma forman una estructura algebraica (un grupo)
+  \item Los números reales \(\mathbb{R}\) con suma y multiplicación forman otra estructura (un cuerpo)
+  \item Las matrices \(n\times n\) con suma y multiplicación forman un anillo
+\end{itemize}
+Ahora, veamos en el contexto de las aplicaciones lineales.
+
+Sea \(V\) un espacio vectorial sobre un cuerpo \(K\). Consideramos ahora el conjunto de todas las aplicaciones lineales de \(V\) en sí mismo, es decir, aquellas \(T : V \rightarrow V\). Estas aplicaciones se denominan \textbf{operadores lineales} o \textbf{transformaciones lineales en} \(V\), y se agrupan en el conjunto usualmente denotado por:
+\[
+  A(V) := \text{Hom}(V, V).
+\]
+
+\textit{Proposición}: El conjunto \(A(V)\), con las operaciones de suma y producto por escalar, forma un espacio vectorial sobre \(K\). Además, si \(\dim(V) = n\), entonces \(\dim(A(V)) = n^2\) (ver ecuación \ref{eq:dim_homomorfismo}).
+
+\textit{Observación}: A diferencia de \(\text{Hom}(V, U)\), donde \(V \ne U\), en \(A(V)\) se puede definir además la \textbf{composición} de operadores, dado que el codominio de cada operador coincide con su dominio. Esta operación permite considerar un producto interno en \(A(V)\): si \(F, G \in A(V)\), entonces \(GF := G \circ F \in A(V)\).
+
+En términos simples, \(A(V)\) es el conjunto de todas las transformaciones lineales de un espacio vectorial \(V\) hacia sí mismo. Este conjunto tiene múltiples estructuras algebraicas superpuestas:
+
+\noindent\textbf{Primera estructura: Espacio vectorial} - \(A(V)\) con las operaciones:
+\begin{itemize}
+  \item Suma de transformaciones: \((T + S)(v) = T(v) + S(v)\)
+  \item Multiplicación por escalar: \((kT)(v) = k\cdot T(v)\)
+\end{itemize}
+Esto convierte a \(A(V)\) en un espacio vectorial sobre \(K\).
+
+\textbf{Segunda estructura: Anillo (lo que enuncia la observación)}
+Pero aquí viene lo especial: como las transformaciones van de \(V\) hacia \(V\) (mismo dominio y codominio), también puedes componer transformaciones: \((G \circ F)(v)=G(F(v))\)
+
+Esta composición actúa como una ``multiplicación'' entre elementos de \(A(V)\).
+
+\begin{tcolorbox}[title=¿Por qué es importante esta estructura múltiple?]
+  Porque \(A(V)\) se convierte en lo que se llama un \textbf{álgebra} que es el próximo tema.
+\end{tcolorbox}
+
+\paragraph{Definición de álgebra}
+
+Un \textbf{álgebra} es una estructura algebraica \(A(V)\) que es simultáneamente un espacio vectorial y tiene una operación de ``multiplicación'' (la composición) que es compatible con la estructura de espacio vectorial.
+
+\ejemplo{ Si \(\mathbb{R}^2\), entonces \(A(V)\) son todas las matrices \(2\times 2\). Puedes:}
+\begin{itemize}
+  \item Sumar matrices
+  \item Multiplicar por escalares  
+  \item Multiplicar matrices (que corresponde a componer transformaciones)
+\end{itemize}
+
+\textit{Definición}: Un \textbf{álgebra} \(A\) sobre un cuerpo \(K\) es un espacio vectorial sobre \(K\) provisto de una operación de producto bilineal (no necesariamente conmutativo), que cumple, para todo \(F, G, H \in A\) y \(k \in K\):
+\begin{enumerate}
+  \item \(F(G + H) = FG + FH\),
+  \item \((G + H)F = GF + HF\),
+  \item \(k(FG) = (kF)G = F(kG)\).
+\end{enumerate}
+Si además el producto es asociativo, es decir, si \((FG)H = F(GH)\) para todos los elementos \(F, G, H \in A\), se dice que el álgebra es \textbf{asociativa}.
+
+\teorema{Sea \(V\) un espacio vectorial sobre un cuerpo \(K\). Entonces \(A(V)\), provisto de la suma, el producto por escalar y la composición de aplicaciones, es un \textbf{álgebra asociativa} sobre \(K\). Además, si \(\dim(V) = n\), entonces \(\dim(A(V)) = n^2\).}
+
+\begin{tcolorbox}[remember, title=Observaciones]
+El álgebra \(A(V)\) juega un rol fundamental en Álgebra Lineal. No solo es el entorno natural para estudiar operadores lineales y sus propiedades estructurales, sino que proporciona la base teórica para introducir polinomios de operadores, diagonalización, autovalores, formas triangulares y más.
+\end{tcolorbox}
+
+La ``estructura algebraica'' de \(A(V)\) es precisamente esta riqueza: no es solo un conjunto, sino un conjunto con múltiples operaciones interrelacionadas que le dan propiedades muy útiles para el álgebra lineal.
+
+\paragraph{Ejemplo de una transformación lineal}
+
+\ejemplo{ Consideremos el espacio vectorial \(V = \mathbb{R}^2\). Definimos los siguientes operadores lineales \(T_1, T_2 \in A(\mathbb{R}^2)\), expresados matricialmente respecto de la base canónica:}
+
+\[
+T_1 =
+\begin{bmatrix}
+1 & 0 \\
+0 & -1
+\end{bmatrix}
+\qquad \text{y} \qquad
+T_2 =
+\begin{bmatrix}
+0 & 1 \\
+1 & 0
+\end{bmatrix}
+\]
+
+Entonces:
+
+\begin{itemize}
+  \item La suma \(T_1 + T_2\) es:
+
+  \[
+  T_1 + T_2 =
+  \begin{bmatrix}
+  1 & 0 \\
+  0 & -1
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+  0 & 1 \\
+  1 & 0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  1 & 1 \\
+  1 & -1
+  \end{bmatrix}
+  \]
+
+  \item El producto por un escalar, por ejemplo \(2T_1\), es:
+
+  \[
+  2T_1 =
+  2 \cdot
+  \begin{bmatrix}
+  1 & 0 \\
+  0 & -1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  2 & 0 \\
+  0 & -2
+  \end{bmatrix}
+  \]
+
+  \item La composición \(T_2 \circ T_1\), que en el álgebra se escribe \(T_2 T_1\), corresponde al producto matricial:
+
+  \[
+  T_2 T_1 =
+  \begin{bmatrix}
+  0 & 1 \\
+  1 & 0
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+  1 & 0 \\
+  0 & -1
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  0 & -1 \\
+  1 & 0
+  \end{bmatrix}
+  \]
+
+  Obsérvese que \(T_2 T_1 \ne T_1 T_2\), ya que:
+
+  \[
+  T_1 T_2 =
+  \begin{bmatrix}
+  1 & 0 \\
+  0 & -1
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+  0 & 1 \\
+  1 & 0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+  0 & 1 \\
+  -1 & 0
+  \end{bmatrix}
+  \]
+
+  De este modo, la composición en \(A(V)\) no es conmutativa en general.
+\end{itemize}
+
+Este ejemplo ilustra que \(A(\mathbb{R}^2)\) no solo es un espacio vectorial, sino también un \textbf{álgebra no conmutativa} con multiplicación dada por composición de operadores. Existen casos donde si es conmutativa, pero lo importante es entender que no siempre es así.
+
+Si gustas de ver ``gráficamente'' cómo una transformación lineal modifica el ``espacio'', te recomiendo ver el siguiente video: \href{https://www.youtube.com/watch?v=YJfS4_m_0Z8}{Transformaciones lineales y matrices | Esencia del álgebra lineal, capítulo 3 (3Blue1Brown Español)} 
+
+(si no tienes acceso al enlace, copia el texto en YouTube, que es el título del video.)
+
+\subsubsection{Polinomios aplicados a operadores}
+
+Dado un espacio vectorial \(V\) sobre un cuerpo \(K\), el conjunto de todos los operadores lineales \(T: V \rightarrow V\) se denota por \(A(V)\). Entre estos, la aplicación identidad \(I: V \rightarrow V\), definida por \(I(v) = v\) para todo \(v \in V\), cumple que, para todo \(T \in A(V)\),
+\[
+  T \circ I = I \circ T = T.
+\]
+
+Con base en la composición, es posible definir potencias de un operador lineal \(T \in A(V)\) como sigue:
+\[
+  T^1 = T,\quad T^2 = T \circ T,\quad T^3 = T \circ T \circ T,\quad \ldots,\quad T^0 = I.
+\]
+
+Dado un polinomio con coeficientes en \(K\),
+\[
+  p(x) = a_0 + a_1 x + a_2 x^2 + \cdots + a_n x^n,
+\]
+se puede construir el operador lineal \(p(T)\), definido como:
+\[
+  p(T) = a_0 I + a_1 T + a_2 T^2 + \cdots + a_n T^n.
+\]
+(En esta expresión, cada escalar \(a_i \in K\) actúa multiplicando al operador correspondiente). En particular, si se cumple que \(p(T) = 0\) (la aplicación nula en \(A(V)\)), se dice que \(T\) es una \textbf{raíz} del polinomio \(p(x)\).
+
+\ejemplo{Definamos el operador \(T: \mathbb{R}^3 \rightarrow \mathbb{R}^3\) por:}
+\[
+  T(x, y, z) = (0, x, y).
+\]
+Evaluamos las iteraciones de \(T\) sobre un vector arbitrario \((a, b, c) \in \mathbb{R}^3\):
+\[
+  T(a, b, c) = (0, a, b), \qquad T^2(a, b, c) = T(0, a, b) = (0, 0, a), \qquad T^3(a, b, c) = T(0, 0, a) = (0, 0, 0).
+\]
+Por tanto, se cumple que \(T^3 = 0\), es decir, la aplicación nula. En consecuencia, \(T\) es una raíz del polinomio \(p(x) = x^3\).

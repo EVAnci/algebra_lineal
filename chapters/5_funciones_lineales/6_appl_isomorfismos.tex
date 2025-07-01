@@ -1,0 +1,137 @@
+\subsection{Isomorfismos y operadores lineales}
+
+\subsubsection{Aplicaciones lineales singulares y no singulares}
+
+Sea \(F: V \rightarrow U\) una aplicación lineal entre espacios vectoriales sobre un cuerpo \(K\). Se dice que \(F\) es \textit{singular} si existe un vector no nulo \(v \in V\) tal que \(F(v) = 0\). En otras palabras, la aplicación anula al menos un vector distinto de cero. 
+
+Por el contrario, se dice que \(F\) es \textit{no singular} si únicamente el vector nulo se mapea en el vector nulo del codominio, es decir, si \(F(v) = 0\) implica necesariamente que \(v = 0\). Esta condición es equivalente a afirmar que el núcleo de \(F\) está formado únicamente por el vector nulo:
+\[
+\text{Ker}(F) = \{0\}.
+\]
+
+\teorema{Sea \(F: V \rightarrow U\) una aplicación lineal no singular. Entonces, la imagen de cualquier conjunto linealmente independiente de vectores en \(V\) es también linealmente independiente en \(U\).}
+
+\begin{proof}
+Sean \(v_1, v_2, \dots, v_n\) vectores linealmente independientes en \(V\), y supongamos que existe una combinación lineal nula de sus imágenes:
+\[
+a_1 F(v_1) + a_2 F(v_2) + \cdots + a_n F(v_n) = 0,
+\]
+con \(a_i \in K\). Por linealidad de \(F\), esto equivale a
+\[
+F(a_1 v_1 + a_2 v_2 + \cdots + a_n v_n) = 0.
+\]
+De aquí se deduce que el vector
+\[
+a_1 v_1 + a_2 v_2 + \cdots + a_n v_n
+\]
+pertenece al núcleo de \(F\). Como \(F\) es no singular, su núcleo es trivial, por lo tanto:
+\[
+a_1 v_1 + a_2 v_2 + \cdots + a_n v_n = 0.
+\]
+Dado que los vectores \(v_1, \dots, v_n\) son linealmente independientes, se concluye que \(a_1 = a_2 = \cdots = a_n = 0\). En consecuencia, las imágenes \(F(v_1), \dots, F(v_n)\) son linealmente independientes.
+\end{proof}
+
+\subsubsection{Isomorfismos}
+
+Sea \(F: V \rightarrow U\) una aplicación lineal entre espacios vectoriales. Recordemos que \(F\) se denomina \textit{isomorfismo} si es lineal, inyectiva y suprayectiva, es decir, si es una biyección que preserva la estructura lineal (ver sección \ref{sec:clasificacion_de_funciones}). En tal caso, decimos que los espacios vectoriales \(V\) y \(U\) son \textit{isomorfos}, y lo denotamos por
+\[
+V \simeq U.
+\]
+
+\textit{Proposición}: Una aplicación lineal \(F: V \rightarrow U\) es inyectiva si y sólo si es no singular.
+
+\begin{proof}
+Supongamos primero que \(F\) es inyectiva. Entonces, si \(F(v) = 0\), se tiene que \(v = 0\), pues de lo contrario existirían dos vectores distintos con la misma imagen, contradiciendo la inyectividad. Por lo tanto, \(\text{Ker}(F) = \{0\}\), y \(F\) es no singular.
+
+Recíprocamente, si \(F\) es no singular, entonces \(\text{Ker}(F) = \{0\}\). Supongamos que \(F(v) = F(w)\). Entonces
+\[
+F(v - w) = F(v) - F(w) = 0,
+\]
+por lo que \(v - w \in \text{Ker}(F)\). Como el núcleo es trivial, se deduce que \(v - w = 0\), es decir, \(v = w\). Por lo tanto, \(F\) es inyectiva.
+\end{proof}
+
+En el caso de espacios de dimensión finita, puede establecerse un criterio adicional para caracterizar los isomorfismos:
+
+\teorema{Sea \(V\) un espacio vectorial de dimensión finita y \(F: V \rightarrow U\) una aplicación lineal. Entonces \(F\) es un isomorfismo si y sólo si es no singular.}
+
+\begin{proof}
+Si \(F\) es un isomorfismo, en particular es inyectiva, por lo que \(\text{Ker}(F) = \{0\}\). Luego, \(F\) es no singular.
+
+Recíprocamente, supongamos que \(F\) es no singular. Entonces \(\dim(\text{Ker}(F)) = 0\). Por el teorema del rango (teorema \ref{teo:teorema_dimensión_nucleo_imagen}), se cumple que:
+\[
+\dim(V) = \dim(\text{Ker}(F)) + \dim(\text{Im}(F)).
+\]
+Dado que \(\dim(\text{Ker}(F)) = 0\), se tiene que \(\dim(\text{Im}(F)) = \dim(V)\). Como \(U\) también es de dimensión finita y \(\dim(\text{Im}(F)) = \dim(U)\), se deduce que \(\text{Im}(F) = U\), es decir, \(F\) es suprayectiva.
+
+Como ya hemos demostrado que \(F\) es inyectiva (por ser no singular), y ahora que es suprayectiva, entonces \(F\) es biyectiva. Por lo tanto, \(F\) es un isomorfismo.
+\end{proof}
+
+\subsubsection{Operadores lineales e invertibilidad}
+
+\paragraph{Operadores lineales}
+\label{sec:operadores_lineales}
+
+Una aplicación lineal \(T: V \rightarrow V\), es decir, cuyo dominio y codominio coinciden, se denomina \textbf{operador lineal} sobre el espacio vectorial \(V\). En este caso, \(T\) transforma vectores de \(V\) en vectores del mismo espacio, conservando las propiedades de linealidad:
+\[
+  T(a u + b v) = a T(u) + b T(v), \qquad \text{para todo } u, v \in V,~ a, b \in K.
+\]
+
+Los operadores lineales permiten estudiar transformaciones internas del espacio vectorial, y son objeto central de muchas teorías algebraicas, como el estudio de autovalores, autovectores, diagonalización, formas canónicas, etc.
+
+Cuando \(V = \mathbb{R}^n\), todo operador lineal puede representarse mediante una matriz cuadrada de orden \(n\). Más generalmente, en cualquier base de un espacio vectorial de dimensión finita, a cada operador lineal se le puede asociar una matriz cuadrada que describe su acción.
+
+\ejemplo{ Sea \(T: \mathbb{R}^2 \rightarrow \mathbb{R}^2\) definido por \(T(x, y) = (x + y, y)\). Esta transformación es lineal y tiene el mismo dominio y codominio, por lo tanto es un operador lineal sobre \(\mathbb{R}^2\).}
+
+\paragraph{Operadores invertibles}
+
+Un operador lineal \(T: V \rightarrow V\) se dice \textbf{invertible} si existe otro operador \(T^{-1}: V \rightarrow V\) tal que:
+\[
+  T \circ T^{-1} = T^{-1} \circ T = \text{id}_V,
+\]
+donde \(\text{id}_V\) es el operador identidad en \(V\). En este caso, \(T^{-1}\) se denomina \textit{inverso} de \(T\).
+
+\begin{tcolorbox}[title=Observación]
+  Un operador lineal \(T\) es invertible si y sólo si es inyectivo y suprayectivo. En particular, si es invertible, entonces es no singular. Sin embargo, la recíproca no es válida en espacios de dimensión infinita.
+\end{tcolorbox}
+
+\ejemplo{ Sea \(V\) el espacio vectorial de los polinomios sobre \(K\), y sea \(T: V \rightarrow V\) el operador definido por}
+\[
+  T(p(t)) = t \cdot p(t),
+\]
+es decir, \(T(a_0 + a_1t + \cdots + a_n t^n) = a_0t + a_1 t^2 + \cdots + a_n t^{n+1}\). Esta aplicación es lineal y no singular, ya que \(T(p) = 0\) implica \(p = 0\). Sin embargo, \(T\) no es suprayectivo: no existe ningún polinomio \(p(t)\) tal que \(T(p) = 1\), ya que \(T(p)\) nunca tiene término constante. Por tanto, \(T\) no es invertible.
+
+En el caso de espacios de dimensión finita, se tiene un resultado más fuerte:
+
+\teorema{Sea \(T: V \rightarrow V\) un operador lineal sobre un espacio vectorial \(V\) de dimensión finita. Son equivalentes las siguientes afirmaciones:}
+\begin{enumerate}
+  \item \(T\) es no singular, es decir, \(\text{Ker}(T) = \{0\}\).
+  \item \(T\) es inyectivo.
+  \item \(T\) es suprayectivo.
+  \item \(T\) es invertible.
+\end{enumerate}
+
+\begin{proof}
+Ya se ha demostrado que \(T\) es no singular si y sólo si es inyectivo. Para completar el ciclo de equivalencias, probemos que 1) y 3) son equivalentes.
+
+Por el teorema del rango (teorema \ref{teo:teorema_dimensión_nucleo_imagen}):
+\[
+  \dim(V) = \dim(\text{Ker}(T)) + \dim(\text{Im}(T)).
+\]
+Si \(T\) es no singular, entonces \(\dim(\text{Ker}(T)) = 0\), por lo que \(\dim(\text{Im}(T)) = \dim(V)\). Como \(\text{Im}(T) \subseteq V\), se concluye que \(\text{Im}(T) = V\), es decir, \(T\) es suprayectivo.
+
+Recíprocamente, si \(T\) es suprayectivo, entonces \(\dim(\text{Im}(T)) = \dim(V)\), por lo que necesariamente \(\dim(\text{Ker}(T)) = 0\), es decir, \(T\) es no singular. El resto de las equivalencias siguen de forma inmediata.
+\end{proof}
+
+\ejemplo{ Sea \(T: \mathbb{R}^2 \rightarrow \mathbb{R}^2\) definido por}
+\[
+  T(x, y) = (y, 2x - y).
+\]
+Verifiquemos que \(T\) es invertible y hallemos su inverso. Para ello, planteamos:
+\[
+  T(x, y) = (s, t) \quad \Rightarrow \quad s = y,\quad t = 2x - y.
+\]
+Sustituyendo \(y = s\) en la segunda ecuación, se obtiene:
+\[
+  t = 2x - s \quad \Rightarrow \quad x = \frac{1}{2}(s + t).
+\]
+Así, \(T^{-1}(s, t) = \left(\frac{1}{2}(s + t),~s\right)\).
